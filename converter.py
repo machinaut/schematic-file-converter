@@ -8,23 +8,52 @@ inputtypes = "kicad"
 # Accepted output file types
 outputtypes = "foo"
 
+
+class Circuit:
+  def __init__(self):
+    self.version = {"file_version":"0.0.1", "tool_name":"Upverter"}
+    self.nets = []
+  def normalize_points(self):
+    """ Connect all of the segments into nets """
+class Net:
+  def __init__(self):
+    self.net_id = ""
+    self.points = []
+    self.attributes = []
+    self.annotations = []
+class Point:
+  def __init__(self,x,y):
+    self.point_id = str(x)+"a"+str(y)
+    self.x = x
+    self.y = y
+class Segment:
+  """ Line segments, only used for import before normalizing """
+  def __init__(self,x1,y1,x2,y2):
+    self.x1 = x1
+    self.y1 = y1
+    self.x2 = x2
+    self.y2 = y2
+
 def input_kicad(filename):
   """ Read in a kicad schematic file and parse it into Upverter format """
+  # Rough'n'dirty parsing, assume nothing useful comes before the description
+  circuit = {}
+  segments = [] # used only to figure out connectivity
   f = open(filename)
-  header = f.readline() # Should match EESchema Schematic Spins Version ### ...
-  head = re.search("EESchema\s*Schematic\s*Spins\s*Version\s*(\d+)",header)
-  if not head: # Failed to match header
-    print "WARNING: Failed to recognize Kicad Schematic Header:", header
-  circuit = "Kicad Version: " + str(head.group(1)) + "\n"
-  # Ignore all the libraries
-  line = f.readline()
-  while "LIB" in line:
+  # Read until the end of the description
+  line = ""
+  while line.strip() != "$EndDescr":
     line = f.readline()
-  # EElayer, should be next two lines
-  eelayer = re.search("EELAYER\s+(\d+)\s+(\d+)\s+EELAYER\s*END",line + f.readline())
-  if not eelayer: # Failed to match EELAYER
-    print "WARNING: Failed to recognize EELAYER lines"
-  circuit += "EELAYER " + eelayer.group(1) + " " + eelayer.group(2) + "\n"
+  # Now parse wires and components, ignore connections, we get connectivity from wire segments
+  line = f.readline()
+  while line != '': # loop til end of file
+    element = line.split()[0] # whats next on the list
+    if element == "Wire": # Wire Segment
+      x1,y1,x2,y2 = f.readline().split()
+      segments.append(Segment(x1,y1,x2,y2))
+    else if element == "$Comp": # Component
+      pass #TODO(ajray): do something useful
+  print segments
   return circuit
 
 # TODO(ajray): get the actual output format
