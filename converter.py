@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # converter.py - file format converter to and from Upverter's JSON file format
 # Alex Ray ajray@ncsu.edu
-import os, re, copy
+# TODO: incorporate part libraries to figure out endpoints
+import os, re, copy, json
+from optparse import OptionParser
 
 inputtypes = "kicad" # Accepted input file types
 outputtypes = "foo" # Accepted output file types
@@ -21,45 +23,57 @@ class Net:
     self.points = []
     self.attributes = []
     self.annotations = []
+  def point(self,p,l):
+    """ Add a point p which is connected to a list of points l """
+    self.points.append({
+      "point_id": point_id(p),
+      "x":p[0],
+      "y":p[1],
+      "connected_components": [], #TODO(ajray): figure out how to connect to comps
+      "connected_points": [point_id(i) for i in l if i != p]
+      })
+
+def point_id(p):
+  """ point_id gives a point id of the form XXXXaYYYY, which is unique for points """
+  return str(p[0])+"a"+str(p[1])
 
 def intersect(segment,c):
-  """ Do they intersect; Assuming orthogonal """
+  """ Does point c intersect the segment """
   a,b = segment
-  if a[0] == b[0] == c[0]:
-    if c[1] >= min(a[1],b[1]) and c[1] <= max(a[1],b[1]):
-      return a[1] != c[1] and b[1] != c[1]
-  elif a[1] == b[1] == c[1]:
-    if c[0] >= min(a[0],b[0]) and c[0] <= max(a[0],b[0]):
-      return a[0] != c[0] and b[0] != c[0]
+  ax,ay, bx,by, cx,cy = a + b + c
+  if ax == bx == cx: # Vertical
+    if cy > min(ay,by) and cy < max(ay,by): # between a and b
+      return True
+  elif ay == by == cy: # Horizontal
+    if cx > min(ax,bx) and cx < max(ax,bx): # between a and b
+      return True
+  elif (cx-ax)*(by-ay)==(bx-ax)*(cy-ay): # Diagonal
+    if cx > min(ax,bx) and cx < max(ax,bx): # between a and b
+      return True
   return False
 
-def connect(segments,c):
-  """ Apply a connection point to a set of segments """
-  i = 0
-  toremove = set()
-  toadd = set()
-  for seg in segments:
-    if seg == ((6100,4650),(6100,5350)):
-      print "WTF", intersect(seg,c), seg, c
-    if intersect(seg,c):
-      print 'counter', i
-      i += 1
-      print 'im connected to',seg
-      print 'before',seg
-      a,b = seg
-      toremove.add((a,b))
-      print 'after',(a,c),(c,b)
-      toadd.add((a,c))
-      toadd.add((c,b))
-  return (segments - toremove) | toadd
+def divide(segments,connpoints):
+  """ Divide segments by connection points """
+  for c in connpoints:
+    toremove = set()
+    toadd = set()
+    for seg in segments:
+      if intersect(seg,c):
+        a,b = seg
+        toremove.add((a,b))
+        toadd.add((a,c))
+        toadd.add((c,b))
+    segments -= toremove
+    segments |= toadd
+  return segments
     
 def connections(segments):
   """ Return the connecting points of a list of segments """
   conns = {}
   for seg in segments:
     a,b = seg
-    conns[a] = {a,b}
-    conns[b] = {a,b}
+    conns[a] = {b,a} # include itself, required for calculating nets
+    conns[b] = {a,b} # include itself, required for calculating nets
     for otherseg in segments:
       oa, ob = otherseg
       if a == ob:
@@ -72,10 +86,34 @@ def connections(segments):
         conns[b].add(ob)
   return conns
 
+def calc_nets(asegments):
+  """ Return a set of Nets from segments """
+  segments = copy.deepcopy(asegments)
+  nets = set()
+  # Iterate over the copied set, removing segments when added to a net
+  while len(segments) > 0 :
+    a,b = segments.pop() # pick a point
+    newnet = {a,b}
+    found = True
+    while found:
+      found = set()
+      for seg in segments: # iterate over segments
+        for p in newnet:   # then over points currently in the net
+          a,b = seg
+          if p == a or p == b: # this segment connects to the net
+            found.add(seg)
+      for seg in found:
+        a,b = seg
+        segments.remove(seg)
+        newnet |= {a,b}
+    nets.add(frozenset(newnet))
+  return nets
+
 def make_nets(conns):
   """ Return a list of Nets from connected points """
   conns = copy.deepcopy(conns)
   nets = []
+  # Iterate over the copied dict, removing connections when added to a net
   while len(conns) > 0 :
     found = []
     for c,pts in conns.iteritems():
@@ -85,7 +123,7 @@ def make_nets(conns):
           found.append(c)
     for c in found: # remove connections we've already added
       del conns[c]
-    if not found: # didnt find anything
+    if not found: # didnt find anything this iteration
       nets.append({conns.keys()[0]}) # pick a point
   return nets
     
@@ -109,21 +147,18 @@ def input_kicad(filename):
       x1,y1,x2,y2 = [int(i) for i in line.split()]
       if not(x1 == x2 and y1 == y2): # ignore zero-length segments
         segments.add(((x1,y1),(x2,y2)))
-    elif element == "Connection": # connecting dot
+    elif element == "Connection": # Store these to apply later
       x,y = [int(i) for i in line.split()[2:4]]
       connpoints.add((x,y))
     elif element == "$Comp": # Component
       pass #TODO(ajray): do something useful
     line = f.readline()
-  #TODO(ajray): XXX Horribly nasty
-  for c in connpoints: segments = connect(segments,c)
-  print "SEGMENTS"
-  for seg in segments: print seg
+  segments = divide(segments,connpoints)
   conns = connections(segments)
-  print "CONNECTIONS"
-  for conn,pts in conns.iteritems(): print conn,pts # Find connected points
   print "NETS"
   for net in make_nets(conns): print net
+  print "NETSNETS"
+  for net in calc_nets(segments): print net
   return circuit
 
 # TODO(ajray): get the actual output format
@@ -134,7 +169,6 @@ def output_foo(circuit, filename):
   f.close()
 
 if __name__ == "__main__":
-  from optparse import OptionParser
   parser = OptionParser()
   parser.add_option("-i","--input", dest="inputfile",help="read INPUT file in",metavar="INPUT")
   parser.add_option("-f","--from", dest="inputtype",help="read input file as TYPE",metavar="TYPE")
@@ -142,10 +176,6 @@ if __name__ == "__main__":
   parser.add_option("-t","--to", dest="outputtype",help="write output file as TYPE",metavar="TYPE")
   (options, args) = parser.parse_args()
   print "options,args:", options,args
-  a = (6100,5350)
-  b = (6100,4650)
-  c = (6100,4950)
-  print 'intersect:', a,b,c, "is actually", intersect((a,b),c)
   # TODO(ajray): intelligently guess input and output types, for now assume explicitly given
   #   partly because most EDA's use '.sch' as the schematic file extension
   inputtype = options.inputtype
