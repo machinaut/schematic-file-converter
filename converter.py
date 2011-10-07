@@ -6,13 +6,25 @@ import os, re, copy, json
 from optparse import OptionParser
 
 inputtypes = "kicad" # Accepted input file types
-outputtypes = "foo" # Accepted output file types
+outputtypes = "json" # Accepted output file types
 
 class Circuit:
   """ Circuit represents the whole schematic, and the top level of the output format """
   def __init__(self):
     self.version = {"file_version":"0.0.1", "tool_name":"Upverter"}
     self.nets = []
+    self.components = []
+    self.instances = []
+    self.attributes = []
+  def json(self):
+    """ prettify circuit for json outputting """
+    return {
+        "version" : self.version,
+        "nets" : [i.json() for i in self.nets],
+        "components" : self.components,
+        "instances" : self.instances,
+        "attributes" : self.attributes
+        }
 
 class Net:
   """ a Net with metadata and a list of points (with connections) """
@@ -120,7 +132,7 @@ def calc_nets(asegments):
 def input_kicad(filename):
   """ Read in a kicad schematic file and parse it into Upverter format """
   # Rough'n'dirty parsing, assume nothing useful comes before the description
-  circuit = {}
+  circuit = Circuit()
   segments = set()    # each wire segment
   connpoints = set() # wire connection (connects all wires under it)
   f = open(filename)
@@ -145,14 +157,13 @@ def input_kicad(filename):
     line = f.readline()
   segments = divide(segments,connpoints)
   nets = calc_nets(segments)
-  print json.dumps([i.json() for i in nets],sort_keys=True,indent=4)
+  circuit.nets = nets
   return circuit
 
-# TODO(ajray): get the actual output format
-def output_foo(circuit, filename):
+def output_json(circuit, filename):
   """ Placeholder output function until I get the JSON file format """
   f = open(filename, "w")
-  f.write(str(circuit)+"\n")
+  f.write(json.dumps(circuit.json(),sort_keys=True,indent=4))
   f.close()
 
 if __name__ == "__main__":
@@ -177,5 +188,5 @@ if __name__ == "__main__":
     exit(1)
   if inputtype == "kicad":
     ckt = input_kicad(inputfile)
-  if outputtype == "foo":
-    output_foo(ckt, outputfile)
+  if outputtype == "json":
+    output_json(ckt, outputfile)
