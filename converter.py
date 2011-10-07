@@ -35,9 +35,7 @@ def intersect(segment,c):
 
 def connect(segments,c):
   """ Apply a connection point to a set of segments """
-  print "connection at:", c
   i = 0
-  for seg in segments: print seg
   toremove = set()
   toadd = set()
   for seg in segments:
