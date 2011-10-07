@@ -3,10 +3,8 @@
 # Alex Ray ajray@ncsu.edu
 import os, re, copy
 
-# Accepted input file types
-inputtypes = "kicad"
-# Accepted output file types
-outputtypes = "foo"
+inputtypes = "kicad" # Accepted input file types
+outputtypes = "foo" # Accepted output file types
 
 class Circuit:
   """ Circuit represents the whole schematic, and the top level of the output format """
@@ -24,55 +22,53 @@ class Net:
     self.attributes = []
     self.annotations = []
 
-class Segment:
-  """ Line segments, only used for import before normalizing """
-  def __init__(self,x1,y1,x2,y2):
-    self.x1 = int(x1)
-    self.y1 = int(y1)
-    self.x2 = int(x2)
-    self.y2 = int(y2)
-    self.a = (x1,y1)
-    self.b = (x2,y2)
-  def __str__(self):
-    return str([(self.x1,self.y1),(self.x2,self.y2)])
-  def connected(self,x,y):
-    """ Is a point connected with either of the segment's points """
-    return (x == self.x1 and y == self.y1) or (x == self.x2 and y == self.y2)
-  def intersect(self,x,y):
-    """ does this point intersect (on top of) this segment, ASSUME ORTHOGONAL """
-    if self.x1 == self.x2:
-      return (y >= self.y1 and y <= self.y2) or (y <= self.y1 and y >= self.y2)
-    # else self.y1 == self.y2:
-    return (x >= self.x1 and x <= self.x2) or (x <= self.x1 and x >= self.x2)
+def intersect(segment,c):
+  """ Do they intersect; Assuming orthogonal """
+  a,b = segment
+  if a[0] == b[0] == c[0]:
+    if c[1] >= min(a[1],b[1]) and c[1] <= max(a[1],b[1]):
+      return a[1] != c[1] and b[1] != c[1]
+  elif a[1] == b[1] == c[1]:
+    if c[0] >= min(a[0],b[0]) and c[0] <= max(a[0],b[0]):
+      return a[0] != c[0] and b[0] != c[0]
+  return False
 
-def connect(segments,x,y):
+def connect(segments,c):
   """ Apply a connection point to a set of segments """
-  print "connection at:",x,y
-  for i in range(len(segments)):
-    seg = segments[i]
-    if seg.intersect(x,y):
-      print 'im connected'
-      x1,y1,x2,y2 = seg.x1, seg.y1, seg.x2, seg.y2
-      del segments[i]
-      segments.append(Segment(x1,y1,x,y))
-      segments.append(Segment(x,y,x2,y2))
+  print "connection at:",c
+  i = 0
+  for seg in segments: print seg
+  for seg in segments:
+    if seg == ((6100,4650),(6100,5350)): print "WTF"
+    if intersect(seg,c):
+      print 'counter', i
+      i += 1
+      print 'im connected to',seg
+      print 'before',seg
+      a,b = seg
+      segments.remove(seg)
+      print 'after',(a,c),(c,b)
+      segments.append((a,c))
+      segments.append((c,b))
   return segments
     
 def connections(segments):
   """ Return the connecting points of a list of segments """
   conns = {}
   for seg in segments:
-    conns[seg.a] = set([seg.a,seg.b])
-    conns[seg.b] = set([seg.a,seg.b])
+    a,b = seg
+    conns[a] = set([a,b])
+    conns[b] = set([a,b])
     for otherseg in segments:
-      if seg.a == otherseg.b:
-        conns[seg.a].add(otherseg.a)
-      elif seg.a == otherseg.a:
-        conns[seg.a].add(otherseg.b)
-      if seg.b == otherseg.b:
-        conns[seg.b].add(otherseg.a)
-      elif seg.b == otherseg.a:
-        conns[seg.b].add(otherseg.b)
+      oa, ob = otherseg
+      if a == ob:
+        conns[a].add(oa)
+      elif a == oa:
+        conns[a].add(ob)
+      if b == ob:
+        conns[b].add(oa)
+      elif b == oa:
+        conns[b].add(ob)
   return conns
 
 def make_nets(conns):
@@ -96,7 +92,8 @@ def input_kicad(filename):
   """ Read in a kicad schematic file and parse it into Upverter format """
   # Rough'n'dirty parsing, assume nothing useful comes before the description
   circuit = {}
-  segments = [] # used only to figure out connectivity
+  segments = set([])    # each wire segment
+  connpoints = set([]) # wire connection (connects all wires under it)
   f = open(filename)
   # Read until the end of the description
   line = ""
@@ -108,15 +105,17 @@ def input_kicad(filename):
     element = line.split()[0] # whats next on the list
     if element == "Wire": # Wire Segment, coords on 2nd line
       line = f.readline() # Read the second line with the coordinates
-      x1,y1,x2,y2 = line.split()
+      x1,y1,x2,y2 = [int(i) for i in line.split()]
       if not(x1 == x2 and y1 == y2): # ignore zero-length segments
-        segments.append(Segment(x1,y1,x2,y2))
+        segments.add(((x1,y1),(x2,y2)))
     elif element == "Connection": # connecting dot
       x,y = line.split()[2:4]
-      segments = connect(segments,x,y)
+      connpoints.add((x,y))
     elif element == "$Comp": # Component
       pass #TODO(ajray): do something useful
     line = f.readline()
+  #TODO(ajray): XXX Horribly nasty
+  for c in connpoints: segments = connect(segments,c)
   print "SEGMENTS"
   for seg in segments: print seg
   conns = connections(segments)
@@ -142,6 +141,10 @@ if __name__ == "__main__":
   parser.add_option("-t","--to", dest="outputtype",help="write output file as TYPE",metavar="TYPE")
   (options, args) = parser.parse_args()
   print "options,args:", options,args
+  a = (6100,5350)
+  b = (6100,4650)
+  c = (6100,4950)
+  print 'intersect:', a,b,c, "is actually", intersect((a,b),c)
   # TODO(ajray): intelligently guess input and output types, for now assume explicitly given
   #   partly because most EDA's use '.sch' as the schematic file extension
   inputtype = options.inputtype
