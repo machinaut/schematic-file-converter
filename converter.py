@@ -93,9 +93,9 @@ def intersect(segment,c):
       return True
   return False
 
-def divide(segments,connpoints):
-  """ Divide segments by connection points """
-  for c in connpoints:
+def divide(segments,junctions):
+  """ Divide segments by junctions """
+  for c in junctions:
     toremove = set()
     toadd = set()
     for seg in segments:
@@ -134,7 +134,7 @@ def input_kicad(filename):
   # Rough'n'dirty parsing, assume nothing useful comes before the description
   circuit = Circuit()
   segments = set()    # each wire segment
-  connpoints = set() # wire connection (connects all wires under it)
+  junctions = set() # wire junction point (connects all wires under it)
   f = open(filename)
   # Read until the end of the description
   line = ""
@@ -151,11 +151,11 @@ def input_kicad(filename):
         segments.add(((x1,y1),(x2,y2)))
     elif element == "Connection": # Store these to apply later
       x,y = [int(i) for i in line.split()[2:4]]
-      connpoints.add((x,y))
+      junctions.add((x,y))
     elif element == "$Comp": # Component
       pass #TODO(ajray): do something useful
     line = f.readline()
-  segments = divide(segments,connpoints)
+  segments = divide(segments,junctions)
   nets = calc_nets(segments)
   circuit.nets = nets
   return circuit
