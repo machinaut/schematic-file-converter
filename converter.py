@@ -13,25 +13,54 @@ class Circuit:
   def __init__(self):
     self.version = {"file_version":"0.0.1", "tool_name":"Upverter"}
     self.nets = []
-  def normalize_points(self):
-    """ Connect all of the segments into nets """
 
 class Net:
-  """ Net represents a single net, made of lots of points and connections """
+  """ a Net with metadata and a list of points (with connections) """
   def __init__(self):
     self.net_id = ""
-    self.points = []
+    self.points = {} # dict to make looking up points easier, outputted as array
     self.attributes = []
     self.annotations = []
-  def point(self,p,l):
-    """ Add a point p which is connected to a list of points l """
-    self.points.append({
-      "point_id": point_id(p),
+  def addpoint(self,p):
+    """ Add a point p to the net """
+    self.points[p] = {
+      "point_id": p, #internally use the point tuples as ID's, output as string id's
       "x":p[0],
       "y":p[1],
       "connected_components": [], #TODO(ajray): figure out how to connect to comps
-      "connected_points": [point_id(i) for i in l if i != p]
-      })
+      "connected_points": set()
+      }
+  def connpoint(self,a,b):
+    """ connect point b to point a """
+    self.points[a]["connected_points"].add(b)
+  def connected(self,seg):
+    """ is segment connected to this net """
+    a,b = seg
+    return a in self.points or b in self.points
+  def connect(self,seg):
+    """ connect segment to this net """
+    a,b = seg
+    if a not in self.points:
+      self.addpoint(a)
+    self.connpoint(a,b)
+    if b not in self.points:
+      self.addpoint(b)
+    self.connpoint(b,a)
+  def prettypoints(self):
+    """ return points array with point_id's instead of tuples """
+    a = self.points.values()
+    for p in a:
+      p["connected_points"] = [point_id(i) for i in p["connected_points"]]
+      p["point_id"] = point_id(p["point_id"])
+    return a
+  def json(self):
+    """ return a dict for json outputting """
+    return {
+        "attributes":self.attributes,
+        "annotations":self.annotations,
+        "net_id":self.net_id,
+        "points":self.prettypoints()
+        }
 
 def point_id(p):
   """ point_id gives a point id of the form XXXXaYYYY, which is unique for points """
@@ -70,24 +99,22 @@ def divide(segments,connpoints):
 def calc_nets(asegments):
   """ Return a set of Nets from segments """
   segments = copy.deepcopy(asegments)
-  nets = set()
+  nets = []
   # Iterate over the copied set, removing segments when added to a net
   while len(segments) > 0 :
-    a,b = segments.pop() # pick a point
-    newnet = {a,b}
+    seg = segments.pop() # pick a point
+    newnet = Net()
+    newnet.connect(seg)
     found = True
     while found:
       found = set()
       for seg in segments: # iterate over segments
-        for p in newnet:   # then over points currently in the net
-          a,b = seg
-          if p == a or p == b: # this segment connects to the net
-            found.add(seg)
+        if newnet.connected(seg): # segment touching the net
+          newnet.connect(seg) # add the segment
+          found.add(seg)
       for seg in found:
-        a,b = seg
         segments.remove(seg)
-        newnet |= {a,b}
-    nets.add(frozenset(newnet))
+    nets.append(newnet)
   return nets
     
 def input_kicad(filename):
@@ -117,8 +144,8 @@ def input_kicad(filename):
       pass #TODO(ajray): do something useful
     line = f.readline()
   segments = divide(segments,connpoints)
-  print "NETSNETS"
-  for net in calc_nets(segments): print net
+  nets = calc_nets(segments)
+  print json.dumps([i.json() for i in nets],sort_keys=True,indent=4)
   return circuit
 
 # TODO(ajray): get the actual output format
