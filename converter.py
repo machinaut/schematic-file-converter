@@ -41,15 +41,17 @@ class Segment:
   def intersect(self,x,y):
     """ does this point intersect (on top of) this segment, ASSUME ORTHOGONAL """
     if self.x1 == self.x2:
-      return (y >= y1 and y <= y2) or (y <= y1 and y >= y2)
+      return (y >= self.y1 and y <= self.y2) or (y <= self.y1 and y >= self.y2)
     # else self.y1 == self.y2:
-    return (x >= x1 and x <= x2) or (x <= x1 and x >= x2)
+    return (x >= self.x1 and x <= self.x2) or (x <= self.x1 and x >= self.x2)
 
 def connect(segments,x,y):
   """ Apply a connection point to a set of segments """
+  print "connection at:",x,y
   for i in range(len(segments)):
     seg = segments[i]
-    if seg.intersect(x,y) and not((x1==x and y1==y)or(x==x2 and y==y2)):
+    if seg.intersect(x,y):
+      print 'im connected'
       x1,y1,x2,y2 = seg.x1, seg.y1, seg.x2, seg.y2
       del segments[i]
       segments.append(Segment(x1,y1,x,y))
@@ -110,14 +112,17 @@ def input_kicad(filename):
       if not(x1 == x2 and y1 == y2): # ignore zero-length segments
         segments.append(Segment(x1,y1,x2,y2))
     elif element == "Connection": # connecting dot
-      x,y = line.split[2:4]
+      x,y = line.split()[2:4]
       segments = connect(segments,x,y)
     elif element == "$Comp": # Component
       pass #TODO(ajray): do something useful
     line = f.readline()
+  print "SEGMENTS"
   for seg in segments: print seg
   conns = connections(segments)
+  print "CONNECTIONS"
   for conn,pts in conns.iteritems(): print conn,pts # Find connected points
+  print "NETS"
   for net in make_nets(conns): print net
   return circuit
 
