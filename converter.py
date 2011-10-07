@@ -35,30 +35,33 @@ def intersect(segment,c):
 
 def connect(segments,c):
   """ Apply a connection point to a set of segments """
-  print "connection at:",c
+  print "connection at:", c
   i = 0
   for seg in segments: print seg
+  toremove = set()
+  toadd = set()
   for seg in segments:
-    if seg == ((6100,4650),(6100,5350)): print "WTF"
+    if seg == ((6100,4650),(6100,5350)):
+      print "WTF", intersect(seg,c), seg, c
     if intersect(seg,c):
       print 'counter', i
       i += 1
       print 'im connected to',seg
       print 'before',seg
       a,b = seg
-      segments.remove(seg)
+      toremove.add((a,b))
       print 'after',(a,c),(c,b)
-      segments.append((a,c))
-      segments.append((c,b))
-  return segments
+      toadd.add((a,c))
+      toadd.add((c,b))
+  return (segments - toremove) | toadd
     
 def connections(segments):
   """ Return the connecting points of a list of segments """
   conns = {}
   for seg in segments:
     a,b = seg
-    conns[a] = set([a,b])
-    conns[b] = set([a,b])
+    conns[a] = {a,b}
+    conns[b] = {a,b}
     for otherseg in segments:
       oa, ob = otherseg
       if a == ob:
@@ -85,15 +88,15 @@ def make_nets(conns):
     for c in found: # remove connections we've already added
       del conns[c]
     if not found: # didnt find anything
-      nets.append(set([conns.keys()[0]])) # pick a point
+      nets.append({conns.keys()[0]}) # pick a point
   return nets
     
 def input_kicad(filename):
   """ Read in a kicad schematic file and parse it into Upverter format """
   # Rough'n'dirty parsing, assume nothing useful comes before the description
   circuit = {}
-  segments = set([])    # each wire segment
-  connpoints = set([]) # wire connection (connects all wires under it)
+  segments = set()    # each wire segment
+  connpoints = set() # wire connection (connects all wires under it)
   f = open(filename)
   # Read until the end of the description
   line = ""
@@ -109,7 +112,7 @@ def input_kicad(filename):
       if not(x1 == x2 and y1 == y2): # ignore zero-length segments
         segments.add(((x1,y1),(x2,y2)))
     elif element == "Connection": # connecting dot
-      x,y = line.split()[2:4]
+      x,y = [int(i) for i in line.split()[2:4]]
       connpoints.add((x,y))
     elif element == "$Comp": # Component
       pass #TODO(ajray): do something useful
