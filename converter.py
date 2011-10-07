@@ -67,25 +67,6 @@ def divide(segments,connpoints):
     segments |= toadd
   return segments
     
-def connections(segments):
-  """ Return the connecting points of a list of segments """
-  conns = {}
-  for seg in segments:
-    a,b = seg
-    conns[a] = {b,a} # include itself, required for calculating nets
-    conns[b] = {a,b} # include itself, required for calculating nets
-    for otherseg in segments:
-      oa, ob = otherseg
-      if a == ob:
-        conns[a].add(oa)
-      elif a == oa:
-        conns[a].add(ob)
-      if b == ob:
-        conns[b].add(oa)
-      elif b == oa:
-        conns[b].add(ob)
-  return conns
-
 def calc_nets(asegments):
   """ Return a set of Nets from segments """
   segments = copy.deepcopy(asegments)
@@ -107,24 +88,6 @@ def calc_nets(asegments):
         segments.remove(seg)
         newnet |= {a,b}
     nets.add(frozenset(newnet))
-  return nets
-
-def make_nets(conns):
-  """ Return a list of Nets from connected points """
-  conns = copy.deepcopy(conns)
-  nets = []
-  # Iterate over the copied dict, removing connections when added to a net
-  while len(conns) > 0 :
-    found = []
-    for c,pts in conns.iteritems():
-      for i in range(len(nets)):
-        if nets[i] & pts: # overlapping sets
-          nets[i] |= pts # add all of the points
-          found.append(c)
-    for c in found: # remove connections we've already added
-      del conns[c]
-    if not found: # didnt find anything this iteration
-      nets.append({conns.keys()[0]}) # pick a point
   return nets
     
 def input_kicad(filename):
@@ -154,9 +117,6 @@ def input_kicad(filename):
       pass #TODO(ajray): do something useful
     line = f.readline()
   segments = divide(segments,connpoints)
-  conns = connections(segments)
-  print "NETS"
-  for net in make_nets(conns): print net
   print "NETSNETS"
   for net in calc_nets(segments): print net
   return circuit
