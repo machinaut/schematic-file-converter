@@ -1,0 +1,21 @@
+Alex R's notes on the file format.
+
+Overview:
+
+{ 
+    version    : ... ,
+    attributes : ... ,
+    components : ... ,
+    instances  : ... ,
+    nets       : ...
+}
+
+version : {
+    file_version : "0.0.1",
+    tool_name    : "Upverter"
+}
+
+attributes : {
+
+
+"nets" : [ 
