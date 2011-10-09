@@ -2,12 +2,24 @@
 # converter.py - file format converter to and from Upverter's JSON file format
 # Alex Ray ajray@ncsu.edu
 # TODO: incorporate part libraries to figure out endpoints
+
+# Usage example:
+#   ./converter.py -i test.sch -o test.json -f kicad -t json
+
+# Basic Strategy
+# 0) Ignore data except the useful
+# 1) Read in all of the segments (and junctions and components)
+# 2) Divide all the segments by the junctions
+# 3) Calculate the nets from the segments
+# 4) Read the part library to figure out pin connectivity [TODO]
+
 import os, re, copy, json
 from optparse import OptionParser
 
 inputtypes = "kicad" # Accepted input file types
 outputtypes = "json" # Accepted output file types
 
+# Internal representation of a circuit, closely matches JSON circuit
 class Circuit:
   """ Circuit represents the whole schematic, and the top level of the output format """
   def __init__(self):
@@ -26,6 +38,7 @@ class Circuit:
         "attributes" : self.attributes
         }
 
+# Internal representation of a net, closely matches JSON net
 class Net:
   """ a Net with metadata and a list of points (with connections) """
   def __init__(self):
@@ -39,7 +52,7 @@ class Net:
       "point_id": p, #internally use the point tuples as ID's, output as string id's
       "x":p[0],
       "y":p[1],
-      "connected_components": [], #TODO(ajray): figure out how to connect to comps
+      "connected_components": [], #TODO: read component library to find this
       "connected_points": set()
       }
   def connpoint(self,a,b):
@@ -75,8 +88,8 @@ class Net:
         }
 
 def point_id(p):
-  """ point_id gives a point id of the form XXXXaYYYY, which is unique for points """
-  return str(p[0])+"a"+str(p[1])
+  """ point_id gives a point id of the form 6100x4950, which is unique for each point """
+  return str(p[0])+"x"+str(p[1])
 
 def intersect(segment,c):
   """ Does point c intersect the segment """
@@ -153,7 +166,16 @@ def input_kicad(filename):
       x,y = [int(i) for i in line.split()[2:4]]
       junctions.add((x,y))
     elif element == "$Comp": # Component
-      pass #TODO(ajray): do something useful
+      # TODO(ajray): probably should can by leading letter, instead of assuming they're what we expect
+      compnames = f.readline()
+      name,reference = compnames.split()[1:3]
+      unused_timestamp = f.readline()
+      positions = f.readline()
+      compx,compy = [int(i) for i in f.readline()[1:3]]
+      # TODO(ajray): ignore all the fields for now, probably could make these annotations
+      line = f.readline()
+      while line.strip() != "$EndComp":
+        line = f.readline()
     line = f.readline()
   segments = divide(segments,junctions)
   nets = calc_nets(segments)
