@@ -9,12 +9,12 @@ The version of the Upverter file that is being used
         tool_name
 
 File Version JSON example:
-{"version": {"file_version": "0.0.1", "tool_name": "Upverter"}
+{"version": {"file_version": "0.0.1", "tool_name": "Upverter"}}
 
 
 component_instances (Array)
 
-    reference_designator
+    instance_id
     library_id
     symbol_index (the index of the symbol_variant that is used in this instance)
     symbol_attributes[Array] (the array index is the body index of the symbol)
@@ -25,9 +25,9 @@ component_instances (Array)
             x
             y
             visible
-    
-    attributes (Array)
-        {name: value)
+
+    attributes (Dict)
+        {name: value}
 
 component_instance JSON example:
 {
@@ -59,9 +59,9 @@ nets (Array) (Optional)
         y
         connected_points (Array <point ID>)
         component_components (Array)
-            reverence_designator 
+            instance_id
             pin_number
-    attributes (Array) 
+    attributes (Dict) 
         {name: value} pairs
     annotations (Array)
         value
@@ -182,9 +182,17 @@ design_attributes (appears exactly one time)
         y
         visible
     metadata
-        ???
-    comments (Array)
-        ???
+        name
+        description
+        license
+        owner
+        update_timestamp
+        design_id
+        slug
+        attached_urls (Array)
+    attributes (Dict)
+        {name: value}
+        
         
 design_attributes JSON example:
 
@@ -192,7 +200,8 @@ design_attributes JSON example:
 components (Dict)
     library_id (KEY)
     name
-    attributes (Array)
+    attributes (Dict)
+        {name: value}
     symbols(Array)
         bodies(Array)
             shapes(Array)
@@ -393,4 +402,3 @@ Component JSON example:
   }
 
 Example of complete file
-
