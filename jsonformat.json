@@ -1,0 +1,111 @@
+{ 
+
+    "sheet" : {
+        "version"       : "0.0.2" ,
+        "tool"          : "ajray_converter" ,
+        "attributes"    : { 
+            <name> : <value> , ... 
+        } ,
+        "annotations"   : { 
+            <name> : { 
+                "x"     : <x> , 
+                "y"     : <y> ,
+                "align" : <align>
+            } , ...
+        } ,
+        "shapes"        : {
+            <shape_id>  : { 
+                "type"  : <type> , ...
+            } , ...
+        }
+    } 
+    
+    ,
+
+    "components" : {
+        <component_id> : {
+            "attributes"    : { 
+                <name> : <value> , ... 
+            } ,
+            "symbols" : {
+                <symbol_id> : {
+                    "attributes"    : { 
+                        <name> : <value> , ... 
+                    } ,
+                    "bodies" : {
+                        <body_id> : {
+                            "attributes"    : { 
+                                <name> : <value> , ... 
+                            } ,
+                            "annotations"   : { 
+                                <name> : { 
+                                    "x"     : <x> , 
+                                    "y"     : <y> ,
+                                    "align" : <align>
+                                } , ...
+                            } ,
+                            "shapes"        : {
+                                <shape_id>  : { 
+                                    "type"  : <type> , ...
+                                } , ...
+                            } ,
+                            "pins" : {
+                                <pin_id> : {
+                                    "x1" : <x1> ,
+                                    "y1" : <y1> ,
+                                    "x2" : <x2> ,
+                                    "y2" : <y2>
+                                } , ...
+                            }
+                        } , ...
+                    }
+                } , ...
+            }
+        } , ...
+    } 
+    
+    ,
+
+    "instances" : {
+        <instance_id> : {
+            "component" : <component_id> ,
+            "symbol" : <symbol_id> ,
+            "bodies" : {
+                <body_id> : {
+                    "x" : <x> ,
+                    "y" : <y> ,
+                    "rotation" : <rotation> ,
+                    "attributes"    : { 
+                        <name> : <value> , ... 
+                    } ,
+                    "annotations"   : { 
+                        <name> : { 
+                            "x"     : <x> , 
+                            "y"     : <y> ,
+                            "align" : <align>
+                        } , ...
+                    }
+                } , ...
+            }
+        } , ...
+    } 
+    
+    ,
+
+    "nets" : {
+        <net_id> : {
+            "attributes" : {
+                <name> : <value> ,
+            },
+            "points" : {
+                <point_id> : {
+                    "x"          : <x> ,
+                    "y"          : <y> ,
+                    "points"     : [ <point_id> , ... ] ,
+                    "components" : [ { <instance_id> : <pin_index> } , ... ]
+                } , ...
+            }
+        } , ...
+    }
+
+}
