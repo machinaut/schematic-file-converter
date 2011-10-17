@@ -1,0 +1,157 @@
+{ 
+    "sheet" : {
+        "version"       : "0.0.2" ,
+        "tool"          : "ajray_converter" ,
+        "attributes"    : { 
+            "name" : "Example Schematic" ,
+            "date" : "13-10-2011" ,
+            "author" : "Alex Ray"
+        } ,
+        "annotations"   : { 
+            "name" : { 
+                "x"     : 0 , 
+                "y"     : 0 ,
+                "align" : "lt"
+            } ,
+            "author" : {
+                "x"     : 0 , 
+                "y"     : 1 ,
+                "align" : "lt"
+            }
+        } ,
+        "shapes"        : {
+            "frame"  : { 
+                "type"  : "rectangle" ,
+                "x1"     : 0 , 
+                "y1"     : 0 ,
+                "x2"     : 8 , 
+                "y2"     : 8
+            } ,
+            "title underline" : {
+                "type" : "line" ,
+                "x1"     : 0 , 
+                "y1"     : 1 ,
+                "x2"     : 8 , 
+                "y2"     : 2
+            }
+        }
+    } ,
+    "components" : {
+        "A" : {
+            "attributes" : {
+                "name" : "A"
+            } ,
+            "symbols" : {
+                "" : {
+                    "bodies" : {
+                        "" : {
+                            "annotations" : {
+                                "name" : {
+                                    "x" : 0 ,
+                                    "y" : 0 ,
+                                    "align" : "lt"
+                                }
+                            } ,
+                            "shapes" : {
+                                "0" : {
+                                    "type" : "rect" ,
+                                    "x1" : -1 ,
+                                    "y1" : -1 ,
+                                    "x2" : 1 ,
+                                    "y2" : 1
+                                } ,
+                                "1" : {
+                                    "type" : "line" ,
+                                    "x1" : -1 ,
+                                    "y1" : 0 ,
+                                    "x2" : 0 ,
+                                    "y2" : 1
+                                }
+                            } ,
+                            "pins" : {
+                                "1" : {
+                                    "x1" : 1 ,
+                                    "y1" : 0 ,
+                                    "x2" : 2 ,
+                                    "y2" : 0
+                                } ,
+                                "2" : {
+                                    "x1" : -1 ,
+                                    "y1" : 0 ,
+                                    "x2" : -2 ,
+                                    "y2" : 0
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } ,
+        "B" : {
+            "symbols" : {
+                "" : {
+                    "bodies" : {
+                        "" : {
+                            "annotations" : {
+                                "name" : {
+                                    "x" : 0 ,
+                                    "y" : 0 ,
+                                    "align" : "lt"
+                                }
+                            } ,
+                            "shapes" : {
+                                "0" : {
+                                    "type" : "rect" ,
+                                    "x1" : -1 ,
+                                    "y1" : -1 ,
+                                    "x2" : 1 ,
+                                    "y2" : 1
+                                } ,
+                                "1" : {
+                                    "type" : "line" ,
+                                    "x1" : -1 ,
+                                    "y1" : 0 ,
+                                    "x2" : 0 ,
+                                    "y2" : 1
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } ,
+        "C" : {
+            "symbols" : {
+                "" : {
+                    "bodies" : {
+                        "" : {
+                            "annotations" : {
+                                "name" : {
+                                    "x" : 0 ,
+                                    "y" : 0 ,
+                                    "align" : "lt"
+                                }
+                            } ,
+                            "shapes" : {
+                                "0" : {
+                                    "type" : "rect" ,
+                                    "x1" : -1 ,
+                                    "y1" : -1 ,
+                                    "x2" : 1 ,
+                                    "y2" : 1
+                                } ,
+                                "1" : {
+                                    "type" : "line" ,
+                                    "x1" : -1 ,
+                                    "y1" : 0 ,
+                                    "x2" : 0 ,
+                                    "y2" : 1
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
