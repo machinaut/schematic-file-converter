@@ -8,149 +8,38 @@
             "author" : "Alex Ray"
         } ,
         "annotations"   : { 
-            "name" : { 
-                "x"     : 0 , 
-                "y"     : 0 ,
-                "align" : "lt"
-            } ,
-            "author" : {
-                "x"     : 0 , 
-                "y"     : 1 ,
-                "align" : "lt"
-            }
+            "name"   : { "x" : 0 , "y" : 0 ,  "align" : "lt" } ,
+            "author" : { "x" : 0 , "y" : 10 , "align" : "lt" }
         } ,
         "shapes"        : {
-            "frame"  : { 
-                "type"  : "rectangle" ,
-                "x1"     : 0 , 
-                "y1"     : 0 ,
-                "x2"     : 8 , 
-                "y2"     : 8
-            } ,
-            "title underline" : {
-                "type" : "line" ,
-                "x1"     : 0 , 
-                "y1"     : 1 ,
-                "x2"     : 8 , 
-                "y2"     : 2
-            }
+            "frame" : { "type":"rect" , "x1":0 , "y1":0 , "x2":80 , "y2":80 } ,
+            "aline" : { "type":"line" , "x1":0 , "y1":10, "x2":80 , "y2":20 }
         }
     } ,
     "components" : {
         "A" : {
-            "attributes" : {
-                "name" : "A"
-            } ,
-            "symbols" : {
-                "" : {
-                    "bodies" : {
-                        "" : {
-                            "annotations" : {
-                                "name" : {
-                                    "x" : 0 ,
-                                    "y" : 0 ,
-                                    "align" : "lt"
-                                }
-                            } ,
-                            "shapes" : {
-                                "0" : {
-                                    "type" : "rect" ,
-                                    "x1" : -1 ,
-                                    "y1" : -1 ,
-                                    "x2" : 1 ,
-                                    "y2" : 1
-                                } ,
-                                "1" : {
-                                    "type" : "line" ,
-                                    "x1" : -1 ,
-                                    "y1" : 0 ,
-                                    "x2" : 0 ,
-                                    "y2" : 1
-                                }
-                            } ,
-                            "pins" : {
-                                "1" : {
-                                    "x1" : 1 ,
-                                    "y1" : 0 ,
-                                    "x2" : 2 ,
-                                    "y2" : 0
-                                } ,
-                                "2" : {
-                                    "x1" : -1 ,
-                                    "y1" : 0 ,
-                                    "x2" : -2 ,
-                                    "y2" : 0
-                                }
-                            }
-                        }
-                    }
+            "symbols" : { "" : { "bodies" : { "" : {
+                "attributes" : { "name" : "A" } ,
+                "annotations" : {
+                    "name" : { "x" : 0 , "y" : 0 , "align" : "lt" }
+                } ,
+                "shapes" : {
+                    "0" : { "type":"rect", "x1":-10, "y1":-10, "x2":10, "y2":10 } ,
+                    "1" : { "type":"line", "x1":-10, "y1": 0,  "x2": 0, "y2":10 }
+                } ,
+                "pins" : {
+                    "1" : { "x1" : 10 , "y1" : 0 , "x2" : 20 , "y2" : 0 } ,
+                    "2" : { "x1" : -10 , "y1" : 0 , "x2" : -20 , "y2" : 0 }
                 }
-            }
-        } ,
-        "B" : {
-            "symbols" : {
-                "" : {
-                    "bodies" : {
-                        "" : {
-                            "annotations" : {
-                                "name" : {
-                                    "x" : 0 ,
-                                    "y" : 0 ,
-                                    "align" : "lt"
-                                }
-                            } ,
-                            "shapes" : {
-                                "0" : {
-                                    "type" : "rect" ,
-                                    "x1" : -1 ,
-                                    "y1" : -1 ,
-                                    "x2" : 1 ,
-                                    "y2" : 1
-                                } ,
-                                "1" : {
-                                    "type" : "line" ,
-                                    "x1" : -1 ,
-                                    "y1" : 0 ,
-                                    "x2" : 0 ,
-                                    "y2" : 1
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } ,
-        "C" : {
-            "symbols" : {
-                "" : {
-                    "bodies" : {
-                        "" : {
-                            "annotations" : {
-                                "name" : {
-                                    "x" : 0 ,
-                                    "y" : 0 ,
-                                    "align" : "lt"
-                                }
-                            } ,
-                            "shapes" : {
-                                "0" : {
-                                    "type" : "rect" ,
-                                    "x1" : -1 ,
-                                    "y1" : -1 ,
-                                    "x2" : 1 ,
-                                    "y2" : 1
-                                } ,
-                                "1" : {
-                                    "type" : "line" ,
-                                    "x1" : -1 ,
-                                    "y1" : 0 ,
-                                    "x2" : 0 ,
-                                    "y2" : 1
-                                }
-                            }
-                        }
-                    }
-                }
+            } } } }
+        }
+    } ,
+    "instances" : {
+        "A" : {
+            "component" : "A" ,
+            "symbol" : "" ,
+            "bodies" : {
+                "" : { "x" : 50 , "y" : 50 }
             }
         }
     }
