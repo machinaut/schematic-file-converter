@@ -2,9 +2,6 @@
   "component_instances": [
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "down", 
-        "_pin_2_direction_0": "right", 
         "refdes": "U2"
       }, 
       "instance_id": "9848c1ff553f2849", 
@@ -29,8 +26,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "C1"
       }, 
       "instance_id": "83b91f1a41a6c230", 
@@ -55,8 +50,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "C2"
       }, 
       "instance_id": "21e3c08403fb7f07", 
@@ -81,8 +74,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "e1b30bb05bfa0b78", 
@@ -99,8 +90,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_1": "down", 
-        "_pin_0_resolve": "local", 
         "name": "PWR"
       }, 
       "instance_id": "2cd2a163056e752d", 
@@ -125,8 +114,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "323fb053707ca41d", 
@@ -151,8 +138,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "29e174fb4ce6db0b", 
@@ -177,8 +162,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "R1"
       }, 
       "instance_id": "28543da1e14ad9ba", 
@@ -203,8 +186,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "D1"
       }, 
       "instance_id": "e4ea7b63d44632e8", 
@@ -229,8 +210,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_1_direction_0": "up", 
         "refdes": "D2"
       }, 
       "instance_id": "9c89102c5a332fe5", 
@@ -255,8 +234,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "85891b90012a4f82", 
@@ -273,34 +250,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_10_direction_0": "left", 
-        "_pin_11_direction_0": "left", 
-        "_pin_12_direction_0": "left", 
-        "_pin_13_direction_0": "left", 
-        "_pin_14_direction_0": "right", 
-        "_pin_15_direction_0": "right", 
-        "_pin_16_direction_0": "right", 
-        "_pin_17_direction_0": "right", 
-        "_pin_18_direction_0": "right", 
-        "_pin_19_direction_0": "right", 
-        "_pin_1_direction_0": "left", 
-        "_pin_20_direction_0": "right", 
-        "_pin_21_direction_0": "right", 
-        "_pin_22_direction_0": "right", 
-        "_pin_23_direction_0": "right", 
-        "_pin_24_direction_0": "right", 
-        "_pin_25_direction_0": "right", 
-        "_pin_26_direction_0": "right", 
-        "_pin_27_direction_0": "right", 
-        "_pin_2_direction_0": "left", 
-        "_pin_3_direction_0": "left", 
-        "_pin_4_direction_0": "left", 
-        "_pin_5_direction_0": "left", 
-        "_pin_6_direction_0": "left", 
-        "_pin_7_direction_0": "left", 
-        "_pin_8_direction_0": "left", 
-        "_pin_9_direction_0": "left", 
         "refdes": "U3"
       }, 
       "instance_id": "0fb9b974fcfc5a58", 
@@ -332,8 +281,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "down", 
-        "_pin_0_resolve": "local", 
         "name": "RESET"
       }, 
       "instance_id": "5bf008acb803f038", 
@@ -358,10 +305,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "right", 
-        "_pin_1_direction_0": "right", 
-        "_pin_2_direction_0": "left", 
-        "_pin_3_direction_0": "left", 
         "refdes": "SW4"
       }, 
       "instance_id": "9a404fc0774065be", 
@@ -386,8 +329,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "7276851bb276a4fb", 
@@ -404,10 +345,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "left", 
-        "_pin_2_direction_0": "right", 
-        "_pin_3_direction_0": "right", 
         "refdes": "SW5"
       }, 
       "instance_id": "945252b95d1a7eea", 
@@ -432,8 +369,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "215d09c64f057002", 
@@ -458,8 +393,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "right", 
-        "_pin_0_resolve": "local", 
         "name": "Rx"
       }, 
       "instance_id": "b561331d64c14ced", 
@@ -484,8 +417,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "right", 
-        "_pin_0_resolve": "local", 
         "name": "Tx"
       }, 
       "instance_id": "0499938056383763", 
@@ -510,8 +441,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "right", 
-        "_pin_0_resolve": "local", 
         "name": "D4"
       }, 
       "instance_id": "f569b0e41bd3090a", 
@@ -536,8 +465,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "e82bc1b2ad88a58a", 
@@ -562,8 +489,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "C6"
       }, 
       "instance_id": "fa5b639fe7b2d272", 
@@ -588,8 +513,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "8f494f50ffa524b4", 
@@ -606,9 +529,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "right", 
-        "_pin_2_direction_0": "down", 
         "refdes": "U7"
       }, 
       "instance_id": "8a18ff2b88a36903", 
@@ -633,8 +553,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "30661993741648e8", 
@@ -651,8 +569,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "07b8fb64075fd74c", 
@@ -677,8 +593,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "44d990e95cfc417a", 
@@ -696,11 +610,6 @@
     {
       "attributes": {
         "_ann_1452de04": "To GameBoy link cable", 
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "left", 
-        "_pin_2_direction_0": "left", 
-        "_pin_3_direction_0": "left", 
-        "_pin_4_direction_0": "left", 
         "refdes": "U8"
       }, 
       "instance_id": "7f485ce403135ed7", 
@@ -710,17 +619,17 @@
           "annotations": [
             {
               "rotation": 0.0, 
-              "value": "_name", 
-              "visible": "true", 
-              "x": 1150, 
-              "y": 740
-            }, 
-            {
-              "rotation": 0.0, 
               "value": "_ann_1452de04", 
               "visible": "true", 
               "x": 1150, 
               "y": 760
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "_name", 
+              "visible": "true", 
+              "x": 1150, 
+              "y": 740
             }
           ], 
           "rotation": 0.0, 
@@ -732,8 +641,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "b5487b0c39fde700", 
@@ -751,12 +658,6 @@
     {
       "attributes": {
         "_ann_b34db197": "To RS-232 programmer", 
-        "_pin_0_direction_0": "down", 
-        "_pin_1_direction_0": "down", 
-        "_pin_2_direction_0": "down", 
-        "_pin_3_direction_0": "down", 
-        "_pin_4_direction_0": "down", 
-        "_pin_5_direction_0": "down", 
         "refdes": "U9"
       }, 
       "instance_id": "bd6d693a18a3ee9d", 
@@ -766,17 +667,17 @@
           "annotations": [
             {
               "rotation": 0.0, 
-              "value": "_name", 
-              "visible": "true", 
-              "x": 740, 
-              "y": 1100
-            }, 
-            {
-              "rotation": 0.0, 
               "value": "_ann_b34db197", 
               "visible": "true", 
               "x": 720, 
               "y": 1120
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "_name", 
+              "visible": "true", 
+              "x": 740, 
+              "y": 1100
             }
           ], 
           "rotation": 1.5, 
@@ -788,8 +689,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "up", 
-        "_pin_0_resolve": "local", 
         "name": "Tx"
       }, 
       "instance_id": "c4245ca2f455ef4a", 
@@ -814,8 +713,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "up", 
-        "_pin_0_resolve": "local", 
         "name": "Rx"
       }, 
       "instance_id": "dfac43508d897453", 
@@ -840,8 +737,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "8c397326e19a0fa0", 
@@ -858,8 +753,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "right", 
         "refdes": "R10"
       }, 
       "instance_id": "704efda7481966e4", 
@@ -884,8 +777,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "C11"
       }, 
       "instance_id": "2ecb899dd3258c3c", 
@@ -910,8 +801,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "up", 
-        "_pin_0_resolve": "local", 
         "name": "RESET"
       }, 
       "instance_id": "cafe482a7a64bedd", 
@@ -936,8 +825,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "a4abddf506f5c8a6", 
@@ -963,10 +850,6 @@
     {
       "attributes": {
         "_ann_2bc799ca": "To SPI programmer", 
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "left", 
-        "_pin_2_direction_0": "left", 
-        "_pin_3_direction_0": "left", 
         "refdes": "U12"
       }, 
       "instance_id": "48b9118756aafc5a", 
@@ -998,8 +881,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "right", 
         "refdes": "D13"
       }, 
       "instance_id": "2c9ff5ed1be1c0e9", 
@@ -1024,8 +905,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "5bbdd195050f97c6", 
@@ -1042,8 +921,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "fc52875cb65a948b", 
@@ -1061,11 +938,6 @@
     {
       "attributes": {
         "_name": "MIDI Out", 
-        "_pin_0_direction_0": "down", 
-        "_pin_1_direction_0": "down", 
-        "_pin_2_direction_0": "down", 
-        "_pin_3_direction_0": "down", 
-        "_pin_4_direction_0": "down", 
         "refdes": "U14"
       }, 
       "instance_id": "3c1a86495b9ee05c", 
@@ -1090,8 +962,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "2df2d1816dc60745", 
@@ -1108,8 +978,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "up", 
-        "_pin_0_resolve": "local", 
         "name": "Tx"
       }, 
       "instance_id": "9eabf90eb0163a7b", 
@@ -1134,8 +1002,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "R15"
       }, 
       "instance_id": "f1e928e4643fa588", 
@@ -1160,8 +1026,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "down", 
-        "_pin_0_resolve": "local", 
         "name": "Vcc"
       }, 
       "instance_id": "d1ebd11c56a7e799", 
@@ -1187,11 +1051,6 @@
     {
       "attributes": {
         "_name": "MIDI In", 
-        "_pin_0_direction_0": "down", 
-        "_pin_1_direction_0": "down", 
-        "_pin_2_direction_0": "down", 
-        "_pin_3_direction_0": "down", 
-        "_pin_4_direction_0": "down", 
         "refdes": "U16"
       }, 
       "instance_id": "9fd8d84257d0fbdf", 
@@ -1216,14 +1075,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "left", 
-        "_pin_2_direction_0": "left", 
-        "_pin_3_direction_0": "left", 
-        "_pin_4_direction_0": "right", 
-        "_pin_5_direction_0": "right", 
-        "_pin_6_direction_0": "right", 
-        "_pin_7_direction_0": "right", 
         "refdes": "U17"
       }, 
       "instance_id": "c54f4119def55cbd", 
@@ -1255,8 +1106,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "R18"
       }, 
       "instance_id": "dead75992f5fc055", 
@@ -1281,8 +1130,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "D20"
       }, 
       "instance_id": "746c4a9781b512c0", 
@@ -1307,8 +1154,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_2": "up", 
-        "_pin_0_resolve": "local", 
         "name": "GND"
       }, 
       "instance_id": "599a39eddab39b0d", 
@@ -1325,8 +1170,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "left", 
-        "_pin_0_resolve": "local", 
         "name": "D4"
       }, 
       "instance_id": "90c68b30de68ee4b", 
@@ -1351,8 +1194,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_3": "left", 
-        "_pin_0_resolve": "local", 
         "name": "Rx"
       }, 
       "instance_id": "690e286f45a51846", 
@@ -1377,8 +1218,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "right", 
         "refdes": "R2"
       }, 
       "instance_id": "fde5bc6e0e43d380", 
@@ -1388,17 +1227,17 @@
           "annotations": [
             {
               "rotation": 0.0, 
-              "value": "refdes", 
-              "visible": "true", 
-              "x": 390, 
-              "y": 610
-            }, 
-            {
-              "rotation": 0.0, 
               "value": "value", 
               "visible": "true", 
               "x": 420, 
               "y": 555
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "refdes", 
+              "visible": "true", 
+              "x": 390, 
+              "y": 610
             }
           ], 
           "rotation": 0.0, 
@@ -1410,8 +1249,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "left", 
-        "_pin_1_direction_0": "right", 
         "refdes": "R3"
       }, 
       "instance_id": "c4838cc64d202aac", 
@@ -1436,8 +1273,6 @@
     }, 
     {
       "attributes": {
-        "_pin_0_direction_0": "up", 
-        "_pin_1_direction_0": "down", 
         "refdes": "R21"
       }, 
       "instance_id": "aaacd559ee1c7264", 
@@ -4296,12 +4131,12 @@
         "http://code.google.com/p/arduinoboy/"
       ], 
       "description": "Based on the original ArduinoBoy (version 1.1.0) schematic by Trash80 (http://trash80.net). Software available at: http://code.google.com/p/arduinoboy/\n This version is designed to be built and operated as a stand-alone device and eliminates extra parts n", 
-      "design_id": "d4d7fbc57b0346de", 
+      "design_id": "0000000000003664", 
       "license": "", 
       "name": "Simplified ArduinoBoy", 
-      "owner": "mwoodworth33", 
+      "owner": "Alex", 
       "slug": "Simplified-ArduinoBoy", 
-      "updated_timestamp": 1319138456
+      "updated_timestamp": 1317416102
     }
   }, 
   "nets": [
