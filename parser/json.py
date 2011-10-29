@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 #
 # Basic Strategy
-# 0) ...
+# 0) 1:1 Input of the data model
 
 from core.design import Design
 
 
-class Fritzing:
-""" The Fritzing Format Parser """
+class JSON:
+    """ The JSON Format Parser """
 
     def __init__(self):
         pass
 
 
     def parse(self, filename):
-        """ Parse a Fritzing file into a design """
+        """ Placeholder input function until I get the JSON file format """
         design = design()
         f = open(filename, "w")
         #TODO: Read!

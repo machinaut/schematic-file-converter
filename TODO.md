@@ -4,6 +4,8 @@ Universal Format Converter - TODO List
 Development
 ---------------
 * Incorporate part libraries to figure out endpoints
+* Intelligently guess input and output types, for now assume explicitly given
+  partly because most EDA's use '.sch' as the schematic file extension
 
 
 Formats

@@ -17,7 +17,7 @@ Usage
 ---------------
 
 ```bash
-./converter.py -i test.sch -f kicad -t json -o test.json
+./upconvert.py -i test.sch -f kicad -t json -o test.json
 
 -i: input file
 -f: from format
@@ -30,7 +30,7 @@ Where to Get Help
 ---------------
 
 ```bash
-./converter.py -h
+./upconvert.py -h
 ```
 
 
