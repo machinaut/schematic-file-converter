@@ -1,0 +1,276 @@
+{
+    "attributes": [], 
+    "components": [], 
+    "instances": [], 
+    "nets": [
+        {
+            "annotations": [], 
+            "attributes": [], 
+            "net_id": "", 
+            "points": [
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6100a4650", 
+                        "6900a4950", 
+                        "6100a5350"
+                    ], 
+                    "point_id": "6100a4950", 
+                    "x": 6100, 
+                    "y": 4950
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6100a5350"
+                    ], 
+                    "point_id": "5150a5350", 
+                    "x": 5150, 
+                    "y": 5350
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "5150a4650", 
+                        "6100a4950"
+                    ], 
+                    "point_id": "6100a4650", 
+                    "x": 6100, 
+                    "y": 4650
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6100a4650"
+                    ], 
+                    "point_id": "5150a4650", 
+                    "x": 5150, 
+                    "y": 4650
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6100a4950", 
+                        "5150a5350"
+                    ], 
+                    "point_id": "6100a5350", 
+                    "x": 6100, 
+                    "y": 5350
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "5150a4050", 
+                        "6900a4950"
+                    ], 
+                    "point_id": "6900a4050", 
+                    "x": 6900, 
+                    "y": 4050
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6900a4050"
+                    ], 
+                    "point_id": "5150a4050", 
+                    "x": 5150, 
+                    "y": 4050
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6900a4050", 
+                        "6100a4950"
+                    ], 
+                    "point_id": "6900a4950", 
+                    "x": 6900, 
+                    "y": 4950
+                }
+            ]
+        }, 
+        {
+            "annotations": [], 
+            "attributes": [], 
+            "net_id": "", 
+            "points": [
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2950a6650"
+                    ], 
+                    "point_id": "2700a6650", 
+                    "x": 2700, 
+                    "y": 6650
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2700a6650", 
+                        "2950a4450"
+                    ], 
+                    "point_id": "2950a6650", 
+                    "x": 2950, 
+                    "y": 6650
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2950a6650", 
+                        "3250a4450"
+                    ], 
+                    "point_id": "2950a4450", 
+                    "x": 2950, 
+                    "y": 4450
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2950a4450"
+                    ], 
+                    "point_id": "3250a4450", 
+                    "x": 3250, 
+                    "y": 4450
+                }
+            ]
+        }, 
+        {
+            "annotations": [], 
+            "attributes": [], 
+            "net_id": "", 
+            "points": [
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2700a3950"
+                    ], 
+                    "point_id": "2700a6450", 
+                    "x": 2700, 
+                    "y": 6450
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2700a3950"
+                    ], 
+                    "point_id": "3250a3950", 
+                    "x": 3250, 
+                    "y": 3950
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "2700a6450", 
+                        "3250a3950"
+                    ], 
+                    "point_id": "2700a3950", 
+                    "x": 2700, 
+                    "y": 3950
+                }
+            ]
+        }, 
+        {
+            "annotations": [], 
+            "attributes": [], 
+            "net_id": "", 
+            "points": [
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "7550a3500", 
+                        "6900a3100"
+                    ], 
+                    "point_id": "7550a3100", 
+                    "x": 7550, 
+                    "y": 3100
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "7550a3500"
+                    ], 
+                    "point_id": "6900a3500", 
+                    "x": 6900, 
+                    "y": 3500
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "7550a3100"
+                    ], 
+                    "point_id": "6900a3100", 
+                    "x": 6900, 
+                    "y": 3100
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "7550a3100", 
+                        "6900a3500"
+                    ], 
+                    "point_id": "7550a3500", 
+                    "x": 7550, 
+                    "y": 3500
+                }
+            ]
+        }, 
+        {
+            "annotations": [], 
+            "attributes": [], 
+            "net_id": "", 
+            "points": [
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "5000a2000", 
+                        "6450a2700"
+                    ], 
+                    "point_id": "6450a2000", 
+                    "x": 6450, 
+                    "y": 2000
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6450a2000", 
+                        "5000a3000"
+                    ], 
+                    "point_id": "5000a2000", 
+                    "x": 5000, 
+                    "y": 2000
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6450a2700"
+                    ], 
+                    "point_id": "5900a2700", 
+                    "x": 5900, 
+                    "y": 2700
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "6450a2000", 
+                        "5900a2700"
+                    ], 
+                    "point_id": "6450a2700", 
+                    "x": 6450, 
+                    "y": 2700
+                }, 
+                {
+                    "connected_components": [], 
+                    "connected_points": [
+                        "5000a2000"
+                    ], 
+                    "point_id": "5000a3000", 
+                    "x": 5000, 
+                    "y": 3000
+                }
+            ]
+        }
+    ], 
+    "version": {
+        "file_version": "0.0.1", 
+        "tool_name": "Upverter converter"
+    }
+}
