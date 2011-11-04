@@ -95,6 +95,12 @@ string pArea(UL_AREA A) { // Area
     s += "}";
     return s;
 }
+void print_area(UL_AREA area) { // NEW STYLE!
+    pi("x1", A.x1); cn();
+    pi("y1", A.y1); cn();
+    pi("x2", A.x2); cn();
+    pi("y2", A.y2);
+}
 string ppArea(UL_AREA A) { // Area
     string s = beg("Area");
     s += pArea(A);
