@@ -1,7 +1,6 @@
 {
     "attributes": "attribute", 
     "busses": "bus", 
-    "cicles": "circle", 
     "circles": "circle", 
     "classes": "class", 
     "contactrefs": "contactref", 
