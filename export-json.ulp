@@ -1,0 +1,198 @@
+// export-json.ulp
+//
+// Export an Eagle Board, Schematic or Library into JSON
+//
+// Copyright (C) 2011  Alex Ray <ajray@ncsu.edu>
+
+string cn = ",\n"; // comma and newline
+string bn = "{\n"; // brace and newline
+// util functions
+string esc(string s) { // JSON string escapes. tested
+    string out = "";
+    for (int i = 0; s[i]; ++i) {
+        switch(s[i]) {
+            case '"': out += "\\\""; break;
+            case '\\': out += "\\\\"; break;
+            case '/': out += "\\/"; break;
+            case '\b': out += "\\b"; break;
+            case '\f': out += "\\f"; break;
+            case '\n': out += "\\n"; break;
+            case '\r': out += "\\r"; break;
+            case '\t': out += "\\t"; break;
+            default: out += s[i];
+        }
+    }
+    return out;
+}
+string beg(string a) { // pair with the start of an object
+    string s;
+    sprintf(s,"\"%s\": ",esc(a));
+    return s;
+}
+string pl(string a) { // pair with the start of a list
+    string s;
+    sprintf(s,"\"%s\": [\n",esc(a));
+    return s;
+}
+string ps(string a, string b) { // pair with string
+    string s;
+    sprintf(s,"\"%s\":\"%s\"",esc(a),esc(b));
+    return s;
+}
+string pi(string a, int b) { // pair with int
+    string s;
+    sprintf(s,"\"%s\":%d",esc(a),b);
+    return s;
+}
+string pr(string a, real b) { // pair with real
+    string s;
+    sprintf(s,"\"%s\":%g",esc(a),b);
+    return s;
+}
+
+// picker functions
+string pkCap(int cap) { // pick CAP_...
+    switch (cap) {
+        case CAP_FLAT: return "CAP_FLAT";
+        case CAP_ROUND: return "CAP_ROUND";
+        default: return "CAP_unknown";
+    }
+}
+string pkWireStyle(int style) { // pick WIRE_STYLE_...
+    switch(style) {
+        case WIRE_STYLE_CONTINUOUS: return "WIRE_STYLE_CONTINUOUS";
+        case WIRE_STYLE_LONGDASH: return "WIRE_STYLE_LONGDASH";
+        case WIRE_STYLE_SHORTDASH: return "WIRE_STYLE_SHORTDASH";
+        case WIRE_STYLE_DASHDOT: return "WIRE_STYLE_DASHDOT";
+        default: return "WIRE_STYLE_unknown";
+    }
+}
+string pkGridUnit(int unit) { // pick GRID_UNIT_...
+    switch(unit) {
+        case GRID_UNIT_MIC: return "GRID_UNIT_MIC";
+        case GRID_UNIT_MM: return "GRID_UNIT_MM";
+        case GRID_UNIT_MIL: return "GRID_UNIT_MIL";
+        case GRID_UNIT_INCH: return "GRID_UNIT_INCH";
+        default: return "GRID_UNIT_unknown";
+    }
+}
+string pkAttribDisp(int display) { // pick ATTRIBUTE_DISPLAY_...
+    switch(display) {
+        case ATTRIBUTE_DISPLAY_FLAG_OFF: return "ATTRIBUTE_DISPLAY_FLAG_OFF";
+        case ATTRIBUTE_DISPLAY_FLAG_VALUE: return "ATTRIBUTE_DISPLAY_FLAG_VALUE";
+        case ATTRIBUTE_DISPLAY_FLAG_NAME: return "ATTRIBUTE_DISPLAY_FLAG_NAME";
+        default: return "ATTRIBUTE_DISPLAY_FLAG_unknown";
+    }
+}
+
+// print functions (ordered by requirements)
+string pArea(UL_AREA A) { // Area
+    string s = bn;
+    s += pi("x1", A.x1) + cn;
+    s += pi("y1", A.y1) + cn;
+    s += pi("x2", A.x2) + cn;
+    s += pi("y2", A.y2) + cn;
+    s += "}";
+    return s;
+}
+string ppArea(UL_AREA A) { // Area
+    string s = beg("Area");
+    s += pArea(A);
+    return s;
+}
+string pGrid(UL_GRID G) { // Grid
+    string s = bn;
+    s += pr("distance", G.distance) + cn;
+    s += pi("dots", G.dots) + cn;
+    s += pi("multiple", G.multiple) + cn;
+    s += pi("on", G.on) + cn;
+    s += ps("unit", pkGridUnit(G.unit)) + cn;
+    s += ps("unitdist", pkGridUnit(G.unitdist)) + cn;
+    s += "}";
+    return s;
+}
+string ppGrid(UL_GRID G) { // Grid
+    string s = beg("Grid");
+    s += pGrid(G);
+    return s;
+}
+string pText(UL_TEXT T) { // Text
+    string s = bn;
+    s += pr("angle", T.angle) + cn;
+    s += pi("font", T.font) + cn;
+    s += pi("layer", T.layer) + cn;
+    s += pi("mirror", T.mirror) + cn;
+    s += pi("ratio", T.ratio) + cn;
+    s += pi("size", T.size) + cn;
+    s += pi("spin", T.spin) + cn;
+    s += ps("value", T.value) + cn;
+    s += pi("x", T.x) + cn;
+    s += pi("y", T.y) + cn;
+    return s;
+}
+string ppText(UL_TEXT T) { // Text
+    string s = beg("Text");
+    s += pText(T);
+    return s;
+}
+string pAttribute(UL_ATTRIBUTE A) { // Attribute
+    string s = bn;
+    s += pi("constant", A.constant) + cn;
+    s += ps("defaultvalue", A.defaultvalue) + cn;
+    s += pi("display", A.display) + cn;
+    s += ps("name", A.name) + cn;
+    s += ppText(A.text) + cn;
+    s += ps("value", A.value) + cn;
+    return s;
+}
+string ppAttribute(UL_ATTRIBUTE A) { // Attribute
+    string s = beg("Attribute");
+    s += pAttribute(A);
+    return s;
+}
+string pCircle(UL_CIRCLE C) { // Circle
+    string s = bn;
+    s += pi("layer", A.layer) + cn;
+    s += pi("radius", A.radius) + cn;
+    s += pi("width", A.width) + cn;
+    s += pi("x", A.x) + cn;
+    s += pi("y", A.y) + cn;
+    return s;
+}
+string ppCircle(UL_CIRCLE C) { // Circle
+    string s = beg("Circle");
+    s += pCircle(C);
+    return s;
+}
+string pBoard(UL_BOARD B) { // Board
+    string s = bn;
+    s += ppArea(B.area) + cn;
+    s += ppGrid(B.grid) + cn;
+    s += ps("name",B.name) + cn;
+    s += pl("attributes");
+    B.attributes(A) {
+        s += pAttribute(A) + cn;
+    }
+    s += pl("circles");
+    B.circles(C) {
+        s += pCircle(C) + cn;
+    }
+    s += "]" + cn;
+    s += "}";
+    return s;
+}
+string ppBoard(UL_BOARD B) { // Board
+    string s = beg("Board");
+    s += pBoard(B);
+    return s;
+}
+    
+
+// main function
+output("board.json")
+board(B) {
+    string s = "{"; 
+    s += ppBoard(B) + "\n";
+    s += "}";
+    printf("%s",s);
+}
