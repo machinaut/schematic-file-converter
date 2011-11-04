@@ -4,6 +4,7 @@
 
 # TODO(ajray): use pluralization instead of rewriting ('libraries','library')
 #             figure out what's up with clearance[number]
+# TODO do comma's properly
 
 f = open('json.ulp','w')
 header = """
