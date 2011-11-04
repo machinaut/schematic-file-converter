@@ -212,7 +212,7 @@
     }, 
     "package": {
         "area": "area", 
-        "cicles": "circle", 
+        "circles": "circle", 
         "contacts": "contact", 
         "description": "string", 
         "frames": "frame", 

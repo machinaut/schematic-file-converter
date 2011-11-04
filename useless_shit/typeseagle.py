@@ -2,7 +2,7 @@
 # OH GOD I MESSED UP THE EAGLE FILE FORMAT DEFINITION
 # fix it
 import json, copy
-eagle = json.loads(open("eaglee.json").read())
+eagle = json.loads(open("eagle.json").read())
 a = copy.deepcopy(eagle)
 basic = ["int","string","real"]
 
@@ -16,6 +16,6 @@ for atype,members in a.items():
       elif types[member] != memtype:
         print "oh god why"
 
-#f = open("types.json","w")
-#f.write(json.dumps(types, sort_keys=True, indent=4))
+f = open("types.json","w")
+f.write(json.dumps(types, sort_keys=True, indent=4))
 
