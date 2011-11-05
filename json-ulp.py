@@ -43,12 +43,21 @@ void print_real   (string a, real b)    { printf("%s:%g",esc(a),b); }"""
 
 def printfunc(name,members):
   """ Make a print_<type>() function """
-  print 'void print_%s(%s %s) { po("%s");' % (name,t(name),name,name)
-  comma = False
-  for member,val in members.items(): # Member fields of each type
-    if not comma: comma = True
+  fun = 'print_%s'%name   # print function name
+  typ = t(name)           # Eagle type being printed
+  A   = name+'i'          # name of the instance
+  print 'void %s(%s %s) {' % (fun, typ, A)
+  print '\tint a; po("%s");' % (name)
+  com = False           # Keeping track of commas
+  for mem,mtyp in members.items(): # Member fields of each type
+    if not com: com = True # Taking care of commas
     else: print 'cn();'
-    print '\tprint_%s("%s",%s.%s);'%(val,member,name,member),
+    if mtyp not in basic and mem != mtyp: # loop member
+      B = mem+'l'
+      print '\tpl(%s);a=0;%s.%s(%s)'%(mem,A,mem,B),
+      print '{if(a==0)a=1;else cn();%s("%s",%s);}'%(fun,member.upper())
+    else: # Normal data member
+      print '\tprint_%s("%s",%s.%s);'%(mtyp,mem,A,mem), # data member
   print 'on();}'
 
 if __name__ == "__main__":
