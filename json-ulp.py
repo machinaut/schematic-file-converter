@@ -3,6 +3,7 @@
 # http://github.com/ajray/schematic-file-converter
 # Alex Ray (2011) <ajray@ncsu.edu>
 # TODO handle loop members
+import copy
 from eaglet import eagle, types, basic
 def t(a): # Return the name of the type of 'a'
   if a in basic: return a
@@ -41,8 +42,7 @@ void print_string (string a, string b)  { printf("%s:%s",a,esc(b)); }
 void print_int    (string a, int b)     { printf("%s:%d",a,b); }
 void print_real   (string a, real b)    { printf("%s:%g",esc(a),b); }"""
 
-def printfunc(name,members):
-  """ Make a print_<type>() function """
+def printfunc(name,members): # Make a print_<type>() function
   fun = 'print_%s'%name   # print function name
   typ = t(name)           # Eagle type being printed
   A   = name+'i'          # name of the instance
@@ -54,13 +54,19 @@ def printfunc(name,members):
     else: print 'cn();'
     if mtyp not in basic and mem != mtyp: # loop member
       B = mem+'l'
-      print '\tpl(%s);a=0;%s.%s(%s)'%(mem,A,mem,B),
-      print '{if(a==0)a=1;else cn();%s("%s",%s);}'%(fun,member.upper())
+      print '\tpl(%s);a=0;%s.%s(%s){'%(mem,A,mem,B)
+      print '\t\tif(a==0)a=1;else cn();%s("%s",%s);}'%(fun,mem,B),
     else: # Normal data member
-      print '\tprint_%s("%s",%s.%s);'%(mtyp,mem,A,mem), # data member
+      print '\t%s("%s",%s.%s);'%(fun,mem,A,mem), # data member
   print 'on();}'
 
 if __name__ == "__main__":
   print header
   print misc
+  # print functions by dependencies
+  found = True
+  dependencies = {"string":"string","int":"int","real":"real"}
+  while found:
+    found = False
+
   for name,members in eagle.items(): printfunc(name,members)
