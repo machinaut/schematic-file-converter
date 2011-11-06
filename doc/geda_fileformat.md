@@ -215,6 +215,128 @@ Example:
 
 A line segment from (23000, 69000) to (28000, 69000) with color index 3, 40 mils thick, no cap, dotted line style, and with a spacing of 75 mils in between each dot.
 
+
+### picture ###
+
+Valid in: Schematic and Symbol files
+
+Format:<pre>type x1 y1 width height angle mirrored embedded
+filename
+[encoded picture data
+encoded picture end]
+</pre>
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>G</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>Lower left X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>Lower left Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of the picture</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>height</td>
+		<td>int/mils</td>
+		<td>Height of the picture</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>angle</td>
+		<td>int/degrees</td>
+		<td>Angle of the picture</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>mirrored</td>
+		<td>char</td>
+		<td>Mirrored or normal picture</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>embedded</td>
+		<td>char</td>
+		<td>Embedded or link to the picture file</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>filename</td>
+		<td>string</td>
+		<td>path and filename of a not embedded picture</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>encoded picture data</td>
+		<td>string</td>
+		<td>Serialized picture encoded using base64</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>encoded picture end</td>
+		<td>string</td>
+		<td>A line containing only a dot character</td>
+	</tr>
+	</tr>
+</table>
+
+ * This object is a picture object. The first line contains all the picture parameters, and the second line is the path and filename of the picture. The filename is not used if the picture is embedded.
+ * The angle of the picture can only take on one of the following values: 0, 90, 180, 270.
+ * The mirrored field is an enumerated type:
+  * NOT MIRRORED = 0
+  * MIRRORED = 1
+ * The embedded field is an enumerated type:
+  * NOT EMBEDDED = 0
+  * EMBEDDED = 1 (not yet supported)
+ * The encoded picture and encoded picture end fields are only in the file if the picture is embedded in the schematic:
+  * encoded picture data: This is a multiple line field. The picture is serialized and then encoded using base64. This way the encoded data uses only printable characters. This field is the result of these two operations.
+  * encoded picture end : A line containing only a single dot '.' character marks the end of the encoded picture data.
+
+Example:
+<code>
+G 16900 35800 1400 2175 0 0 0
+../bitmaps/logo.jpg
+</code>
+
+A picture object with the lower left corner at (16900, 35800). The width of the image is 1400 mils, and its height is 2175 mils. The picture rotation is 0 degrees and the picture is not mirrored, neither embedded.
+The picture path and filename is showed in the second line.
+
+Example:
+<code>
+G 16900 35800 1400 2175 0 0 1
+../bitmaps/logo.jpg
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+.
+</code>
+
+A picture object with the lower left corner at (16900, 35800). The width of the image is 1400 mils, and its height is 2175 mils.
+The picture rotation is 0 degrees, it is not mirrored, and it is embedded.
+The picture path and filename is showed in the second line. Since this is an embedded picture, the filename and path are not used.
+The encoded picture data is only an example (it is not real data). The last line containing a single dot '.' character marks the end of the encoded picture data. 
+
+
 <table>
 	<tr>
 		<th></th>
