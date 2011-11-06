@@ -30,6 +30,9 @@ class Pin:
     ret = dict({"pin_number":self.pin_number, "p1":self.p1, "p2":self.p2})
     return ret
 
+def newPin(pin_number, p1, p2, pin_label):
+  return Pin(pin_number, p1, p2, pin_label).json()
+
 
 class Point:
   def __init__(self, x, y):
