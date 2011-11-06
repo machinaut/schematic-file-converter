@@ -1,6 +1,6 @@
 import random
 
-class component:
+class Component:
   def __init__(self):
     self.library_id = ""
     self.name = ""
@@ -13,13 +13,12 @@ class component:
     self.symbols.get("symbols").append(symbol.get_dict())
 
 
-class symbol:
+class Symbol:
   def __init__(self):
     self.bodies = list()
   
-  def add_body(
 
-class pin:
+class Pin:
   def __init__(self, pin_number, p1, p2, pin_label):
     self.label = pin_label.get_dict()
     self.p1 = p1.get_xy_dict()
@@ -31,7 +30,7 @@ class pin:
     return ret
 
 
-class point:
+class Point:
   def __init__(self, x, y):
     self.point_id = str(random.getrandbits(128))
     self.x = x
@@ -62,12 +61,9 @@ class point:
 
 
 if __name__=='__main__':
-  #testfile = open('../A-way-to-connect-an-arduino-to-ethernet.upv', 'r')
-  #testjson = json.load(testfile)
-#  print testjson
   d = dict({"rotation": 0.0,  "value": "name",  "visible": "true", "x": 0, "y": 0})
-  p1 = point(0,0)
-  p2 = point(10,10)
-  p3 = point(6,6)
-  mypin = pin("2", p1, p2, p3)
+  p1 = Point(0,0)
+  p2 = Point(10,10)
+  p3 = Point(6,6)
+  mypin = Pin("2", p1, p2, p3)
   print mypin.get_dict()
