@@ -327,7 +327,7 @@ Example:
 G 16900 35800 1400 2175 0 0 1
 ../bitmaps/logo.jpg
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br>
 .
 </code>
 
@@ -336,6 +336,154 @@ The picture rotation is 0 degrees, it is not mirrored, and it is embedded.
 The picture path and filename is showed in the second line. Since this is an embedded picture, the filename and path are not used.
 The encoded picture data is only an example (it is not real data). The last line containing a single dot '.' character marks the end of the encoded picture data. 
 
+### box ###
+
+Valid in: Schematic and Symbol files
+Format: type x y width height color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>B</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>Lower left hand X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>Lower left hand Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of the box (x direction)</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>height</td>
+		<td>int/mils</td>
+		<td>Height of the box (y direction)</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of lines</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>capstyle</td>
+		<td>int/mils</td>
+		<td>Line cap style</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>dashstyle</td>
+		<td>int</td>
+		<td>Type of dash style</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>dashlength</td>
+		<td>int/mils</td>
+		<td>Length of dash</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>dashspace</td>
+		<td>int/mils</td>
+		<td>Space inbetween dashes</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>filltype</td>
+		<td>int</td>
+		<td>Type of fill</td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>fillwidth</td>
+		<td>int/mils</td>
+		<td>Width of the fill lines</td>
+	</tr>
+	<tr>
+		<td>13</td>
+		<td>angle1</td>
+		<td>int/degrees</td>
+		<td>First angle of fill</td>
+	</tr>
+	<tr>
+		<td>14</td>
+		<td>pitch1</td>
+		<td>int/mils</td>
+		<td>First pitch/spacing of fill</td>
+	</tr>
+	<tr>
+		<td>15</td>
+		<td>angle2</td>
+		<td>int/degrees</td>
+		<td>Second angle of fill</td>
+	</tr>
+	<tr>
+		<td>16</td>
+		<td>pitch2</td>
+		<td>int/mils</td>
+		<td>Second pitch/spacing of fill</td>
+	</tr>
+</table>
+
+ * The capstyle is an enumerated type:
+  * END NONE = 0
+  * END SQUARE = 1
+  * END ROUND = 2
+ * The dashstyle is an enumerated type:
+  * TYPE SOLID = 0
+  * TYPE DOTTED = 1
+  * TYPE DASHED = 2
+  * TYPE CENTER = 3
+  * TYPE PHANTOM = 4
+ * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
+ * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
+ * The filltype parameter is an enumerated type:
+  * FILLING HOLLOW = 0
+  * FILLING FILL = 1
+  * FILLING MESH = 2
+  * FILLING HATCH = 3
+  * FILLING VOID = 4 unused
+ * If the filltype is 0 (FILLING HOLLOW), then all the fill parameters should take on a value of -1.
+ * The fill type FILLING FILL is a solid color fill.
+ * The two pairs of pitch and spacing control the fill or hatch if the fill type is FILLING MESH.
+ * Only the first pair of pitch and spacing are used if the fill type is FILLING HATCH.
+
+Example:
+<code>
+	B 33000 67300 2000 2000 3 60 0 2 75 50 0 -1 -1 -1 -1 -1
+</code>
+
+A box with the lower left hand corner at (33000, 67300) and a width and
+height of (2000, 2000), color index 3, line width of 60 mils, no cap,
+dashed line type, dash length of 75 mils, dash spacing of 50 mils, no
+fill, rest parameters unset. 
 
 <table>
 	<tr>
@@ -343,6 +491,18 @@ The encoded picture data is only an example (it is not real data). The last line
 		<th></th>
 		<th></th>
 		<th></th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
 	</tr>
 	<tr>
 		<td></td>
