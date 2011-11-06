@@ -1513,8 +1513,8 @@ C 18600 21500 1 0 0 EMBEDDD555-1.sym
 ...
 ]
 </pre>
-In the example above, 555-1.sym is the component. The EMBEDDED tag and
+In the example above, **555-1.sym** is the component. The EMBEDDED tag and
 the [ ] are the distinguishing characteristics of embedded components.
-componentname.sym must exist in one of the specified component-libraries
+**componentname.sym** must exist in one of the specified component-libraries
 if you want to unembed the component.
 
