@@ -10,13 +10,28 @@ class component:
     self.symbols = dict({"symbols":list()})
   def add_attribute(self, attribute):
     self.attributes.get("attributes").append(attribute)
-  def add_symbol(self, symbol)
+  def add_symbol(self, symbol):
     self.symbols.get("symbols").append(symbol.get_dict())
-    
+
 class symbol:
-  def __init__(self, :
+  def __init__(self):
     self.bodies = dict({"bodies":list()})
-    self.
+class body:
+  def __init__(self):
+    self.pins = dict({"attributes":list()})
+    self.shapes = dict({"attributes":list()})
+
+
+class pin:
+  def __init__(self, pin_number, p1, p2, pin_label):
+    self.label = pin_label.get_dict()
+    self.p1 = p1.get_xy_dict()
+    self.p2 = p2.get_xy_dict()
+    self.pin_number = pin_number
+
+  def get_dict(self):
+    ret = dict({"pin_number":self.pin_number, "p1":self.p1, "p2":self.p2})
+    return ret
 class componentInstance:
   def __init__(self, instance_id, library_id):
     self.instance_id = instance_id
@@ -30,48 +45,37 @@ class point:
     self.point_id = str(random.getrandbits(128))
     self.x = x
     self.y = y
-    self.annotations = dict({"annotations":list()})
-    self.attributes = dict({"attributes":dict()})
-    self.connected_points = dict({"connected points":list()})
-    self.connected_components = dict({"connected components":list()})
-  def get_point_id(self)
+    self.annotations = list()
+    self.attributes = dict()
+    self.connected_points = list()
+    self.connected_components = list()
+  
+  def get_point_id(self):
     return self.point_id
   
-  def add_connected_point(self, connected_point)
-    self.connected_points.get("connected points").append(connected_point.get_point_id())
+  def add_connected_point(self, connected_point):
+    self.connected_points.append(connected_point.get_point_id())
   
   def add_attribute(self, attribute):
-    self.attributes.get("attributes").append(attribute)
+    self.attributes.append(attribute)
 
   def add_annotation(self, annotation):
-    self.annotations.get("annotations").append(annotation)
+    self.annotations.append(annotation)
 
-class net:
-  def __init__(self, net_id):
-    self.net_id = net_id
-    self.point_list = list()
-    self.annotations = dict({"annotations":list()})
-    self.attributes = dict({"attributes":dict()})
-    self.points = dict({"points":list()})
-   
-  def add_attribute(self, attribute):
-    self.attributes.get("attributes").append(attribute)
+  def get_dict(self):
+    ret = dict({"x":self.x, "y":self.y, "annotations":self.annotations, "attributes":self.attributes, "connected points":self.connected_points, "connected components":self.connected_components})
+    return ret
 
-  def add_annotation(self, annotation):
-    self.annotations.get("annotations").append(annotation)
-
-  def add_point(self, point):
-    self.points.get("points").append(point.get_dict())
+  def get_xy_dict(self):
+    return dict({"x":self.x, "y":self.y})
 
 if __name__=='__main__':
-  test = net(12345)
-  print test.annotations.get("annotations")
-  testfile = open('../A-way-to-connect-an-arduino-to-ethernet.upv', 'r')
-  testjson = json.load(testfile)
+  #testfile = open('../A-way-to-connect-an-arduino-to-ethernet.upv', 'r')
+  #testjson = json.load(testfile)
 #  print testjson
   d = dict({"rotation": 0.0,  "value": "name",  "visible": "true", "x": 0, "y": 0})
-  test.add_annotation(d)
-  print test.annotations.get("annotations")
   p1 = point(0,0)
   p2 = point(10,10)
-  p1.add_connected_point
+  p3 = point(6,6)
+  mypin = pin(2, p1, p2, p3)
+  print mypin.get_dict()
