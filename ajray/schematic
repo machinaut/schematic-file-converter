@@ -1,0 +1,33 @@
+Object hierarchy of a Schematic: 
+SCHEMATIC
+  GRID
+  LAYER
+  LIBRARY
+  ATTRIBUTE
+  VARIANTDEF
+  PART
+    ATTRIBUTE
+    VARIANT
+  SHEET
+    CIRCLE
+    RECTANGLE
+    FRAME
+    DIMENSION
+    TEXT
+    WIRE
+    POLYGON
+      WIRE
+    INSTANCE
+      ATTRIBUTE
+    BUS
+      SEGMENT
+        LABEL
+          TEXT
+          WIRE
+        WIRE
+    NET
+      SEGMENT
+        JUNCTION
+        PINREF
+        TEXT
+        WIRE

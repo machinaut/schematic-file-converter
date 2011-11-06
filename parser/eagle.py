@@ -9,7 +9,7 @@ from xml.etree.ElementTree import ElementTree
 
 
 class Eagle:
-""" The Eagle Format Parser """
+    """ The Eagle Format Parser """
 
     def __init__(self):
         pass
@@ -18,8 +18,8 @@ class Eagle:
     def parse(self, filename):
         """ Parse an Eagle file into a design """
         design = design()
-		#import an xmltree from the file provided
+        #import an xmltree from the file provided
        	xmltree = ElementTree(file=filename)
-		xmlroot = xmltree.getroot()
+        xmlroot = xmltree.getroot()
 		
-        return design
+        return xmltree
