@@ -35,3 +35,27 @@ X axis increases going to the right. Y axis increase going up. Coordinate system
 
 Symbols end in .sym. The only symbol filename convention that is used in gEDA/gaf is that if there are multiple instances of a symbol with the same name (like a 7400), then a -1, -2, -3, … -N suffix is added to the end of the filename. Example: 7400-1.sym, 7400-2.sym, 7400-3.sym…
 Schematics end in .sch. There used to be a schematic filename convention (adding a -1 .. -N to the end of the basename), but this convention is now obsolete. Schematic filenames can be anything that makes sense to the creator.
+
+## Object types ##
+
+A schematic/symbol file for gEDA/gaf consists of:
+
+ * A version (v) as the first item in the file. This is required.
+ * Any number of objects and the correct data. Objects are specified by an “object type”
+ * Most objects are a single line, however text objects are two lines long.
+ * No blank lines at the end of the file (these are ignored by the tools)
+ * For all enumerated types in the gEDA/gaf file formats, the field takes on the numeric value.
+
+The “object type” id is a single letter and this id must start in the
+first column. The object type id is case sensitive. The schematic and
+symbol files share the same file layout. A symbol is nothing more than
+a collection of primitive objects (lines, boxes, circles, arcs, text,
+and pins). A schematic is a collection of symbols (components), nets,
+and buses.
+The following sections describe the specifics of each recognized object
+type. Each section has the name of the object, which file type (sch/sym)
+the object can appear in, the format of the data, a description of each
+individual field, details and caveats of the fields, and finally an
+example with description.
+For information on the color index (which is used in practically all
+objects), see the Color section.
