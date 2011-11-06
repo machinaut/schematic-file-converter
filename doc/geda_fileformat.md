@@ -1562,3 +1562,34 @@ a subset of that in the W3C SVG standard..
 		<td>Close the current subpath by drawing a straight line from the current point to current subpath's initial point.</td>
 	</tr>
 </table>
+
+As example, lets draw the outline of an AND gate. The path data is: 
+<pre>
+M 100,100 L 500,100 C 700,100 800,275 800,400
+C 800,525 700,700 500,700 L 100,700 z
+</pre>
+
+And a complete schematic:
+
+<pre>
+v 20080706 1
+H 3 0 0 0 -1 -1 0 2 20 100 -1 -1 6
+M 100,100
+L 500,100
+C 700,100 800,275 800,400
+C 800,525 700,700 500,700
+L 100,700
+z
+</pre>
+The resulting path (with control points drawn on to illustrate their positions) is shown here:
+
+As example, lets draw the outline of an AND gate. The path data is: 
+TODO: image
+
+## Document Revision History
+November 30th, 2002	Created fleformats.tex from fleformats.html.
+December 1st, 2002	Continued work on this document.
+October 4th, 2003	Added new file format version flag info.
+October 19th, 2003	Added num lines text field.
+November 2nd, 2008	Added path object, bumping file format version to 2
+May 26th, 2011	Added a column for the position of parameters in the tables
