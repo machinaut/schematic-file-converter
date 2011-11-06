@@ -937,6 +937,73 @@ N 12700 29400 32900 29400 4
 </pre>
 A net segment from (12700, 29400) to (32900, 29400) with color index 4.
 
+### bus ###
+
+Valid in: Schematic files ONLY
+
+Format: <pre>type x1 y1 x2 y2 color ripperdir</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>U</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x1</td>
+		<td>int/mils</td>
+		<td>First X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y1</td>
+		<td>int/mils</td>
+		<td>First Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>x2</td>
+		<td>int/mils</td>
+		<td>Second X coordinate</td>
+	</tr>		
+	<tr>
+		<td>4</td>
+		<td>y2</td>
+		<td>int/mils</td>
+		<td>Second Y coordinate</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>ripperdir</td>
+		<td>int</td>
+		<td>Direction of bus rippers</td>
+	</tr
+
+ * The ripperdir field for an brand new bus is 0.
+ * The ripperdir field takes on a value of 1 or -1 when a net is connected to the bus for the first time. This value indicates the direction of the ripper symbol. The ripper direction is set to the same value for the entire life of the bus object.
+ * Buses can only appear in schematic files.
+ * You cannot have a zero length bus (the tools will throw them away).
+
+Example: <pre>U 27300 37400 27300 35300 3 0</pre>
+
+A bus segment from (27300, 37400) to (27300, 35300) with color index 3
+and no nets have been connected to this bus segment.
+
+
 <table>
 	<tr>
 		<th></th>
