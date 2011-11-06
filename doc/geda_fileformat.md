@@ -59,3 +59,73 @@ individual field, details and caveats of the fields, and finally an
 example with description.
 For information on the color index (which is used in practically all
 objects), see the Color section.
+
+### version ###
+
+Valid in: Schematic and Symbol files
+
+**type version fileformat_version**
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>v</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>version</td>
+		<td>int</td>
+		<td>version of gEDA/gaf that wrote this file</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>fileformat_version</td>
+		<td>int</td>
+		<td>gEDA/gaf file format version number</td>
+	</tr>
+</table>
+
+ * The type is a lower case “v” (as in Victor).
+ * This object must be in every file used or created by the gEDA/gaf tools.
+ * The format of the first version field is YYYYMMDD.
+ * The version number is not an arbitrary timestamp. Do not make up a version number and expect the tools to behave properly.
+ * The “version of gEDA/gaf that wrote this file” was used in all versions of gEDA/gaf up to 20030921 as the file formats version. This field should no longer be used to determine the file format. It is used for information purposes only now.
+ * Starting at and after gEDA/gaf version 20031004, the fileformat version field is used to determine the file format version. All file format code should key off of this field.
+ * fileformat version increases when the file format changes.
+ * The starting point for fileformat version was 1. The current fileformat is 2.
+ * fileformat version is just an integer with no minor number.
+ * Development versions include: 19990601, 19990610, 19990705, 19990829, 19990919, 19991011, 20000220, 20000704, 20001006, 20001217, 20010304, 20010708, 20010722, 20020209, 20020414, 20020527, 20020825, 20021103, 20030223, 20030525, 20030901, 20040111, 20040710, 20041228, 20050313, 20050820, 20060123, 20060824, 20060906, 20061020, 20070216, 20070705, 20070708, 20070818, 20071229, 20080110, 20080127, 20080706, 20081220, 20081221, 20090328, 20090829, 20090830, 20110116, 20110619
+ * Stable versions include: 20070526, 20070626, 20070902, 20071231, 20080127, 20080929, 20081220, 20081231, 20091004, 20100214, 20110115
+ * CVS or test versions (should not be used): 20030921, 20031004, 20031019, 20031231, 20050814
+ * Keep in mind that each of the above listed versions might have had file format variations. This document only covers the last version's file format.
+
+Example:
+<code>
+	v 20040111 1
+</code>
+
+
+
+
+<table>
+	<tr>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
