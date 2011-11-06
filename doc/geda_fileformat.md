@@ -3,6 +3,7 @@
 by: Ales V. Hvezda, ahvezda@geda.seul.org
 This document is released under [GFDL](http://www.gnu.org/copyleft/fdl.html)
 December 31st, 2003
+slight changes for readability by tpltnt, November 2011
 
 ## Overview ##
 
@@ -63,8 +64,7 @@ objects), see the Color section.
 ### version ###
 
 Valid in: Schematic and Symbol files
-
-**type version fileformat_version**
+Format: type version fileformat_version
 
 <table>
 	<tr>
@@ -112,6 +112,104 @@ Example:
 	v 20040111 1
 </code>
 
+### line ###
+
+Valid in: Schematic and Symbol files
+Format: type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspace
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>L</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x1</td>
+		<td>int/mils</td>
+		<td>First X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y1</td>
+		<td>int/mils</td>
+		<td>First Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>x2</td>
+		<td>int/mils</td>
+		<td>Second X coordinate</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>y2</td>
+		<td>int/mils</td>
+		<td>Second Y coordinate</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of line</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>capstyle</td>
+		<td>int</td>
+		<td>Line cap style</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>dashstyle</td>
+		<td>int</td>
+		<td>Type of dash style</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>dashlength</td>
+		<td>int/mils</td>
+		<td>Length of dash</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>dashspace</td>
+		<td>int/mils</td>
+		<td>Space inbetween dashes</td>
+	</tr>
+</table>
+
+ * The capstyle is an enumerated type:
+  * END NONE = 0
+  * END SQUARE = 1
+  * END ROUND = 2
+ * The dashstyle is an enumerated type:
+  * TYPE SOLID = 0
+  * TYPE DOTTED = 1
+  * TYPE DASHED = 2
+  * TYPE CENTER = 3
+  * TYPE PHANTOM = 4
+ * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
+ * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
+
+Example:
+<code>
+	L 23000 69000 28000 69000 3 40 0 1 -1 75
+<code>
+A line segment from (23000, 69000) to (28000, 69000) with color index 3, 40 mils thick, no cap, dotted line style, and with a spacing of 75 mils in between each dot.
 
 
 
