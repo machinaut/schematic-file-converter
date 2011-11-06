@@ -2,14 +2,22 @@ Object hierarchy of a Schematic:
 DRAWING
    GRID
    LAYERS
+     LAYER
    SETTINGS
+     SETTING
    SCHEMATIC
       LIBRARIES
+        LIBRARY
       ATTRIBUTES
+        ATTRIBUTE
       VARIANTDEFS
+        VARIANTDEFS
       CLASSES
+        CLASS
       PARTS
+        PART
       SHEETS
+        SHEET
 
 
 
