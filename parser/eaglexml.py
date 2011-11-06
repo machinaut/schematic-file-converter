@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 #
 # Basic Strategy
-# 0) ...
+# 1) Write Parser
+# 2) Create Design
+# 3) ...
+# 4) Profit!
 
 from core.design import Design
 from xml.etree.ElementTree import ElementTree
@@ -15,6 +18,8 @@ class EagleXML:
 
 
     def parse(self, filename):
+		design = design()
+
         """ Parse an Eagle XML file into a design """
         #import an xmltree from the file provided
        	xmltree = ElementTree(file=filename)
