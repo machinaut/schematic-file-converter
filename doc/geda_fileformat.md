@@ -1305,29 +1305,51 @@ points (501,200), (455,295), (435,265), closing back to its origin. It
 has color index 3, is 10 mils thick, no cap, solid style. There are 5
 lines of path data.
 
+### font ###
+
+Valid in: Special font files ONLY
+
+Format: <pre>type character width flag</pre>
+
 <table>
 	<tr>
-		<th></th>
-		<th></th>
-		<th></th>
-		<th></th>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>F</td>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>1</td>
+		<td>character</td>
+		<td>char</td>
+		<td>The character being defined</td>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>2</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of the character (mils)</td>
 	</tr>
-</table>
+	<tr>
+		<td>3</td>
+		<td>flag</td>
+		<td>int</td>
+		<td>Special space flag</td>
+	</tr>
+</table>			
+
+ * This is a special tag and should ONLY show up in font definition files.
+ * If the font character being defined is the space character (32) then flag should be 1, otherwise 0.
+
+Example:
+<pre>
+F 11 1
+</pre>
+
+The above font definition is for the space character.
