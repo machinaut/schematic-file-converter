@@ -1,5 +1,0 @@
-File converter between multiple electrical circuit schematic file formats
-Alex Ray (ajray@ncsu.edu), for Upverter (upverter.com)
-
-The command to generate:
-     ./converter.py -i test.sch -f kicad -t json -o test.json
