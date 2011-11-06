@@ -1,26 +1,23 @@
-import json
 import random
-
 
 class component:
   def __init__(self):
     self.library_id = ""
     self.name = ""
-    self.attributes = dict({"attributes":dict()})
-    self.symbols = dict({"symbols":list()})
-  def add_attribute(self, attribute):
-    self.attributes.get("attributes").append(attribute)
+    self.attributes = dict()
+    self.symbols = list()
+  def add_attribute(self, key, value):
+    self.attributes[key] = value
+
   def add_symbol(self, symbol):
     self.symbols.get("symbols").append(symbol.get_dict())
 
+
 class symbol:
   def __init__(self):
-    self.bodies = dict({"bodies":list()})
-class body:
-  def __init__(self):
-    self.pins = dict({"attributes":list()})
-    self.shapes = dict({"attributes":list()})
-
+    self.bodies = list()
+  
+  def add_body(
 
 class pin:
   def __init__(self, pin_number, p1, p2, pin_label):
@@ -32,13 +29,7 @@ class pin:
   def get_dict(self):
     ret = dict({"pin_number":self.pin_number, "p1":self.p1, "p2":self.p2})
     return ret
-class componentInstance:
-  def __init__(self, instance_id, library_id):
-    self.instance_id = instance_id
-    self.library_id = library_id
-    self.symbol_index = list()
-  def get_instance_id(self):
-    return self.instance_id
+
 
 class point:
   def __init__(self, x, y):
@@ -69,6 +60,7 @@ class point:
   def get_xy_dict(self):
     return dict({"x":self.x, "y":self.y})
 
+
 if __name__=='__main__':
   #testfile = open('../A-way-to-connect-an-arduino-to-ethernet.upv', 'r')
   #testjson = json.load(testfile)
@@ -77,5 +69,5 @@ if __name__=='__main__':
   p1 = point(0,0)
   p2 = point(10,10)
   p3 = point(6,6)
-  mypin = pin(2, p1, p2, p3)
+  mypin = pin("2", p1, p2, p3)
   print mypin.get_dict()
