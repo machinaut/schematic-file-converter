@@ -1151,6 +1151,159 @@ Example:
 A component who's origin is at (18600,19900), is selectable, not rotated,
 not mirrored, and the basename of the component is 7400-1.sym.
 
+### path ###
+
+Valid in: Schematic and Symbol files
+
+Valid since: Fileformat version 2 (release 1.5.1)
+
+Format: <pre>type color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2 numlines
+path data line 1
+path data line 2
+path data line 3
+…
+path data line N
+</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>H</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of line</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>capstyle</td>
+		<td>int</td>
+		<td>Line cap style</td>
+	</tr>	
+	<tr>
+		<td>4</td>
+		<td>dashstyle</td>
+		<td>int</td>
+		<td>Type of dash style</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>dashlength</td>
+		<td>int/mils</td>
+		<td>Length of dash</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>dashspace</td>
+		<td>int/mils</td>
+		<td>Space inbetween dashes</td>
+	</tr>	
+	<tr>
+		<td>7</td>
+		<td>filltype</td>
+		<td>int</td>
+		<td>Type of fill</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>fillwidth</td>
+		<td>int/mils</td>
+		<td>Width of the fill lines</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>angle1</td>
+		<td>int/degrees</td>
+		<td>First angle of fill</td>
+	</tr>		
+	<tr>
+		<td>10</td>
+		<td>pitch1</td>
+		<td>int/mils</td>
+		<td>First pitch/spacing of fill</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>angle2</td>
+		<td>int/degrees</td>
+		<td>Second angle of fill</td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>pitch2</td>
+		<td>int/mils</td>
+		<td>Second pitch/spacing of fill</td>
+	</tr>
+	<tr>
+		<td>13</td>
+		<td>num_lines</td>
+		<td>int</td>
+		<td>Number of lines of path data (1 based)</td>
+	</tr>
+	<tr>
+		<td>14</td>
+		<td>path data line 1 … N</td>
+		<td>path data</td>
+		<td>The path data, on separate lines</td>
+	</tr>		
+</table>
+
+ * The capstyle is an enumerated type:
+  * END NONE = 0
+  * END SQUARE = 1
+  * END ROUND = 2
+ * The dashstyle is an enumerated type:
+  * TYPE SOLID = 0
+  * TYPE DOTTED = 1
+  * TYPE DASHED = 2
+  * TYPE CENTER = 3
+  * TYPE PHANTOM = 4
+ * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
+ * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
+ * The filltype parameter is an enumerated type:
+  * FILLING HOLLOW = 0
+  * FILLING FILL = 1
+  * FILLING MESH = 2
+  * FILLING HATCH = 3
+  * FILLING VOID = 4 unused
+ * If the filltype is 0 (FILLING HOLLOW), then all the fill parameters should take on a value of -1.
+ * The fill type FILLING FILL is a solid color fill.
+ * The two pairs of pitch and spacing control the fill or hatch if the fill type is FILLING MESH.
+ * Only the first pair of pitch and spacing are used if the fill type is FILLING HATCH.
+ * The format of path data is deliberately similar to that of paths in the W3C SVG standard.
+ * The subset of the SVG path syntax emitted by gEDA is documented below in section Path Data.
+ * As an implementation detail; libgeda takes code from librsvg, an SVG parsing library. As a result, the majority of SVG path syntax is read correctly, however this is always normalised to absolute move, line, Bézier curve and close-path commands internally (and is saved as such).
+ * Coordinates along the path are specified in the standard gschem coordinate space.
+
+Example:
+<pre>
+H 3 10 0 0 -1 -1 0 -1 -1 -1 -1 -1 5
+M 410,240
+L 501,200
+L 455,295
+L 435,265
+z
+</pre>
+A path starting at (410,240) with lines drawn from there, and joining
+points (501,200), (455,295), (435,265), closing back to its origin. It
+has color index 3, is 10 mils thick, no cap, solid style. There are 5
+lines of path data.
 
 <table>
 	<tr>
