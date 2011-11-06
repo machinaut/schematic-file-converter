@@ -18,5 +18,5 @@ class Eagle:
         """ Parse an Eagle file into a design """
         design = design()
 		#import an xmltree from the file provided
-       	xmltree = xml.etree.ElementTree.ElementTree(file=filename)
+       	xmltree = ElementTree(file=filename)
         return design
