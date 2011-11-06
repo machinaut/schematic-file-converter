@@ -4,6 +4,7 @@
 # 0) ...
 
 from core.design import Design
+from xml.etree.ElementTree import ElementTree
 
 
 class Eagle:
@@ -16,7 +17,6 @@ class Eagle:
     def parse(self, filename):
         """ Parse an Eagle file into a design """
         design = design()
-        f = open(filename, "w")
-        #TODO: Read!
-        f.close()
+		#import an xmltree from the file provided
+       	xmltree = xml.etree.ElementTree.ElementTree(file=filename)
         return design
