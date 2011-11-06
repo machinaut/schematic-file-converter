@@ -206,8 +206,7 @@ Format: <pre>type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspac
  * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
  * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
 
-Example:
-<pre>L 23000 69000 28000 69000 3 40 0 1 -1 75<pre>
+Example: <pre>L 23000 69000 28000 69000 3 40 0 1 -1 75</pre>
 
 A line segment from (23000, 69000) to (28000, 69000) with color index 3, 40 mils thick, no cap, dotted line style, and with a spacing of 75 mils in between each dot.
 
@@ -312,7 +311,7 @@ encoded picture end]
 
 Example:
 <pre>
-G 16900 35800 1400 2175 0 0 0<br>
+G 16900 35800 1400 2175 0 0 0
 ../bitmaps/logo.jpg
 </pre>
 
@@ -321,10 +320,10 @@ The picture path and filename is showed in the second line.
 
 Example:
 <pre>
-G 16900 35800 1400 2175 0 0 1<br>
-../bitmaps/logo.jpg<br>
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br>
+G 16900 35800 1400 2175 0 0 1
+../bitmaps/logo.jpg
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 .
 </pre>
 
