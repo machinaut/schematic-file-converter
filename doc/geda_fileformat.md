@@ -3,6 +3,7 @@
 by: Ales V. Hvezda, ahvezda@geda.seul.org
 This document is released under [GFDL](http://www.gnu.org/copyleft/fdl.html)
 December 31st, 2003
+
 slight changes for readability by tpltnt, November 2011
 
 ## Overview ##
@@ -64,6 +65,7 @@ objects), see the Color section.
 ### version ###
 
 Valid in: Schematic and Symbol files
+
 Format: type version fileformat_version
 
 <table>
@@ -115,6 +117,7 @@ Example:
 ### line ###
 
 Valid in: Schematic and Symbol files
+
 Format: type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspace
 
 <table>
@@ -209,9 +212,8 @@ Example:
 <code>
 	L 23000 69000 28000 69000 3 40 0 1 -1 75
 <code>
+
 A line segment from (23000, 69000) to (28000, 69000) with color index 3, 40 mils thick, no cap, dotted line style, and with a spacing of 75 mils in between each dot.
-
-
 
 <table>
 	<tr>
