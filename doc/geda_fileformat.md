@@ -1468,3 +1468,30 @@ The actual color associated with the color index is defined on a per
 tool bases. Objects are typically assigned their corresponding color
 index, but it is permissible (sometimes) to assign other color index
 values to different object types. 
+
+## Attributes ###
+
+Attributes are enclosed in braces {} and can only be text. Attributes
+are text items which take on the form name=value. If it doesn't have
+name=value, it's not an attribute. Attributes are attached to the
+previous object. Here's an example:
+<pre>
+P 988 500 1300 500 1
+{
+T 1000 570 5 8 1 1 0
+pinseq=3
+T 1000 550 5 8 1 1 0
+pinnumber=3
+}
+</pre>
+The object is a pin which has an attribute pinnumber=3 and pinseq=3
+(name=value). You can have multiple text objects (both the T … and text
+string are required) in between the braces {}. As of 20021103, you can
+only attached text items as attributes. Attaching other object types as
+attributes is unsupported.
+You can also have “toplevel” attributes. These attributes are not
+attached to any object, but instead are just text objects that take on
+the form name=value.
+These attributes are useful when you need to convey some info about a
+schematic page or symbol and need the netlister to have access to this
+info.
