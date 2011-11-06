@@ -877,6 +877,65 @@ points in size, visible, only the value of the attribute is visible,
 text origin at upper right, the text is rotated by 90 degree, the
 string: “R/W” has an overbar over the “W”.
 
+### net ###
+
+Valid in: Schematic files ONLY
+
+Format: <pre>type x1 y1 x2 y2 color</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>N</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x1</td>
+		<td>int/mils</td>
+		<td>First X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y1</td>
+		<td>int/mils</td>
+		<td>First Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>x2</td>
+		<td>int/mils</td>
+		<td>Second X coordinate</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>y2</td>
+		<td>int/mils</td>
+		<td>Second Y coordinate</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+
+ * Nets can only appear in schematic files.
+ * You cannot have a zero length net (the tools will throw them away).
+
+Example:
+<pre>
+N 12700 29400 32900 29400 4
+</pre>
+A net segment from (12700, 29400) to (32900, 29400) with color index 4.
+
 <table>
 	<tr>
 		<th></th>
