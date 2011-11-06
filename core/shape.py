@@ -109,7 +109,15 @@ class Label(Shape):
 		self.x = x
 		self.y = y
 		self.text = text
-		self.align = align
+		if(align in ["left","Left"])
+			self.align = "left"
+		elif(align in ["right","Right"])
+			self.align = "right"
+		elif(align in ["center", "Center", "centered","Centered","middle"])
+			self.align = "center"
+		else
+			raise ValueError("Label requires the align to be either \"left\","+
+					" \"right\", or \"center\" ")
 		self.rotation = rotation
 	def json(self):
 		""" return a dict for json outputting """
