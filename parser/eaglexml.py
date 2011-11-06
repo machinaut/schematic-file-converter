@@ -38,19 +38,22 @@ class EagleXML:
           for schematic in drawing.findall('schematic'):
             for libraries in schematic.findall('libraries'):
               for library in libraries.findall('library'):
-                pass # this iterates over ALL the libraries
+                #pass # this iterates over ALL the libraries
+				print list(library), library.attrib
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
                 pass # this iterates over ALL the attributes
+				#print list(attribute), attribute.attrib
             for variantdefs in schematic.findall('variantdefs'):
               for variantdef in variantdefs.findall('variantdef'):
                 pass # this iterates over ALL the variantdefs
             for parts in schematic.findall('parts'):
               for part in parts.findall('part'):
                 pass # this iterates over ALL the parts
+				#print list(part) , part.attrib
             for sheets in schematic.findall('sheets'):
               for sheet in sheets.findall('sheet'):
-                print list(sheet)
+                #print list(sheet)
                 for plain in sheet.findall('plain'):
                   for text in plain.findall('text'):
                     pass
@@ -67,7 +70,7 @@ class EagleXML:
                       for junction in segment.findall('junction'):
                         pass
                       for pinref in segment.findall('pinref'):
-                        print list(pinref), pinref.attrib
+                        #print list(pinref), pinref.attrib
                         pass
 
         return circuit
