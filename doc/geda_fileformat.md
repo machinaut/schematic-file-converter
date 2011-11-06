@@ -1582,8 +1582,6 @@ L 100,700
 z
 </pre>
 The resulting path (with control points drawn on to illustrate their positions) is shown here:
-
-As example, lets draw the outline of an AND gate. The path data is: 
 TODO: image
 
 ## Document Revision History
