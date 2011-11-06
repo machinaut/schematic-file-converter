@@ -1080,6 +1080,78 @@ Example: <pre>P 0 200 200 200 1 0 0</pre>
 A pin from (0, 200) to (200, 200) with color index 1, a regular pin, and
 the first point being the active connection end.
 
+### component ###
+
+Valid in: Schematic files ONLY
+
+Format: <pre>type x y selectable angle mirror basename</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>C</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>Origin X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>Origin Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>selectable</td>
+		<td>int</td>
+		<td>Selectable flag</td>
+	</tr>	
+	<tr>
+		<td>4</td>
+		<td>angle</td>
+		<td>int/degrees</td>
+		<td>Angle of the component</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>mirror</td>
+		<td>int</td>
+		<td>Mirror around Y axis</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>basename</td>
+		<td>string</td>
+		<td>The filename of the component</td>
+	</tr>
+</table>
+
+The selectable field is either 1 for selectable or 0 if not selectable.
+
+ * The angle field can only take on the following values: 0, 90, 180, 270.
+ * The angle field can only be positive.
+ * The mirror flag is 0 if the component is not mirrored (around the Y axis).
+ * The mirror flag is 1 if the component is mirrored (around the Y axis).
+ * The just basename is the filename of the component. This filename is not the full path.
+
+Example:
+<pre>C 18600 19900 1 0 0 7400-1.sym</pre>
+
+A component who's origin is at (18600,19900), is selectable, not rotated,
+not mirrored, and the basename of the component is 7400-1.sym.
+
+
 <table>
 	<tr>
 		<th></th>
