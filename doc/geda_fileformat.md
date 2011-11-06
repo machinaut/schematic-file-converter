@@ -619,7 +619,7 @@ type, dash length of 75 mils, dash spacing of 50 mils, mesh fill, 10
 mils thick mesh lines, first mesh line: 20 degrees, with a spacing of
 30 mils, second mesh line: 90 degrees, with a spacing of 50 mils.
 
-### arc
+### arc ###
 
 Valid in: Schematic and Symbol files
 
@@ -727,6 +727,155 @@ An arc with the center at (30600, 75000) and a radius of 2000 mils, a
 starting angle of 0, sweeping 45 degrees, color index 3, line width of
 0 mils (smallest size), no cap, center line type, dash length of 75
 mils, dash spacing of 50 mils.
+
+### text and attributes ###
+
+Depending on context, text objects can play different roles. Outside any
+environment, they represent informative lines of text. When enclosed by
+curly braces, they are interpreted as attributes. See the attributes
+section.
+
+Valid in: Schematic and Symbol files
+
+Format: <pre>type x y color size visibility show_name_value angle alignment num_lines
+string line 1
+string line 2
+string line 3
+…
+string line N
+</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>T</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>First X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>First Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>	
+	<tr>
+		<td>4</td>
+		<td>size</td>
+		<td>int/points</td>
+		<td>Size of text</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>visibility</td>
+		<td>int</td>
+		<td>Visibility of text</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>show_name_value</td>
+		<td>int</td>
+		<td>Attribute visibility control</td>
+	</tr>	
+	<tr>
+		<td>7</td>
+		<td>angle</td>
+		<td>int/degrees</td>
+		<td>Angle of the text</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>alignment</td>
+		<td>int</td>
+		<td>Alignment/origin of the text</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>num_lines</td>
+		<td>int</td>
+		<td>Number of lines of text (1 based)</td>
+	</tr>		
+	<tr>
+		<td>10</td>
+		<td>string line 1 … N</td>
+		<td>string</td>
+		<td>The text strings, on a separate line</td>
+	</tr>
+</table>
+
+ * This object is a multi line object. The first line contains all the text parameters and the subsequent lines are the text strings.
+ * There must be exactly num lines of text following the T … string.
+ * The maximum length of any single text string is 1024, however there is no limit to the number of text string lines.
+ * The minimum size is 2 points (1/72 of an inch).
+ * There is no maximum size.
+ * The coordinate pair is the origin of the text item.
+ * The visibility field is an enumerated type:
+  * INVISIBLE = 0
+  * VISIBLE = 1
+ * The show_name_value is an enumerated type:
+  * SHOW NAME VALUE = 0 (show both name and value of an attribute)
+  * SHOW VALUE = 1 (show only the value of an attribute)
+  * SHOW NAME = 2 (show only the name of an attribute)
+ * The show_name_value field is only valid if the string is an attribute (string has to be in the form: name=value to be considered an attribute).
+ * The angle of the text can only take on one of the following values: 0, 90, 180, 270. A value of 270 will always generate upright text.
+ * The alignment/origin field controls the relative location of the origin.
+ * The alignment field can take a value from 0 to 8.
+ * The following diagram shows what the values for the alignment field mean:
+  * TODO: fileformat_textgraphic.jpg
+ * The num_lines field always starts at 1.
+ * The num_lines field was added starting with file format version 1. Past versions (0 or earlier) only supported single line text objects.
+ * The text strings of the string line(s) can have overbars if the text is embedded in two overbar markers “\_”. A single backslash needs to be written as “\\”.
+
+Example 1:
+<pre>
+T 16900 35800 3 10 1 0 0 0 1
+Text string!
+</pre>
+
+A text object with the origin at (16900, 35800), color index 3, 10
+points in size, visible, attribute flags not valid (not an attribute),
+origin at lower left, not rotated, string: Text string!
+
+Example 2:
+<pre>
+T 16900 35800 3 10 1 0 0 0 5
+Text string line 1
+Text string line 2
+Text string line 3
+Text string line 4
+Text string line 5
+</pre>
+
+This is a similar text object as the above example, however here there
+are five lines of text.
+
+Example 3:
+<pre>
+T 10000 20000 3 10 1 1 8 90 1
+pinlabel=R/\_W\_
+</pre>
+
+A text object with the origin at (10000, 20000), color index 3, 10
+points in size, visible, only the value of the attribute is visible,
+text origin at upper right, the text is rotated by 90 degree, the
+string: “R/W” has an overbar over the “W”.
 
 <table>
 	<tr>
