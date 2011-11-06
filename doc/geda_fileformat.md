@@ -619,6 +619,115 @@ type, dash length of 75 mils, dash spacing of 50 mils, mesh fill, 10
 mils thick mesh lines, first mesh line: 20 degrees, with a spacing of
 30 mils, second mesh line: 90 degrees, with a spacing of 50 mils.
 
+### arc
+
+Valid in: Schematic and Symbol files
+
+Format: <pre>type x y radius startangle sweepangle color width capstyle dashstyle dashlength dashspace</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>A</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>Center X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>Center Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>radius</td>
+		<td>int/mils</td>
+		<td>Radius of the arc</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>startangle</td>
+		<td>int/degrees</td>
+		<td>Starting angle of the arc</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>sweepangle</td>
+		<td>int/degrees</td>
+		<td>Amount the arc sweeps</td>
+	</tr>	
+	<tr>
+		<td>6</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of circle line</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>capstyle</td>
+		<td>int</td>
+		<td>Cap style</td>
+	</tr>	
+	<tr>
+		<td>9</td>
+		<td>dashstyle</td>
+		<td>int</td>
+		<td>Type of dash style</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>dashlength</td>
+		<td>int/mils</td>
+		<td>Length of dash</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>dashspace</td>
+		<td>int/mils</td>
+		<td>Space inbetween dashes</td>
+	</tr>	
+</table>
+
+ * The startangle can be negative, but not recommended.
+ * The sweepangle can be negative, but not recommended.
+ * The capstyle is an enumerated type:
+  * END NONE = 0
+  * END SQUARE = 1
+  * END ROUND = 2
+ * The dashstyle is an enumerated type:
+  * TYPE SOLID = 0
+  * TYPE DOTTED = 1
+  * TYPE DASHED = 2
+  * TYPE CENTER = 3
+  * TYPE PHANTOM = 4
+ * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
+ * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
+
+Example:<pre>A 30600 75000 2000 0 45 3 0 0 3 75 50</pre>
+
+An arc with the center at (30600, 75000) and a radius of 2000 mils, a
+starting angle of 0, sweeping 45 degrees, color index 3, line width of
+0 mils (smallest size), no cap, center line type, dash length of 75
+mils, dash spacing of 50 mils.
+
 <table>
 	<tr>
 		<th></th>
