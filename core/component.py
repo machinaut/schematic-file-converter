@@ -10,28 +10,30 @@ class Component:
     self.attributes[key] = value
 
   def add_symbol(self, symbol):
-    self.symbols.get("symbols").append(symbol.get_dict())
-
+    self.symbols.append(symbol.get_dict())
+  
 
 class Symbol:
   def __init__(self):
     self.bodies = list()
   
+ # def add_body(self, 
 
 class Pin:
   def __init__(self, pin_number, p1, p2, pin_label):
-    self.label = pin_label.get_dict()
+    self.label = pin_label.json()
     self.p1 = p1.get_xy_dict()
     self.p2 = p2.get_xy_dict()
     self.pin_number = pin_number
 
-  def get_dict(self):
+  def json(self):
     ret = dict({"pin_number":self.pin_number, "p1":self.p1, "p2":self.p2})
     return ret
 
 
 class Point:
   def __init__(self, x, y):
+    #TODO: This could possibly generate two identical point IDs
     self.point_id = str(random.getrandbits(128))
     self.x = x
     self.y = y
@@ -52,7 +54,7 @@ class Point:
   def add_annotation(self, annotation):
     self.annotations.append(annotation)
 
-  def get_dict(self):
+  def json(self):
     ret = dict({"x":self.x, "y":self.y, "annotations":self.annotations, "attributes":self.attributes, "connected points":self.connected_points, "connected components":self.connected_components})
     return ret
 
@@ -66,4 +68,4 @@ if __name__=='__main__':
   p2 = Point(10,10)
   p3 = Point(6,6)
   mypin = Pin("2", p1, p2, p3)
-  print mypin.get_dict()
+  print mypin.json()
