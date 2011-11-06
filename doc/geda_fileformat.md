@@ -335,6 +335,7 @@ The encoded picture data is only an example (it is not real data). The last line
 ### box ###
 
 Valid in: Schematic and Symbol files
+
 Format: <pre>type x y width height color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2</pre>
 
 <table>
@@ -482,6 +483,7 @@ fill, rest parameters unset.
 ### circle ###
 
 Valid in: Schematic and Symbol files
+
 Format: <pre>type x y radius color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2</pre>
 
 <table>
