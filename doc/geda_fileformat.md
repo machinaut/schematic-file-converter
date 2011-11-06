@@ -485,6 +485,146 @@ height of (2000, 2000), color index 3, line width of 60 mils, no cap,
 dashed line type, dash length of 75 mils, dash spacing of 50 mils, no
 fill, rest parameters unset. 
 
+### circle ###
+
+Valid in: Schematic and Symbol files
+Format: type x y radius color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>V</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x</td>
+		<td>int/mils</td>
+		<td>Center X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y</td>
+		<td>int/mils</td>
+		<td>Center Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>radius</td>
+		<td>int/mils</td>
+		<td>Radius of the circle</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>width</td>
+		<td>int/mils</td>
+		<td>Width of circle line</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>capstyle</td>
+		<td>int/mils</td>
+		<td>0 unused</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>dashstyle</td>
+		<td>int</td>
+		<td>Type of dash style</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>dashlength</td>
+		<td>int/mils</td>
+		<td>Length of dash</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>dashspace</td>
+		<td>int/mils</td>
+		<td>Space inbetween dashes</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>filltype</td>
+		<td>int</td>
+		<td>Type of fill</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>fillwidth</td>
+		<td>int/mils</td>
+		<td>Width of the fill lines</td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>angle1</td>
+		<td>int/degrees</td>
+		<td>First angle of fill</td>
+	</tr>
+	<tr>
+		<td>13</td>
+		<td>pitch1</td>
+		<td>int/mils</td>
+		<td>First pitch/spacing of fill</td>
+	</tr>
+	<tr>
+		<td>14</td>
+		<td>angle2</td>
+		<td>int/degrees</td>
+		<td>Second angle of fill</td>
+	</tr>
+	<tr>
+		<td>15</td>
+		<td>pitch2</td>
+		<td>int/mils</td>
+		<td>Second pitch/spacing of fill</td>
+	</tr>
+</table>
+
+ * The dashstyle is an enumerated type:
+  * TYPE SOLID = 0
+  * TYPE DOTTED = 1
+  * TYPE DASHED = 2
+  * TYPE CENTER = 3
+  * TYPE PHANTOM = 4
+ * The dashlength parameter is not used for TYPE SOLID and TYPE DOTTED. This parameter should take on a value of -1 in these cases.
+ * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
+ * The filltype parameter is an enumerated type:
+  * FILLING HOLLOW = 0
+  * FILLING FILL = 1
+  * FILLING MESH = 2
+  * FILLING HATCH = 3
+  * FILLING VOID = 4 unused
+ * If the filltype is 0 (FILLING HOLLOW), then all the fill parameters should take on a value of -1.
+ * The fill type FILLING FILL is a solid color fill.
+ * The two pairs of pitch and spacing control the fill or hatch if the fill type is FILLING MESH.
+ * Only the first pair of pitch and spacing are used if the fill type is FILLING HATCH.
+
+Example:
+<code>
+	V 38000 67000 900 3 0 0 2 75 50 2 10 20 30 90 50
+</code>
+
+A circle with the center at (38000, 67000) and a radius of 900 mils,
+color index 3, line width of 0 mils (smallest size), no cap, dashed line
+type, dash length of 75 mils, dash spacing of 50 mils, mesh fill, 10
+mils thick mesh lines, first mesh line: 20 degrees, with a spacing of
+30 mils, second mesh line: 90 degrees, with a spacing of 50 mils.
+
 <table>
 	<tr>
 		<th></th>
