@@ -19,4 +19,6 @@ class Eagle:
         design = design()
 		#import an xmltree from the file provided
        	xmltree = ElementTree(file=filename)
+		xmlroot = xmltree.getroot()
+		
         return design
