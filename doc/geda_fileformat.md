@@ -17,3 +17,16 @@ Note, this file format and any other file formats associated with gEDA
 are placed under the General Public License (GPL) version 2.0. The
 gEDA/gaf symbol and schematic file format is Copyright (C) 1998-2004
 Ales Hvezda.
+
+## Coordinate Space ##
+
+All coordinates are in mils (1/1000 of an inch). This is an arbitrary decision. Remember in there is no concept of physical lengths/dimensions in schematics and symbols (for schematic capture only).
+
+ * Origin is in lower left hand corner.
+ * The size of the coordinate space is unlimited, but it is recommended that all objects stay within (120.0, 90.0) (x, y inches).
+ * It is generally advisable to have positive x and y coordinates, however, negative coordinates work too, but not recommended.
+
+The following figure shows how the coordinate space is setup: 
+TODO: insert image
+
+X axis increases going to the right. Y axis increase going up. Coordinate system is landscape and corresponds to a sheet of paper turned on its side.
