@@ -1495,3 +1495,26 @@ the form name=value.
 These attributes are useful when you need to convey some info about a
 schematic page or symbol and need the netlister to have access to this
 info.
+
+
+## Embedded Components
+
+Embedded components are components which have all of their definition
+stored within the schematic file. When a users place a component onto a
+schematic page, they have the option of making the component embedded.
+Other than storing all the symbol information inside of the schematic,
+an embedded component is just any other component. Embedded components
+are defined as:
+<pre>
+C 18600 21500 1 0 0 EMBEDDD555-1.sym
+[
+...
+... Embedded primitive objects
+...
+]
+</pre>
+In the example above, 555-1.sym is the component. The EMBEDDED tag and
+the [ ] are the distinguishing characteristics of embedded components.
+componentname.sym must exist in one of the specified component-libraries
+if you want to unembed the component.
+
