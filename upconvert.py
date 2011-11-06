@@ -65,5 +65,6 @@ if __name__ == "__main__":
 
     # parse and export the data
     design = parse(inputfile, inputtype)
-    design.write(outputfile)
     #FIXME write(design, outputfile, outputtype)
+    #design.write(outputfile)
+    #print design
