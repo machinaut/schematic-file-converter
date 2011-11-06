@@ -110,9 +110,7 @@ Format: <pre>type version fileformat_version</pre>
  * Keep in mind that each of the above listed versions might have had file format variations. This document only covers the last version's file format.
 
 Example:
-<code>
-	v 20040111 1
-</code>
+<pre>v 20040111 1</pre>
 
 ### line ###
 
@@ -209,9 +207,7 @@ Format: <pre>type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspac
  * The dashspace parameter is not used for TYPE SOLID. This parameter should take on a value of -1 in these case.
 
 Example:
-<code>
-	L 23000 69000 28000 69000 3 40 0 1 -1 75
-<code>
+<pre>L 23000 69000 28000 69000 3 40 0 1 -1 75<pre>
 
 A line segment from (23000, 69000) to (28000, 69000) with color index 3, 40 mils thick, no cap, dotted line style, and with a spacing of 75 mils in between each dot.
 
@@ -225,6 +221,7 @@ filename
 [encoded picture data
 encoded picture end]
 </pre>
+
 <table>
 	<tr>
 		<th>Pos.</th>
@@ -314,22 +311,22 @@ encoded picture end]
   * encoded picture end : A line containing only a single dot '.' character marks the end of the encoded picture data.
 
 Example:
-<code>
+<pre>
 G 16900 35800 1400 2175 0 0 0<br>
 ../bitmaps/logo.jpg
-</code>
+</pre>
 
 A picture object with the lower left corner at (16900, 35800). The width of the image is 1400 mils, and its height is 2175 mils. The picture rotation is 0 degrees and the picture is not mirrored, neither embedded.
 The picture path and filename is showed in the second line.
 
 Example:
-<code>
+<pre>
 G 16900 35800 1400 2175 0 0 1<br>
 ../bitmaps/logo.jpg<br>
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>
 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br>
 .
-</code>
+</pre>
 
 A picture object with the lower left corner at (16900, 35800). The width of the image is 1400 mils, and its height is 2175 mils.
 The picture rotation is 0 degrees, it is not mirrored, and it is embedded.
@@ -476,9 +473,7 @@ Format: <pre>type x y width height color width capstyle dashstyle dashlength das
  * Only the first pair of pitch and spacing are used if the fill type is FILLING HATCH.
 
 Example:
-<code>
-	B 33000 67300 2000 2000 3 60 0 2 75 50 0 -1 -1 -1 -1 -1
-</code>
+<pre>B 33000 67300 2000 2000 3 60 0 2 75 50 0 -1 -1 -1 -1 -1</pre>
 
 A box with the lower left hand corner at (33000, 67300) and a width and
 height of (2000, 2000), color index 3, line width of 60 mils, no cap,
@@ -615,9 +610,7 @@ Format: <pre>type x y radius color width capstyle dashstyle dashlength dashspace
  * Only the first pair of pitch and spacing are used if the fill type is FILLING HATCH.
 
 Example:
-<code>
-	V 38000 67000 900 3 0 0 2 75 50 2 10 20 30 90 50
-</code>
+<pre>V 38000 67000 900 3 0 0 2 75 50 2 10 20 30 90 50</pre>
 
 A circle with the center at (38000, 67000) and a radius of 900 mils,
 color index 3, line width of 0 mils (smallest size), no cap, dashed line
