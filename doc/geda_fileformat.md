@@ -1353,3 +1353,118 @@ F 11 1
 </pre>
 
 The above font definition is for the space character.
+
+## Colors ##
+
+In the gEDA/gaf schematic and symbol file format colors are specified
+via an integer index. The relationship between integer and color is
+based on object type. Each object type typically has one or more colors.
+Here is a table of color index to object type:
+
+<table>
+	<tr>
+		<th>Index</th>
+		<th>Object type</th>
+	</tr>
+	<tr>
+		<td>0</td>
+		<td>BACKGROUND_COLOR</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>PIN_COLOR</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>NET_ENDPOINT_COLOR</td>
+	</tr>	
+	<tr>
+		<td>3</td>
+		<td>GRAPHIC_COLOR</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>NET_COLOR</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>ATTRIBUTE_COLOR</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>LOGIC_BUBBLE_COLOR</td>
+	</tr>
+	<tr>
+		<td>7</td>
+		<td>DOTS_GRID_COLOR</td>
+	</tr>
+	<tr>
+		<td>8</td>
+		<td>DETACHED_ATTRIBUTE_COLOR</td>
+	</tr>
+	<tr>
+		<td>9</td>
+		<td>TEXT_COLOR</td>
+	</tr>
+	<tr>
+		<td>10</td>
+		<td>BUS_COLOR</td>
+	</tr>
+	<tr>
+		<td>11</td>
+		<td>SELECT_COLOR</td>
+	</tr>
+	<tr>
+		<td>12</td>
+		<td>BOUNDINGBOX_COLOR</td>
+	</tr>
+	<tr>
+		<td>13</td>
+		<td>ZOOM_BOX_COLOR</td>
+	</tr>
+	<tr>
+		<td>14</td>
+		<td>STROKE_COLOR</td>
+	</tr>
+	<tr>
+		<td>15</td>
+		<td>LOCK_COLOR</td>
+	</tr>
+	<tr>
+		<td>16</td>
+		<td>OUTPUT_BACKGROUND_COLOR</td>
+	</tr>
+	<tr>
+		<td>17</td>
+		<td>FREESTYLE1_COLOR</td>
+	</tr>
+	<tr>
+		<td>18</td>
+		<td>FREESTYLE2_COLOR</td>
+	</tr>
+	<tr>
+		<td>19</td>
+		<td>FREESTYLE3_COLOR</td>
+	</tr>
+	<tr>
+		<td>20</td>
+		<td>FREESTYLE4_COLOR</td>
+	</tr>
+	<tr>
+		<td>21</td>
+		<td>JUNCTION_COLOR</td>
+	</tr>
+	<tr>
+		<td>22</td>
+		<td>MESH_GRID_MAJOR_COLOR</td>
+	</tr>
+	<tr>
+		<td>23</td>
+		<td>MESH_GRID_MINOR_COLOR</td>
+	</tr>
+</table>
+
+The actual color associated with the color index is defined on a per
+tool bases. Objects are typically assigned their corresponding color
+index, but it is permissible (sometimes) to assign other color index
+values to different object types. 
