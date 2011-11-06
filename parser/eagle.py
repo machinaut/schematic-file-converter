@@ -2,7 +2,8 @@
 #
 # Basic Strategy
 # 0) ...
-
+# 1) ???
+# 2) Profit!!!
 from core.design import Design
 from xml.etree.ElementTree import ElementTree
 
