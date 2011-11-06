@@ -18,7 +18,8 @@ class EagleXML:
 
 
     def parse(self, filename):
-		design = design()
+        circuit = Design()
+        #return circuit
 
         """ Parse an Eagle XML file into a design """
         #import an xmltree from the file provided
