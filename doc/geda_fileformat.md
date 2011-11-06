@@ -991,7 +991,8 @@ Format: <pre>type x1 y1 x2 y2 color ripperdir</pre>
 		<td>ripperdir</td>
 		<td>int</td>
 		<td>Direction of bus rippers</td>
-	</tr
+	</tr>
+</table>
 
  * The ripperdir field for an brand new bus is 0.
  * The ripperdir field takes on a value of 1 or -1 when a net is connected to the bus for the first time. This value indicates the direction of the ripper symbol. The ripper direction is set to the same value for the entire life of the bus object.
@@ -1064,6 +1065,7 @@ Format: <pre>type x1 y1 x2 y2 color pintype whichend</pre>
 		<td>int</td>
 		<td>Specifies the active end</td>
 	</tr>	
+</table>
 
  * The pintype is an enumerated type:
   * NORMAL PIN = 0
