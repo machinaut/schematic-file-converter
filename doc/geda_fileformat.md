@@ -66,7 +66,7 @@ objects), see the Color section.
 
 Valid in: Schematic and Symbol files
 
-Format: type version fileformat_version
+Format: <pre>type version fileformat_version</pre>
 
 <table>
 	<tr>
@@ -118,7 +118,7 @@ Example:
 
 Valid in: Schematic and Symbol files
 
-Format: type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspace
+Format: <pre>type x1 y1 x2 y2 color width capstyle dashstyle dashlength dashspace</pre>
 
 <table>
 	<tr>
@@ -315,7 +315,7 @@ encoded picture end]
 
 Example:
 <code>
-G 16900 35800 1400 2175 0 0 0
+G 16900 35800 1400 2175 0 0 0<br>
 ../bitmaps/logo.jpg
 </code>
 
@@ -324,9 +324,9 @@ The picture path and filename is showed in the second line.
 
 Example:
 <code>
-G 16900 35800 1400 2175 0 0 1
-../bitmaps/logo.jpg
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+G 16900 35800 1400 2175 0 0 1<br>
+../bitmaps/logo.jpg<br>
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<br>
 BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br>
 .
 </code>
@@ -339,7 +339,7 @@ The encoded picture data is only an example (it is not real data). The last line
 ### box ###
 
 Valid in: Schematic and Symbol files
-Format: type x y width height color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2
+Format: <pre>type x y width height color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2</pre>
 
 <table>
 	<tr>
@@ -488,7 +488,7 @@ fill, rest parameters unset.
 ### circle ###
 
 Valid in: Schematic and Symbol files
-Format: type x y radius color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2
+Format: <pre>type x y radius color width capstyle dashstyle dashlength dashspace filltype fillwidth angle1 pitch1 angle2 pitch2</pre>
 
 <table>
 	<tr>
