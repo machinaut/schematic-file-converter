@@ -1518,3 +1518,47 @@ the [ ] are the distinguishing characteristics of embedded components.
 **componentname.sym** must exist in one of the specified component-libraries
 if you want to unembed the component.
 
+## Path data ##
+
+The gEDA/gaf path data format has been deliberately specified to match
+a subset of that in the W3C SVG standard..
+
+ * As an implementation detail; libgeda takes code from librsvg, an SVG parsing library. As a result, the majority of SVG path syntax is read correctly, however this is always normalised to absolute move, line, Bézier curve and close-path commands internally (and is saved as such).
+ * Coordinates along the path are specified in the standard gschem coordinate space.
+ * Those path commands which gEDA emits, and will guarantee to parse, are listed in the table below:
+(Text taken from the above SVG specification). 
+ * In the table below, the following notation is used:
+  * (): grouping of parameters
+  * +: 1 or more of the given parameter(s) is required
+<table>
+	<tr>
+		<th>Command</th>
+		<th>Name</th>
+		<th>Parameters</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>M (absolute)</td>
+		<td>moveto</td>
+		<td>(x,y)+</td>
+		<td>Start a new sub-path at the given (x,y) coordinate. M (uppercase) indicates that absolute coordinates will follow; m (lowercase) indicates that relative coordinates will follow. If a relative moveto (m) appears as the first element of the path, then it is treated as a pair of absolute coordinates. If a moveto is followed by multiple pairs of coordinates, the subsequent pairs are treated as implicit lineto commands.</td>
+	</tr>
+	<tr>
+		<td>L (absolute)</td>
+		<td>lineto</td>
+		<td>(x,y)+</td>
+		<td>Draw a line from the current point to the given (x,y) coordinate which becomes the new current point. L (uppercase) indicates that absolute coordinates will follow; l (lowercase) indicates that relative coordinates will follow. A number of coordinates pairs may be specified to draw a polyline. At the end of the command, the new current point is set to the final set of coordinates provided.</td>
+	</tr>
+	<tr>
+		<td>C (absolute)</td>
+		<td>curveto</td>
+		<td>(x1,y1 x2,y2 x,y)+</td>
+		<td>Draws a cubic Bézier curve from the current point to (x,y) using (x1,y1) as the control point at the beginning of the curve and (x2,y2) as the control point at the end of the curve. C (uppercase) indicates that absolute coordinates will follow; c (lowercase) indicates that relative coordinates will follow. Multiple sets of coordinates may be specified to draw a polybézier. At the end of the command, the new current point becomes the final (x,y) coordinate pair used in the polybézier.</td>
+	</tr>
+	<tr>
+		<td>Z or z</td>
+		<td>closepath</td>
+		<td>(none)</td>
+		<td>Close the current subpath by drawing a straight line from the current point to current subpath's initial point.</td>
+	</tr>
+</table>
