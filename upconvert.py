@@ -13,12 +13,14 @@
 
 import os, re, copy, json
 import parser.json, parser.kicad
+import parser.eaglexml
 import writer.json, writer.kicad
 from argparse import ArgumentParser
 
 parsers = {
     'json': parser.json.JSON,
-    'kicad': parser.kicad.KiCAD
+    'kicad': parser.kicad.KiCAD,
+    'eaglexml': parser.eaglexml.EagleXML
 }
 
 writers = {
@@ -63,4 +65,5 @@ if __name__ == "__main__":
 
     # parse and export the data
     design = parse(inputfile, inputtype)
-    write(design, outputfile, outputtype)
+    print design.write("foo.json")
+    #FIXME write(design, outputfile, outputtype)

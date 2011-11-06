@@ -16,7 +16,7 @@ class Eagle:
 
     def parse(self, filename):
         """ Parse an Eagle file into a design """
-        design = design()
+        #design = design()
         #import an xmltree from the file provided
        	xmltree = ElementTree(file=filename)
         xmlroot = xmltree.getroot()
