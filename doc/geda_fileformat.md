@@ -1003,6 +1003,7 @@ Example: <pre>U 27300 37400 27300 35300 3 0</pre>
 A bus segment from (27300, 37400) to (27300, 35300) with color index 3
 and no nets have been connected to this bus segment.
 
+
 ### pin ###
 
 Valid in: Symbol files ONLY
