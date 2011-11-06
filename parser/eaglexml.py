@@ -28,29 +28,51 @@ class EagleXML:
         drawings = root.findall('drawing')
         for drawing in drawings:
           for grid in drawing.findall('grid'):
+            #print "GRID", list(grid), grid.attrib
             pass
           for layers in drawing.findall('layers'):
             for layer in layers.findall('layer'):
+              #print "LAYER", list(layer), layer.attrib
               pass
           for settings in drawing.findall('settings'):
             for setting in settings.findall('settings'):
+              #print "SETTING", list(setting), setting.attrib
               pass
           for schematic in drawing.findall('schematic'):
+            print "SCHEMATIC", list(schematic), schematic.attrib
             for libraries in schematic.findall('libraries'):
               for library in libraries.findall('library'):
-                pass # this iterates over ALL the libraries
+                print "LIBRARY", list(library), library.attrib
+                for description in library.findall('description'):
+                  #print "DESCRIPTION", description.text, \
+                  #    list(description), description.attrib
+                  pass
+                for packages in library.findall('packages'):
+                  for package in packages.findall('package'):
+                    #print "PACKAGE", package.attrib
+                    pass
+                for symbols in library.findall('symbols'):
+                  for symbol in symbols.findall('symbol'):
+                    #print "SYMBOL", symbol.attrib
+                    pass
+                for devicesets in library.findall('devicesets'):
+                  for deviceset in devicesets.findall('deviceset'):
+                    print "DEVICESET", list(deviceset), deviceset.attrib
+                    pass
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
                 pass # this iterates over ALL the attributes
             for variantdefs in schematic.findall('variantdefs'):
               for variantdef in variantdefs.findall('variantdef'):
                 pass # this iterates over ALL the variantdefs
+            for classes in schematic.findall('classes'):
+              for class_ in classes.findall('class'):
+                pass # this iterates over ALL the classes
             for parts in schematic.findall('parts'):
               for part in parts.findall('part'):
                 pass # this iterates over ALL the parts
             for sheets in schematic.findall('sheets'):
               for sheet in sheets.findall('sheet'):
-                print list(sheet)
                 for plain in sheet.findall('plain'):
                   for text in plain.findall('text'):
                     pass
