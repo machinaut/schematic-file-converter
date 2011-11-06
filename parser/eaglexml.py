@@ -7,6 +7,7 @@
 # 4) Profit!
 
 from core.design import Design
+from core.component import Component
 from xml.etree.ElementTree import ElementTree
 
 
@@ -65,7 +66,7 @@ class EagleXML:
                       pass
                     for gates in deviceset.findall('gates'):
                       for gate in gates.findall('gate'):
-                        print "GATE", gate.attrib
+                        #print "GATE", gate.attrib
                         pass
                     for devices in deviceset.findall('devices'):
                       for device in devices.findall('device'):
@@ -90,6 +91,7 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
+                    print "INSTANCE", instance.attrib
                     pass
                 for busses in sheet.findall('busses'):
                   pass
