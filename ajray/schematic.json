@@ -1,0 +1,38 @@
+{"SCHEMATIC" :{
+    "GRID":"",
+    "LAYER":"",
+    "LIBRARY":"",
+    "SHEET":{
+        "CIRCLE":"",
+        "RECTANGLE":"",
+        "FRAME":"",
+        "TEXT":"",
+        "WIRE":"",
+        "POLYGON":{
+            "WIRE":""
+        }
+        "PART":{
+            "INSTANCE":{
+                "ATTRIBUTE":""
+            }
+        }
+        "BUS":{
+            "SEGMENT": {
+                "LABEL":{
+                    "TEXT":"",
+                    "WIRE":""
+                },
+                "WIRE":""
+            }
+        }
+        "NET":{
+            "SEGMENT":{
+                "JUNCTION":"",
+                "PINREF":"",
+                "TEXT":"",
+                "WIRE":""
+            }
+        }
+    }
+}}
+
