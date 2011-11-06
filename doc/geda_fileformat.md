@@ -926,6 +926,7 @@ Format: <pre>type x1 y1 x2 y2 color</pre>
 		<td>int</td>
 		<td>Color index</td>
 	</tr>
+</table>
 
  * Nets can only appear in schematic files.
  * You cannot have a zero length net (the tools will throw them away).
