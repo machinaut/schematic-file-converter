@@ -14,7 +14,7 @@
 import os, re, copy, json
 import parser.json, parser.kicad
 import writer.json, writer.kicad
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 parsers = {
     'json': parser.json.JSON,
@@ -46,19 +46,20 @@ def write(d, f, format='json'):
 
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option("-i","--input", dest="inputfile",help="read INPUT file in",metavar="INPUT")
-    parser.add_option("-f","--from", dest="inputtype",help="read input file as TYPE",metavar="TYPE")
-    parser.add_option("-o","--output", dest="outputfile",help="write OUTPUT file out",metavar="OUTPUT")
-    parser.add_option("-t","--to", dest="outputtype",help="write output file as TYPE",metavar="TYPE")
+    parser = ArgumentParser()
+    parser.add_argument("-i","--input", dest="inputfile",help="read INPUT file in",metavar="INPUT")
+    parser.add_argument("-f","--from", dest="inputtype",help="read input file as TYPE",metavar="TYPE")
+    parser.add_argument("-o","--output", dest="outputfile",help="write OUTPUT file out",metavar="OUTPUT")
+    parser.add_argument("-t","--to", dest="outputtype",help="write output file as TYPE",metavar="TYPE")
 
-    # parse options
-    (options, args) = parser.parse_args()
-    print "options,args:", options,args
-    inputtype = options.inputtype
-    outputtype = options.outputtype
-    inputfile = options.inputfile
-    outputfile = options.outputfile
+    args = parser.parse_args()
+    inputtype = args.inputtype
+    outputtype = args.outputtype
+    inputfile = args.inputfile
+    outputfile = args.outputfile
+    if None == inputfile:
+      parser.print_help()
+      exit(1)
 
     # parse and export the data
     design = parse(inputfile, inputtype)
