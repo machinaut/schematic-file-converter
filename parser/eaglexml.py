@@ -27,6 +27,7 @@ class EagleXML:
         # use elem.findall() to make sure to iterate over duplicates
         drawings = root.findall('drawing')
         for drawing in drawings:
+          #print "DRAWING", list(drawing), drawing.attrib
           for grid in drawing.findall('grid'):
             #print "GRID", list(grid), grid.attrib
             pass
@@ -39,10 +40,10 @@ class EagleXML:
               #print "SETTING", list(setting), setting.attrib
               pass
           for schematic in drawing.findall('schematic'):
-            print "SCHEMATIC", list(schematic), schematic.attrib
+            #print "SCHEMATIC", list(schematic), schematic.attrib
             for libraries in schematic.findall('libraries'):
               for library in libraries.findall('library'):
-                print "LIBRARY", list(library), library.attrib
+                #print "LIBRARY", list(library), library.attrib
                 for description in library.findall('description'):
                   #print "DESCRIPTION", description.text, \
                   #    list(description), description.attrib
@@ -58,7 +59,18 @@ class EagleXML:
                 for devicesets in library.findall('devicesets'):
                   for deviceset in devicesets.findall('deviceset'):
                     print "DEVICESET", list(deviceset), deviceset.attrib
-                    pass
+                    for description in deviceset.findall('description'):
+                      #print "DESCRIPTION", description.text, \
+                      #    list(description), description.attrib
+                      pass
+                    for gates in deviceset.findall('gates'):
+                      for gate in gates.findall('gate'):
+                        print "GATE", gate.attrib
+                        pass
+                    for devices in deviceset.findall('devices'):
+                      for device in devices.findall('device'):
+                        #print "DEVICES", device.attrib
+                        pass
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
                 pass # this iterates over ALL the attributes
@@ -89,7 +101,5 @@ class EagleXML:
                       for junction in segment.findall('junction'):
                         pass
                       for pinref in segment.findall('pinref'):
-                        print list(pinref), pinref.attrib
                         pass
-
         return circuit
