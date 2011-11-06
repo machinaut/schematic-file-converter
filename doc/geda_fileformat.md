@@ -1003,6 +1003,80 @@ Example: <pre>U 27300 37400 27300 35300 3 0</pre>
 A bus segment from (27300, 37400) to (27300, 35300) with color index 3
 and no nets have been connected to this bus segment.
 
+### pin ###
+
+Valid in: Symbol files ONLY
+
+Format: <pre>type x1 y1 x2 y2 color pintype whichend</pre>
+
+<table>
+	<tr>
+		<th>Pos.</th>
+		<th>Field</th>
+		<th>Type/unit</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>#</td>
+		<td>type</td>
+		<td>char</td>
+		<td>P</td>
+	</tr>
+	<tr>
+		<td>1</td>
+		<td>x1</td>
+		<td>int/mils</td>
+		<td>First X coordinate</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>y1</td>
+		<td>int/mils</td>
+		<td>First Y coordinate</td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>x2</td>
+		<td>int/mils</td>
+		<td>Second X coordinate</td>
+	</tr>		
+	<tr>
+		<td>4</td>
+		<td>y2</td>
+		<td>int/mils</td>
+		<td>Second Y coordinate</td>
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>color</td>
+		<td>int</td>
+		<td>Color index</td>
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>pintype</td>
+		<td>int</td>
+		<td>Type of pin</td>
+	</tr>		
+	<tr>
+		<td>7</td>
+		<td>whichend</td>
+		<td>int</td>
+		<td>Specifies the active end</td>
+	</tr>	
+
+ * The pintype is an enumerated type:
+  * NORMAL PIN = 0
+  * BUS PIN = 1 unused
+ * The whichend specifies which end point of the pin is the active connection port. Only this end point can have other pins or nets connected to it.
+ * To make the first end point active, whichend should be 0, else to specify the other end, whichend should be 1.
+ * Pins can only appear in symbol files.
+ * Zero length pins are allowed
+
+Example: <pre>P 0 200 200 200 1 0 0</pre>
+
+A pin from (0, 200) to (200, 200) with color index 1, a regular pin, and
+the first point being the active connection end.
 
 <table>
 	<tr>
