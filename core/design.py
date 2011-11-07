@@ -10,7 +10,7 @@ class Design:
         self.nets = []
         self.components = []
         self.instances = []
-        self.attributes = []
+        self.attributes = {}
 
     def add_instance(self, instance):
         self.instances.append(instance)
@@ -21,8 +21,8 @@ class Design:
 	def add_net(self, net):
 		self.nets.append(net)
 
-	def add_attribute(self, attribute):
-		self.attributes.append(attribute)
+	def add_attribute(self, key, value):
+		self.attributes[key] = value
 
     def json(self):
         """ prettify design for json outputting """
@@ -31,5 +31,22 @@ class Design:
                 "nets" : [n.json() for n in self.nets],
                 "components" : [c.json() for c in self.components],
                 "component_instances" : [i.json() for i in self.instances],
-                "design_attributes" : [a.json() for a in self.attributes]
+                "design_attributes": {
+                  "annotations": [], 
+                  "attributes": {
+                    "_resistor_counter": "1", 
+                  },  
+                  "metadata": {
+                    "attached_urls": [
+                      "http://google.com/"
+                    ], 
+                    "description": "test file",
+                    "design_id": "0000000000001337", 
+                    "license": "", 
+                    "name": "My Test", 
+                    "owner": "Alex", 
+                    "slug": "Test", 
+                    "updated_timestamp": 1234567890
+                  }
+                }
                 }
