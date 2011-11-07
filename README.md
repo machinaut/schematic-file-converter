@@ -8,6 +8,7 @@ Folder Contents
 
 * `core/` - All of the converter code
 * `doc/` - Everything related to documentation
+* `example/` - Examples of input and output files
 * `parser/` - All of the in code
 * `test/` - A set of test files for each format
 * `writer/` - All of the out code
