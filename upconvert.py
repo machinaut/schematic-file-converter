@@ -12,13 +12,13 @@
 
 
 import os, re, copy, json
-import parser.json, parser.kicad
+import parser.openjson, parser.kicad
 import parser.eaglexml
 import writer.openjson, writer.kicad
 from argparse import ArgumentParser
 
 parsers = {
-    'json': parser.json.JSON,
+    'openjson': parser.openjson.JSON,
     'kicad': parser.kicad.KiCAD,
     'eaglexml': parser.eaglexml.EagleXML
 }
@@ -29,7 +29,7 @@ writers = {
 }
 
 
-def parse(f, format):
+def parse(f, format='openjson'):
     try:
         p = parsers[format]()
     except KeyError:
