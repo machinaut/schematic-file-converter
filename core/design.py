@@ -23,7 +23,7 @@ class Design:
         return {
                 "version" : self.version,
                 "nets" : [n.json() for n in self.nets],
-                "components" : self.components,
-                "instances" : [i.json() for i in self.instances],
+                "components" : [c.json() for c in self.components],
+                "component_instances" : [i.json() for i in self.instances],
                 "attributes" : self.attributes
                 }
