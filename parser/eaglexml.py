@@ -13,7 +13,7 @@
 
 from core.design import *
 from core.component import *
-from core.instance import *
+from core.component_instance import *
 from core.shape import *
 from xml.etree.ElementTree import ElementTree
 
@@ -195,9 +195,9 @@ class EagleXML:
         sym = gate_dict.get('symbol')
         library_id = lib + '_' + sym # figured out
 
-        # Make the Instance()
+        # Make the ComponentInstance()
         symbol_index = 0 # TODO handle multi-symbol components
-        inst = Instance(instance_id, library_id, symbol_index)
+        inst = ComponentInstance(instance_id, library_id, symbol_index)
 
         # Make the instance's symbol_attribute
         # TODO handle multi-body symbols
@@ -205,9 +205,9 @@ class EagleXML:
         y = int(float(instance.attrib['y'])*100)
         rotation = 0 # TODO get the real rotation
         sa = SymbolAttribute(x,y,rotation)
-        inst.add_symbolattribute(sa)
+        inst.add_symbol_attribute(sa)
 
-        # Add Instance to the design
+        # Add ComponentInstance to the design
         self.design.add_component_instance(inst)
 
 

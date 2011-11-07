@@ -11,8 +11,8 @@ class ComponentInstance:
         self.attributes = dict()
 
 
-    def add_attribute(self, attribute):
-        self.attributes[attribute.key] = attribute.value
+    def add_attribute(self, key, value):
+        self.attributes[key] = value
 
 
     def add_symbol_attribute(self,symbol_attribute):

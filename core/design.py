@@ -7,12 +7,17 @@ class Design:
     class closely matches the JSON output."""
 
     def __init__(self):
-        self.nets = []
-        self.components = []
-        self.component_instances = []
+        self.nets = list()
+        self.components = list()
+        self.component_instances = list()
         self.design_attributes = DesignAttributes()
-        self.version = {"file_version":"0.0.1",
-                        "tool_name":"Upverter converter"}
+        self.version = dict()
+        self.set_version("0.0.1","Upverter converter")
+
+
+    def set_version(self, file_version, exporter):
+        self.version['file_version'] = file_version
+        self.version['exporter'] = exporter
 
 
     def add_component_instance(self, component_instance):
