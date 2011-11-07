@@ -3096,7 +3096,7 @@ type 0309, grid 2.5 mm</description>
 <plain>
 </plain>
 <instances>
-<instance part="R1" gate="G$1" x="43.18" y="43.18"/>
+<instance part="R1" gate="G$1" x="12.34" y="43.21"/>
 </instances>
 <busses>
 </busses>

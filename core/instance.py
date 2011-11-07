@@ -13,8 +13,7 @@ class Instance:
   def add_attribute(self, key, value):
     self.attributes[key] = value
 
-  def add_symbol_attribute(self,x,y,rotation,annotations):
-    sa = SymbolAttribute(x,y,rotation,annotations)
+  def add_symbolattribute(self,sa):
     self.symbol_attributes.append(sa)
   
   def get_instance_id(self):
@@ -28,17 +27,17 @@ class Instance:
             "attributes" : self.attributes}
 
 class SymbolAttribute:
-  def __init__(self,x,y,rotation,annotations):
+  def __init__(self,x,y,rotation):
     self.x = x
     self.y = y
     self.rotation = rotation
-    self.annotations = annotations
+    self.annotations = []
 
   def addannotation(self, annotation):
     self.annotations.append(annotation)
 
   def json(self):
-    return {"x" : x, "y": y, "rotation":rotation,
+    return {"x" : self.x, "y": self.y, "rotation":self.rotation,
             "annotations":[a.json() for a in self.annotations]}
 
 if __name__ == "__main__":

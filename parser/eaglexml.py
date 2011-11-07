@@ -24,6 +24,20 @@ class EagleXML:
         spn = self.parts[name]
         return '_'.join([spn['library'],spn['deviceset'],spn['device']])
 
+    def newinstance(self,inst):
+        instance_id = inst['part']
+        library_id = self.getpartlib(instance_id)
+        symbol_index = 0 # TODO get me some of this
+        instance = Instance(instance_id, library_id, symbol_index)
+        instance.add_attribute('gate',inst['gate'])
+        # TODO make this conversion nicer, use the grid
+        x,y = int(float(inst['x'])*1000),int(float(inst['y'])*1000)
+        # TODO get a real rotation
+        sa = SymbolAttribute(x,y,0)
+        # TODO make a cogent SymbolAttribute
+        instance.add_symbolattribute(sa)
+        return instance
+
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
         circuit = Design()
@@ -101,17 +115,8 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
-                    print instance.attrib
-                    d = instance.attrib
-                    instance_id = d['part']
-                    library_id = self.getpartlib(instance_id)
-                    symbol_index = 'bar' # TODO same
-                    i = Instance(instance_id, library_id, symbol_index)
-                    i.add_attribute('gate',d['gate'])
-                    x,y = int(float(d['x'])*1000),int(float(d['y'])*1000)
-                    #sa = SymbolAttribute(
+                    i = self.newinstance(instance.attrib)
                     circuit.add_instance(i)
-                    pass
                 for busses in sheet.findall('busses'):
                   pass
                 for nets in sheet.findall('nets'):
