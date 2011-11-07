@@ -12,6 +12,8 @@ class Design:
         self.instances = []
         self.attributes = []
 
+    def add_instance(self, instance):
+        self.instances.append(instance)
 
     def json(self):
         """ prettify design for json outputting """
