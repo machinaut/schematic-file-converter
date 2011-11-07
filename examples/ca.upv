@@ -1,0 +1,150 @@
+{
+  "component_instances": [
+    {
+      "attributes": {
+        "refdes": "C1"
+      }, 
+      "instance_id": "a5e1883948b21acb", 
+      "library_id": "88d02f80e8ea9bf2", 
+      "symbol_attributes": [
+        {
+          "annotations": [
+            {
+              "rotation": 0.0, 
+              "value": "refdes", 
+              "visible": "true", 
+              "x": 590, 
+              "y": 460
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "value", 
+              "visible": "true", 
+              "x": 630, 
+              "y": 460
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "_name", 
+              "visible": "true", 
+              "x": 605, 
+              "y": 470
+            }
+          ], 
+          "rotation": 0.0, 
+          "x": 600, 
+          "y": 510
+        }
+      ], 
+      "symbol_index": 0
+    }
+  ], 
+  "components": {
+    "88d02f80e8ea9bf2": {
+      "attributes": {
+        "_datasheet": "http://datasheet.octopart.com/C315C104M5U5TA-Kemet-datasheet-120818.pdf", 
+        "_imported_from_octopart": "yes", 
+        "_lead_free": "Yes", 
+        "_manufacturer": "Kemet", 
+        "_num_pins": "2", 
+        "_octopart_part_number": "8328862813", 
+        "_package": "", 
+        "_part_number": "C315C104M5U5TA", 
+        "_prefix": "C", 
+        "_rohs": "Yes", 
+        "_symbol_0_0": "Capacitor", 
+        "_type": "capacitor", 
+        "capacitance": "0.10 uF", 
+        "dielectric_material": "Ceramic Multilayer", 
+        "lead_length": "0.01m", 
+        "max_capacitance_tolerance": "20.00%", 
+        "max_operating_temperature": "125.00\u00b0C", 
+        "min_capacitance_tolerance": "-20.00%", 
+        "mounting_type": "through hole", 
+        "size_height": "0.01m", 
+        "size_length": "0.00m", 
+        "termination_style": "Radial Leaded", 
+        "voltage_rating_dc": "50.00V"
+      }, 
+      "name": "CAPACITOR, 100NF, 50V, Z5U, 2.5MMP Thru Hole", 
+      "symbols": [
+        {
+          "bodies": [
+            {
+              "pins": [
+                {
+                  "p1": {
+                    "x": 5, 
+                    "y": -10
+                  }, 
+                  "p2": {
+                    "x": 0, 
+                    "y": -10
+                  }, 
+                  "pin_number": "1"
+                }, 
+                {
+                  "p1": {
+                    "x": 15, 
+                    "y": -10
+                  }, 
+                  "p2": {
+                    "x": 20, 
+                    "y": -10
+                  }, 
+                  "pin_number": "2"
+                }
+              ], 
+              "shapes": [
+                {
+                  "p1": {
+                    "x": 5, 
+                    "y": 0
+                  }, 
+                  "p2": {
+                    "x": 5, 
+                    "y": -20
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 15, 
+                    "y": 0
+                  }, 
+                  "p2": {
+                    "x": 15, 
+                    "y": -20
+                  }, 
+                  "type": "line"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }, 
+  "design_attributes": {
+    "annotations": [], 
+    "attributes": {
+      "_capacitor_counter": "1"
+    }, 
+    "comments": [], 
+    "metadata": {
+      "attached_urls": [], 
+      "description": " ", 
+      "design_id": "ba386fdb25fc82f6", 
+      "license": "No Licence", 
+      "name": "ca", 
+      "owner": "ajray", 
+      "slug": "ca", 
+      "updated_timestamp": 1320684191
+    }
+  }, 
+  "nets": [], 
+  "version": {
+    "exporter": "Upverter", 
+    "file_version": "0.1.0"
+  }
+}
