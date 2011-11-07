@@ -8,7 +8,7 @@
 
 from core.design import Design
 from core.component import Component
-from core.instance import Instance
+from core.instance import Instance,SymbolAttribute
 from xml.etree.ElementTree import ElementTree
 
 
@@ -16,7 +16,13 @@ class EagleXML:
     """ The Eagle XML Format Parser """
 
     def __init__(self):
+        self.parts = dict() # key by part name == instance_id
+        self.lib = dict() # key by lib_devset_dev == library_id
         pass
+
+    def getpartlib(self,name):
+        spn = self.parts[name]
+        return '_'.join([spn['library'],spn['deviceset'],spn['device']])
 
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
@@ -59,7 +65,7 @@ class EagleXML:
                     pass
                 for devicesets in library.findall('devicesets'):
                   for deviceset in devicesets.findall('deviceset'):
-                    #print "DEVICESET", list(deviceset), deviceset.attrib
+                    print "DEVICESET", list(deviceset), deviceset.attrib
                     for description in deviceset.findall('description'):
                       #print "DESCRIPTION", description.text, \
                       #    list(description), description.attrib
@@ -71,6 +77,7 @@ class EagleXML:
                     for devices in deviceset.findall('devices'):
                       for device in devices.findall('device'):
                         #print "DEVICES", device.attrib
+                        # there be japage's here
                         pass
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
@@ -83,7 +90,10 @@ class EagleXML:
                 pass # this iterates over ALL the classes
             for parts in schematic.findall('parts'):
               for part in parts.findall('part'):
+                d = part.attrib
+                self.parts[d['name']] = d
                 pass # this iterates over ALL the parts
+            print "PARTS DICT:", self.parts
             for sheets in schematic.findall('sheets'):
               for sheet in sheets.findall('sheet'):
                 for plain in sheet.findall('plain'):
@@ -91,12 +101,15 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
+                    print instance.attrib
                     d = instance.attrib
                     instance_id = d['part']
-                    library_id = 'foo' # TODO figure these out from lib
+                    library_id = self.getpartlib(instance_id)
                     symbol_index = 'bar' # TODO same
                     i = Instance(instance_id, library_id, symbol_index)
                     i.add_attribute('gate',d['gate'])
+                    x,y = int(float(d['x'])*1000),int(float(d['y'])*1000)
+                    #sa = SymbolAttribute(
                     circuit.add_instance(i)
                     pass
                 for busses in sheet.findall('busses'):

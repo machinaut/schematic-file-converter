@@ -29,22 +29,22 @@ writers = {
 }
 
 
-def parse(f, format='kicad'):
+def parse(f, format):
     try:
         p = parsers[format]()
-        return p.parse(f)
     except KeyError:
         print "ERROR: Unsupported input type:", format
         exit(1)
+    return p.parse(f)
 
 
 def write(d, f, format='openjson'):
     try:
         w = writers[format]()
-        return w.write(d, f)
     except KeyError:
         print "ERROR: Unsupported output type:", format
         exit(1)
+    return w.write(d, f)
 
 
 if __name__ == "__main__":
