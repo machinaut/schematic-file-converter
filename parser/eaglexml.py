@@ -12,8 +12,8 @@
 #     but thats all too complex for right now
 
 from core.design import *
-from core.component import *
 from core.component_instance import *
+from core.components import *
 from core.shape import *
 from xml.etree.ElementTree import ElementTree
 

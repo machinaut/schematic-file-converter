@@ -5,8 +5,11 @@
 
 import json
 from core.annotation import *
-from core.design import *
 from core.component_instance import *
+from core.components import *
+from core.design import *
+from core.design_attributes import *
+from core.shape import *
 
 class JSON:
     """ The JSON Format Parser """
@@ -39,7 +42,7 @@ class JSON:
             # Get instance_id, library_id and symbol_index
             instance_id = instance.get('instance_id')
             library_id = instance.get('library_id')
-            symbol_index = instance.get('symbol_index')
+            symbol_index = int(instance.get('symbol_index'))
             # Make the ComponentInstance()
             inst = ComponentInstance(instance_id, library_id, symbol_index)
 
@@ -84,8 +87,102 @@ class JSON:
 
 
     def parse_components(self, components):
-        pass
+        for library_id,component in components.items():
+            name = component.get('name')
+            c = Component(name)
+            # Get attributes
+            for key,value in component.get('attributes').items():
+                c.add_attribute(key,value)
+            for symbol in component.get('symbols'):
+                s = self.parse_symbol(symbol)
+                c.add_symbol(s)
+            self.design.add_component(library_id,c)
+            
+
+    def parse_symbol(self, symbol):
+        s = Symbol()
+        for body in symbol.get('bodies'):
+            b = self.parse_body(body)
+            s.add_body(b)
+        return s
+
+
+    def parse_body(self, body):
+        b = Body()
+        for pin in body.get('pins'):
+            p = self.parse_pin(pin)
+            b.add_pin(p)
+        for shape in body.get('shapes'):
+            s = self.parse_shape(shape)
+            b.add_shape(s)
+        return b
+
+
+    def parse_pin(self,pin):
+        pin_number = pin.get('pin_number')
+        p1 = self.parse_point(pin.get('p1'))
+        p2 = self.parse_point(pin.get('p2'))
+        if None != pin.get('pin_label'):
+            pin_label = self.parse_label(pin.get('pin_label'))
+            return Pin(pin_number,p1,p1,pin_label)
+        return Pin(pin_number,p1,p1)
+
+
+    def parse_point(self,point):
+        x = int(point.get('x'))
+        y = int(point.get('y'))
+        return Point(x,y)
+    
+    def parse_label(self,label):
+        x = int(label.get('x'))
+        y = int(label.get('y'))
+        text = label.get('text')
+        align = label.get('align')
+        rotation = float(label.get('rotation'))
+        return Label(x,y,text,align,rotation)
+
+    def parse_shape(self,shape):
+        typ = shape.get('type')
+        # TODO finish these out
+        if typ == 'line':
+            p1 = self.parse_point(shape.get('p1'))
+            p2 = self.parse_point(shape.get('p2'))
+            return Line(p1,p2)
+
+
     def parse_design_attributes(self, design_attributes):
-        pass
+        da = DesignAttributes()
+        # Get the Annotations
+        for annotation in design_attributes.get('annotations'):
+            a = self.parse_annotation(annotation)
+            da.add_annotation(a)
+
+        # Get the Attributes
+        for key,value in design_attributes.get('attributes').items():
+            da.add_attribute(key, value)
+
+        # Get the Metadata
+        m = self.parse_metadata(design_attributes.get('metadata'))
+        da.set_metadata(m)
+        self.design.set_design_attributes(da)
+
+
+    def parse_metadata(self, metadata):
+        m = Metadata()
+        m.set_name(metadata.get('name'))
+        m.set_license(metadata.get('license'))
+        m.set_owner(metadata.get('owner'))
+        m.set_updated_timestamp(metadata.get('updated_timestamp'))
+        m.set_design_id(metadata.get('design_id'))
+        m.set_description(metadata.get('description'))
+        m.set_slug(metadata.get('slug'))
+        for attached_url in metadata.get('attached_urls'):
+            m.add_attached_url(attached_url)
+        return m
+
+
     def parse_nets(self, nets):
         pass
+
+
+

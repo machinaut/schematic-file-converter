@@ -144,20 +144,20 @@ class Label(Shape):
 
 
 class Line(Shape):
-    """ line segment from x1,y1 to x2,y2 """
+    """ line segment from point1 to point2 """
 
-    def __init__(self,x1,y1,x2,y2):
+    def __init__(self,p1,p2):
         self.type = "line" 
-        self.p1 = {"x":x1,"y":y1}
-        self.p2 = {"x":x2,"y":y2}
+        self.p1 = p1
+        self.p2 = p2
 
 
     def json(self):
         """ return a dict for json outputting """
         return {
             "type":self.type,
-            "p1":self.p1,
-            "p2":self.p2,
+            "p1":self.p1.json(),
+            "p2":self.p2.json(),
             }
 
 

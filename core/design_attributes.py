@@ -14,9 +14,12 @@ class DesignAttributes:
         self.annotations.append(annotation)
 
 
-    def add_attribute(self, attribute):
-        self.attributes[attribute.key] = attribute.value
+    def add_attribute(self, key, value):
+        self.attributes[key] = value
 
+
+    def set_metadata(self, metadata):
+        self.metadata = metadata
 
     def json(self):
         return {
@@ -36,8 +39,40 @@ class Metadata:
         self.updated_timestamp = int(time.time())
         self.design_id = ""
         self.description = ""
-        self.slug = ""
+        self.slug = self.name.replace(' ','-')
         self.attached_urls = list()
+
+
+    def set_name(self,name):
+        self.name = name
+
+
+    def set_license(self,license):
+        self.license = license
+
+
+    def set_owner(self,owner):
+        self.owner = owner
+
+
+    def set_updated_timestamp(self,updated_timestamp):
+        self.updated_timestamp = int(updated_timestamp)
+
+
+    def set_design_id(self,design_id):
+        self.design_id = design_id
+
+
+    def set_description(self,description):
+        self.description = description
+
+
+    def set_slug(self,slug):
+        self.slug = slug
+
+
+    def add_attached_url(self,attached_url):
+        self.attached_urls.append(attached_url)
 
 
     def json(self):

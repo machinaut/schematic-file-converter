@@ -2,6 +2,26 @@
 import random
 import shape
 
+class Components:
+    """ Container class for individual 'Component's.
+    Only used for add_component and json() (export) """
+
+    def __init__(self):
+        self.components = dict()
+
+
+    def add_component(self,library_id, component):
+        self.components[library_id] = component
+
+    
+    def json(self):
+        """ Copy to a new dictionary to return """
+        d = dict()
+        for library_id, component in self.components.items():
+            d[library_id] = component.json()
+        return d
+
+
 class Component:
     """ The Component class represents a single kind of part (component).
     It can have multiple graphical representations (Symbols), each with 
@@ -12,8 +32,7 @@ class Component:
     library_id.
     """
 
-    def __init__(self,library_id,name):
-        self.library_id = library_id
+    def __init__(self,name):
         self.name = name
         self.attributes = dict()
         self.symbols = list()
@@ -31,7 +50,6 @@ class Component:
         return {
             "symbols": [s.json() for s in self.symbols],
             "attributes": self.attributes,
-            "library_id": self.library_id,
             "name": self.name
             }
 
@@ -81,7 +99,7 @@ class Pin:
     to nets. Basically a line segment, with a null end and a connect end
     """
 
-    def __init__(self, pin_number, p1, p2, pin_label):
+    def __init__(self, pin_number, p1, p2, pin_label=None):
         self.pin_label = pin_label # is a Label
         self.p1 = p1 # is a Point, null end
         self.p2 = p2 # is a Point, connect end
@@ -89,12 +107,14 @@ class Pin:
 
 
     def json(self):
-        return {
+        d = {
             "pin_number":self.pin_number,
             "p1":self.p1.json(), 
-            "p2":self.p2.json(),
-            "pin_label":self.pin_label.json()
+            "p2":self.p2.json()
             }
+        if self.pin_label is not None:
+            d["pin_label"] = self.pin_label.json()
+        return d
 
 
 class Point:

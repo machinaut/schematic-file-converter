@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from design_attributes import DesignAttributes
+from components import Components
 
 class Design:
     """ The Design class represents the whole schematic, which is also
@@ -8,7 +9,7 @@ class Design:
 
     def __init__(self):
         self.nets = list()
-        self.components = list()
+        self.components = Components()
         self.component_instances = list()
         self.design_attributes = DesignAttributes()
         self.version = dict()
@@ -24,19 +25,23 @@ class Design:
         self.component_instances.append(component_instance)
 
 
-    def add_component(self, component):
-        self.components.append(component)
+    def add_component(self, library_id, component):
+        self.components.add_component(library_id,component)
     
 
     def add_net(self, net):
         self.nets.append(net)
 
 
+    def set_design_attributes(self, design_attributes):
+        self.design_attributes = design_attributes
+
+
     def json(self):
         return { 
             "version" : self.version,
             "nets" : [n.json() for n in self.nets],
-            "components" : [c.json() for c in self.components],
+            "components" : self.components.json(),
             "component_instances" : 
                 [i.json() for i in self.component_instances],
             "design_attributes" : self.design_attributes.json()
