@@ -147,81 +147,65 @@ class EagleXML:
         root = xmltree.getroot()
         drawings = root.findall('drawing')
         for drawing in drawings:
-          #print "DRAWING", list(drawing), drawing.attrib
-          for grid in drawing.findall('grid'):
-            #print "GRID", list(grid), grid.attrib
-            pass
-          for layers in drawing.findall('layers'):
-            for layer in layers.findall('layer'):
-              #print "LAYER", list(layer), layer.attrib
-              pass
-          for settings in drawing.findall('settings'):
-            for setting in settings.findall('settings'):
-              #print "SETTING", list(setting), setting.attrib
-              pass
-          for schematic in drawing.findall('schematic'):
-            #print "SCHEMATIC", list(schematic), schematic.attrib
-            for libraries in schematic.findall('libraries'):
-              for library in libraries.findall('library'):
-                #print "LIBRARY", list(library), library.attrib
-                for description in library.findall('description'):
-                  #print "DESCRIPTION", description.text, \
-                  #    list(description), description.attrib
-                  pass
-                for packages in library.findall('packages'):
-                  for package in packages.findall('package'):
-                    #print "PACKAGE", package.attrib
-                    pass
-                for symbols in library.findall('symbols'):
-                  for symbol in symbols.findall('symbol'):
-                    self.parse_symbol(library,symbol)
-                for devicesets in library.findall('devicesets'):
-                  for deviceset in devicesets.findall('deviceset'):
-                    #print "DEVICESET", list(deviceset), deviceset.attrib
-                    for description in deviceset.findall('description'):
-                      #print "DESCRIPTION", description.text, \
-                      #    list(description), description.attrib
-                      pass
-                    for gates in deviceset.findall('gates'):
-                      for gate in gates.findall('gate'):
-                        self.parse_gate(library,deviceset,gate)
-                    for devices in deviceset.findall('devices'):
-                      for device in devices.findall('device'):
-                        pass
-            for attributes in schematic.findall('attributes'):
-              for attribute in attributes.findall('attribute'):
-                pass # this iterates over ALL the attributes
-            for variantdefs in schematic.findall('variantdefs'):
-              for variantdef in variantdefs.findall('variantdef'):
-                pass # this iterates over ALL the variantdefs
-            for classes in schematic.findall('classes'):
-              for class_ in classes.findall('class'):
-                pass # this iterates over ALL the classes
-            for parts in schematic.findall('parts'):
-              for part in parts.findall('part'):
-                self.parse_part(part)
-            for sheets in schematic.findall('sheets'):
-              for sheet in sheets.findall('sheet'):
-                for plain in sheet.findall('plain'):
-                  for text in plain.findall('text'):
-                    pass
-                for instances in sheet.findall('instances'):
-                  for instance in instances.findall('instance'):
-                    self.parse_instance(instance)
-                for busses in sheet.findall('busses'):
-                  pass
-                for nets in sheet.findall('nets'):
-                  for net in nets.findall('net'):
-                    for segment in net.findall('segment'):
-                      for wire in segment.findall('wire'):
-                        pass
-                      for junction in segment.findall('junction'):
-                        pass
-                      for pinref in segment.findall('pinref'):
-                        pass
-        print self.gates
-        print self.symbols
-        print self.parts
+            #for grid in drawing.findall('grid'):
+            #for layers in drawing.findall('layers'):
+            #    for layer in layers.findall('layer'):
+            #for settings in drawing.findall('settings'):
+            #    for setting in settings.findall('settings'):
+            for schematic in drawing.findall('schematic'):
+                self.parse_schematic(schematic)
         return self.design
+
+
+    def parse_schematic(self, schematic):
+        for libraries in schematic.findall('libraries'):
+            for library in libraries.findall('library'):
+                self.parse_library(library)
+        #for attributes in schematic.findall('attributes'):
+        #    for attribute in attributes.findall('attribute'):
+        #for variantdefs in schematic.findall('variantdefs'):
+        #    for variantdef in variantdefs.findall('variantdef'):
+        #for classes in schematic.findall('classes'):
+        #    for class_ in classes.findall('class'):
+        for parts in schematic.findall('parts'):
+            for part in parts.findall('part'):
+                self.parse_part(part)
+        for sheets in schematic.findall('sheets'):
+            for sheet in sheets.findall('sheet'):
+                self.parse_sheet(sheet)
+
+    def parse_library(self,library):
+        #for description in library.findall('description'):
+        #for packages in library.findall('packages'):
+        #    for package in packages.findall('package'):
+        for symbols in library.findall('symbols'):
+            for symbol in symbols.findall('symbol'):
+                self.parse_symbol(library,symbol)
+        for devicesets in library.findall('devicesets'):
+            for deviceset in devicesets.findall('deviceset'):
+                self.parse_deviceset(library,deviceset)
       
+
+    def parse_deviceset(self,library,deviceset):
+        #for description in deviceset.findall('description'):
+        for gates in deviceset.findall('gates'):
+            for gate in gates.findall('gate'):
+                self.parse_gate(library,deviceset,gate)
+        #for devices in deviceset.findall('devices'):
+        #    for device in devices.findall('device'):
+
+    def parse_sheet(self,sheet):
+        #for plain in sheet.findall('plain'):
+        #    for text in plain.findall('text'):
+        for instances in sheet.findall('instances'):
+            for instance in instances.findall('instance'):
+                self.parse_instance(instance)
+        #for busses in sheet.findall('busses'):
+        #for nets in sheet.findall('nets'):
+        #    for net in nets.findall('net'):
+        #        for segment in net.findall('segment'):
+        #            for wire in segment.findall('wire'):
+        #            for junction in segment.findall('junction'):
+        #            for pinref in segment.findall('pinref'):
+
 
