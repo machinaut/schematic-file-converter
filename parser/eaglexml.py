@@ -23,6 +23,9 @@ class EagleXML:
     def getpartlib(self,name):
         spn = self.parts[name]
         return '_'.join([spn['library'],spn['deviceset'],spn['device']])
+	def getdevlib(self,name):
+		sdn = self.lib[name]
+		return '_'.join([sdn[''],sdn[''],sdn['name']])
 
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
@@ -65,7 +68,7 @@ class EagleXML:
                     pass
                 for devicesets in library.findall('devicesets'):
                   for deviceset in devicesets.findall('deviceset'):
-                    print "DEVICESET", list(deviceset), deviceset.attrib
+                    #print "DEVICESET", list(deviceset), deviceset.attrib
                     for description in deviceset.findall('description'):
                       #print "DESCRIPTION", description.text, \
                       #    list(description), description.attrib
@@ -78,7 +81,9 @@ class EagleXML:
                       for device in devices.findall('device'):
                         #print "DEVICES", device.attrib
                         # there be japage's here
-                        pass
+						print library,deviceset,device
+						
+                        #pass
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
                 pass # this iterates over ALL the attributes
@@ -93,7 +98,7 @@ class EagleXML:
                 d = part.attrib
                 self.parts[d['name']] = d
                 pass # this iterates over ALL the parts
-            print "PARTS DICT:", self.parts
+            #print "PARTS DICT:", self.parts
             for sheets in schematic.findall('sheets'):
               for sheet in sheets.findall('sheet'):
                 for plain in sheet.findall('plain'):
@@ -101,7 +106,7 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
-                    print instance.attrib
+                   # print instance.attrib
                     d = instance.attrib
                     instance_id = d['part']
                     library_id = self.getpartlib(instance_id)
