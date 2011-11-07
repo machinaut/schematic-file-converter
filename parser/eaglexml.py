@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 #
 # Basic Strategy
-# 1) Write Parser
-# 2) Create Design
-# 3) ...
-# 4) Profit!
+# 1) read all symbols into self.symbols
+# 2) read all gates (instances of symbols) into self.gates
+# 3) read all parts (relation instance->library) into self.parts
+# 3) read all instances (locations of instances) and use self.parts,
+#       self.gates, and self.symbols to connect to it's symbol
 
 # TODO(ajray): right now its one symbol per component
 #     we should properly handle all of Eagle's:

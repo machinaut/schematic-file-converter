@@ -13,7 +13,9 @@ from core.shape import *
 from core.net import *
 
 class JSON:
-    """ The JSON Format Parser """
+    """ The Open JSON Format Parser 
+    This is mostly for sanity checks, it reads in the Open JSON format,
+    and then outputs it. """
 
     def __init__(self):
         self.design = Design()
