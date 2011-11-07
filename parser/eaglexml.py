@@ -28,6 +28,7 @@ class EagleXML:
         self.symbols = dict()   # key:library_id  val:Symbol()
         self.gates = dict()     # key:gate_id     val:{lib,devset,sym}
         self.parts = dict()     # key:instance_id val:{lib,devset,dev}
+        self.scale = 10./2.54  # TODO: figure out a way to infer this
         pass
 
 
@@ -107,40 +108,51 @@ class EagleXML:
 
     def parse_wire(self,wire):
         # TODO: grab the width and layer
-        x1 = int(float(wire.attrib['x1'])*10)
-        y1 = int(float(wire.attrib['y1'])*10)
+        x1 = int(round(float(wire.attrib['x1'])*self.scale,-0))
+        y1 = int(round(float(wire.attrib['y1'])*self.scale,-0))
         p1 = Point(x1,y1)
-        x2 = int(float(wire.attrib['x2'])*10)
-        y2 = int(float(wire.attrib['y2'])*10)
+        x2 = int(round(float(wire.attrib['x2'])*self.scale,-0))
+        y2 = int(round(float(wire.attrib['y2'])*self.scale,-0))
         p2 = Point(x2,y2)
         return Line(p1,p2)
 
 
     def parse_text(self,text):
         # TODO grab the size
-        x = int(float(text.attrib['x'])*10)
-        y = int(float(text.attrib['y'])*10)
+        x = int(round(float(text.attrib['x'])*self.scale,-0))
+        y = int(round(float(text.attrib['y'])*self.scale,-0))
         r = 0 # TODO check rotation
         t = text.text
         align = 'left' # TODO check that this is never otherwise
-        return Label(x,y,t,align,r)
+        return Label(x,y-5,t,align,r)
 
 
     def parse_pin(self,pin):
         # TODO get pins direction, 
-        n = pin.attrib['name']
-        x = int(float(pin.attrib['x'])*10)
-        y = int(float(pin.attrib['y'])*10)
-        p1 = Point(x,y)
+        length = pin.attrib.get('length')
+        # TODO handle zero-length pins
+        if 'long' == length:
+            off = 30
+        elif 'middle' == length:
+            off = 20
+        #elif 'point' == length:
+        #    off = 0
+        else: # 'short' == length, and default
+            off = 10
+        n = pin.attrib.get('name')
+        x = int(round(float(pin.attrib['x'])*self.scale,-0))
+        y = int(round(float(pin.attrib['y'])*self.scale,-0))
+        p2 = Point(x,y)
         # TODO handle all of the rotations
         if pin.attrib.get('rot') == 'R180':
-          x -= 10
-          p2 = Point(x,y)
+          x -= off
+          p1 = Point(x,y)
+          l = Label(x-5,y-5,n,'right',0)
         else:
-          x += 10
-          p2 = Point(x,y)
+          x += off
+          p1 = Point(x,y)
+          l = Label(x+5,y-5,n,'left',0)
         # TODO figure out actual default pin length
-        l = Label(0,0,n,'left',0)
         return Pin(n,p1,p2,l)
         
 
@@ -204,8 +216,8 @@ class EagleXML:
 
         # Make the instance's symbol_attribute
         # TODO handle multi-body symbols
-        x = int(float(instance.attrib['x'])*10)
-        y = int(float(instance.attrib['y'])*10)
+        x = int(round(float(instance.attrib['x'])*self.scale,-0))
+        y = int(round(float(instance.attrib['y'])*self.scale,-0))
         rotation = 0 # TODO get the real rotation
         sa = SymbolAttribute(x,y,rotation)
         inst.add_symbol_attribute(sa)

@@ -99,8 +99,8 @@ class Pin:
     to nets. Basically a line segment, with a null end and a connect end
     """
 
-    def __init__(self, pin_number, p1, p2, pin_label=None):
-        self.pin_label = pin_label # is a Label
+    def __init__(self, pin_number, p1, p2, label=None):
+        self.label = label # is a Label
         self.p1 = p1 # is a Point, null end
         self.p2 = p2 # is a Point, connect end
         self.pin_number = pin_number
@@ -112,8 +112,8 @@ class Pin:
             "p1":self.p1.json(), 
             "p2":self.p2.json()
             }
-        if self.pin_label is not None:
-            d["pin_label"] = self.pin_label.json()
+        if self.label is not None:
+            d["label"] = self.label.json()
         return d
 
 
