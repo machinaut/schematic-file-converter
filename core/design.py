@@ -16,7 +16,13 @@ class Design:
         self.instances.append(instance)
 
     def add_component(self, component):
-        self.instances.append(component)
+        self.components.append(component)
+	
+	def add_net(self, net):
+		self.nets.append(net)
+
+	def add_attribute(self, attribute):
+		self.attributes.append(attribute)
 
     def json(self):
         """ prettify design for json outputting """
@@ -25,5 +31,5 @@ class Design:
                 "nets" : [n.json() for n in self.nets],
                 "components" : [c.json() for c in self.components],
                 "component_instances" : [i.json() for i in self.instances],
-                "attributes" : self.attributes
+                "design_attributes" : [a.json() for a in self.attributes]
                 }
