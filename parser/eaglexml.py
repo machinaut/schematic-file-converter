@@ -30,6 +30,80 @@ class EagleXML:
         pass
 
 
+    def parse(self, filename):
+        """ Parse an Eagle XML file into a design """
+        xmltree = ElementTree(file=filename)
+        root = xmltree.getroot()
+        drawings = root.findall('drawing')
+        for drawing in drawings:
+            #for grid in drawing.findall('grid'):
+            #for layers in drawing.findall('layers'):
+            #    for layer in layers.findall('layer'):
+            #for settings in drawing.findall('settings'):
+            #    for setting in settings.findall('settings'):
+            for schematic in drawing.findall('schematic'):
+                self.parse_schematic(schematic)
+        return self.design
+
+
+    def parse_schematic(self, schematic):
+        for libraries in schematic.findall('libraries'):
+            for library in libraries.findall('library'):
+                self.parse_library(library)
+        #for attributes in schematic.findall('attributes'):
+        #    for attribute in attributes.findall('attribute'):
+        #for variantdefs in schematic.findall('variantdefs'):
+        #    for variantdef in variantdefs.findall('variantdef'):
+        #for classes in schematic.findall('classes'):
+        #    for class_ in classes.findall('class'):
+        for parts in schematic.findall('parts'):
+            for part in parts.findall('part'):
+                self.parse_part(part)
+        for sheets in schematic.findall('sheets'):
+            for sheet in sheets.findall('sheet'):
+                self.parse_sheet(sheet)
+
+
+    def parse_library(self,library):
+        #for description in library.findall('description'):
+        #for packages in library.findall('packages'):
+        #    for package in packages.findall('package'):
+        for symbols in library.findall('symbols'):
+            for symbol in symbols.findall('symbol'):
+                self.parse_symbol(library,symbol)
+        for devicesets in library.findall('devicesets'):
+            for deviceset in devicesets.findall('deviceset'):
+                self.parse_deviceset(library,deviceset)
+      
+
+    def parse_symbol(self,library,symbol):
+        # Make the Body
+        # TODO handle multi-body symbols
+        b = Body()
+        for wire in symbol.findall('wire'):
+          b.add_shape(self.parse_wire(wire))
+        for text in symbol.findall('text'):
+          b.add_shape(self.parse_text(text))
+        for pin in symbol.findall('pin'):
+          b.add_pin(self.parse_pin(pin))
+
+        # Make the Symbol
+        s = Symbol()
+        s.add_body(b)
+        lib  = library.attrib.get('name')
+        sym = symbol.attrib.get('name')
+        library_id = lib + '_' + sym
+        self.symbols[library_id] = s
+
+        # Make the Component
+        # TODO handle multi-symbol components; now a comp for each symbol
+        c = Component(library_id,sym)
+        c.add_symbol(s)
+
+        # Add the Component (and Symbol and Body)
+        self.design.add_component(c)
+
+
     def parse_wire(self,wire):
         # TODO: grab the width and layer
         x1 = int(float(wire.attrib['x1'])*100)
@@ -65,34 +139,15 @@ class EagleXML:
         # TODO figure out actual default pin length
         l = Label(0,0,n,'left',0)
         return Pin(n,p1,p2,l)
+        
 
-
-    def parse_symbol(self,library,symbol):
-        # Make the Body
-        # TODO handle multi-body symbols
-        b = Body()
-        for wire in symbol.findall('wire'):
-          b.add_shape(self.parse_wire(wire))
-        for text in symbol.findall('text'):
-          b.add_shape(self.parse_text(text))
-        for pin in symbol.findall('pin'):
-          b.add_pin(self.parse_pin(pin))
-
-        # Make the Symbol
-        s = Symbol()
-        s.add_body(b)
-        lib  = library.attrib.get('name')
-        sym = symbol.attrib.get('name')
-        library_id = lib + '_' + sym
-        self.symbols[library_id] = s
-
-        # Make the Component
-        # TODO handle multi-symbol components; now a comp for each symbol
-        c = Component(library_id,sym)
-        c.add_symbol(s)
-
-        # Add the Component (and Symbol and Body)
-        self.design.add_component(c)
+    def parse_deviceset(self,library,deviceset):
+        #for description in deviceset.findall('description'):
+        for gates in deviceset.findall('gates'):
+            for gate in gates.findall('gate'):
+                self.parse_gate(library,deviceset,gate)
+        #for devices in deviceset.findall('devices'):
+        #    for device in devices.findall('device'):
 
 
     def parse_gate(self,library,deviceset,gate):
@@ -104,7 +159,7 @@ class EagleXML:
         self.gates[gate_id] = {"library" : lib,
                                "deviceset" : devset, 
                                "symbol" : sym}
-        
+
 
     def parse_part(self, part):
         instance_id = part.attrib.get('name')
@@ -113,6 +168,21 @@ class EagleXML:
             "deviceset" : part.attrib.get('deviceset'),
             "device"    : part.attrib.get('device') }
 
+
+    def parse_sheet(self,sheet):
+        #for plain in sheet.findall('plain'):
+        #    for text in plain.findall('text'):
+        for instances in sheet.findall('instances'):
+            for instance in instances.findall('instance'):
+                self.parse_instance(instance)
+        #for busses in sheet.findall('busses'):
+        #for nets in sheet.findall('nets'):
+        #    for net in nets.findall('net'):
+        #        for segment in net.findall('segment'):
+        #            for wire in segment.findall('wire'):
+        #            for junction in segment.findall('junction'):
+        #            for pinref in segment.findall('pinref'):
+        
 
     def parse_instance(self,instance):
         instance_id = instance.attrib.get('part')
@@ -139,73 +209,5 @@ class EagleXML:
 
         # Add Instance to the design
         self.design.add_component_instance(inst)
-
-
-    def parse(self, filename):
-        """ Parse an Eagle XML file into a design """
-        xmltree = ElementTree(file=filename)
-        root = xmltree.getroot()
-        drawings = root.findall('drawing')
-        for drawing in drawings:
-            #for grid in drawing.findall('grid'):
-            #for layers in drawing.findall('layers'):
-            #    for layer in layers.findall('layer'):
-            #for settings in drawing.findall('settings'):
-            #    for setting in settings.findall('settings'):
-            for schematic in drawing.findall('schematic'):
-                self.parse_schematic(schematic)
-        return self.design
-
-
-    def parse_schematic(self, schematic):
-        for libraries in schematic.findall('libraries'):
-            for library in libraries.findall('library'):
-                self.parse_library(library)
-        #for attributes in schematic.findall('attributes'):
-        #    for attribute in attributes.findall('attribute'):
-        #for variantdefs in schematic.findall('variantdefs'):
-        #    for variantdef in variantdefs.findall('variantdef'):
-        #for classes in schematic.findall('classes'):
-        #    for class_ in classes.findall('class'):
-        for parts in schematic.findall('parts'):
-            for part in parts.findall('part'):
-                self.parse_part(part)
-        for sheets in schematic.findall('sheets'):
-            for sheet in sheets.findall('sheet'):
-                self.parse_sheet(sheet)
-
-    def parse_library(self,library):
-        #for description in library.findall('description'):
-        #for packages in library.findall('packages'):
-        #    for package in packages.findall('package'):
-        for symbols in library.findall('symbols'):
-            for symbol in symbols.findall('symbol'):
-                self.parse_symbol(library,symbol)
-        for devicesets in library.findall('devicesets'):
-            for deviceset in devicesets.findall('deviceset'):
-                self.parse_deviceset(library,deviceset)
-      
-
-    def parse_deviceset(self,library,deviceset):
-        #for description in deviceset.findall('description'):
-        for gates in deviceset.findall('gates'):
-            for gate in gates.findall('gate'):
-                self.parse_gate(library,deviceset,gate)
-        #for devices in deviceset.findall('devices'):
-        #    for device in devices.findall('device'):
-
-    def parse_sheet(self,sheet):
-        #for plain in sheet.findall('plain'):
-        #    for text in plain.findall('text'):
-        for instances in sheet.findall('instances'):
-            for instance in instances.findall('instance'):
-                self.parse_instance(instance)
-        #for busses in sheet.findall('busses'):
-        #for nets in sheet.findall('nets'):
-        #    for net in nets.findall('net'):
-        #        for segment in net.findall('segment'):
-        #            for wire in segment.findall('wire'):
-        #            for junction in segment.findall('junction'):
-        #            for pinref in segment.findall('pinref'):
 
 
