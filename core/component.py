@@ -65,11 +65,3 @@ class Point: # Simple point, separate from the 'point' in nets
     self.y = y
   def json(self):
     return {"x":self.x, "y":self.y}
-
-# Test case
-if __name__=='__main__':
-  p1 = Point(0,0)
-  p2 = Point(10,10)
-  pl = shape.Label(6,6,"teeext","left",90)
-  mypin = Pin("2", p1, p2, pl)
-  print mypin.json()

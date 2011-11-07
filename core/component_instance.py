@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-import random
-import shape, annotation
 
-class Instance:
+class Component_Instance:
   def __init__(self, instance_id, library_id, symbol_index):
     self.instance_id = instance_id
     self.library_id = library_id
@@ -10,11 +8,11 @@ class Instance:
     self.symbol_attributes = list()
     self.attributes = dict()
 
-  def add_attribute(self, key, value):
-    self.attributes[key] = value
+  def add_attribute(self, attribute):
+    self.attributes[attribute.key] = attribute.value
 
-  def add_symbolattribute(self,sa):
-    self.symbol_attributes.append(sa)
+  def add_symbolattribute(self,symbol_attribute):
+    self.symbol_attributes.append(symbol_attribute)
   
   def get_instance_id(self):
     return self.instance_id
