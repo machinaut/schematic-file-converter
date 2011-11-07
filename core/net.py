@@ -49,8 +49,8 @@ class Net:
         """ return points array with point_id's instead of tuples """
         a = self.points.values()
         for p in a:
-            p["connected_points"] = [this.point_id(i) for i in p["connected_points"]]
-            p["point_id"] = this.point_id(p["point_id"])
+            p["connected_points"] = [self.point_id(i) for i in p["connected_points"]]
+            p["point_id"] = self.point_id(p["point_id"])
         return a
 
 

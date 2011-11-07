@@ -52,8 +52,8 @@ class KiCAD:
                 while line.strip() != "$EndComp":
                     line = f.readline()
             line = f.readline()
-        segments = this.divide(segments,junctions)
-        nets = this.calc_nets(segments)
+        segments = self.divide(segments,junctions)
+        nets = self.calc_nets(segments)
         circuit.nets = nets
         return circuit
 
@@ -80,7 +80,7 @@ class KiCAD:
             toremove = set()
             toadd = set()
             for seg in segments:
-                if this.intersect(seg,c):
+                if self.intersect(seg,c):
                     a,b = seg
                     toremove.add((a,b))
                     toadd.add((a,c))
