@@ -30,16 +30,73 @@ class EagleXML:
     def newinstance(self,inst):
         instance_id = inst['part']
         library_id = self.getpartlib(instance_id)
+    def parse_instance(self,instance):
+        instance_id = instance.attrib['part']
+        library_id = self.getpartlib(instance_id)
         symbol_index = 0 # TODO get me some of this
-        instance = Instance(instance_id, library_id, symbol_index)
-        instance.add_attribute('gate',inst['gate'])
-        # TODO make this conversion nicer, use the grid
-        x,y = int(float(inst['x'])*1000),int(float(inst['y'])*1000)
-        # TODO get a real rotation
-        sa = SymbolAttribute(x,y,0)
-        # TODO make a cogent SymbolAttribute
-        instance.add_symbolattribute(sa)
-        return instance
+
+        inst = Instance(instance_id, library_id, symbol_index)
+        inst.add_attribute('gate',instance.attrib.get('gate'))
+
+        # Add the symbol_attribute
+        x,y = int(float(inst['x'])*100),int(float(inst['y'])*100)
+        rotation = 0 # TODO get a real rotation
+        sa = SymbolAttribute(x,y,rotation)
+        inst.add_symbolattribute(sa)
+
+        circuit.add_instance(i)
+
+    def parse_wire(self,wire):
+        # TODO: grab the width and layer
+        x1 = int(float(wire.attrib['x1'])*100)
+        y1 = int(float(wire.attrib['y1'])*100)
+        x2 = int(float(wire.attrib['x2'])*100)
+        y2 = int(float(wire.attrib['y2'])*100)
+        return Line(x1,y1,x2,y2)
+    def parse_text(self,text):
+        # TODO grab the size
+        x = int(float(text.attrib['x'])*100)
+        y = int(float(text.attrib['y'])*100)
+        r = 0 # TODO check rotation
+        t = text.text
+        align = 'left' # TODO check that this is never otherwise
+        return Label(x,y,t,align,r)
+    def parse_pin(self,pin):
+        # TODO get pins direction, 
+        n = pin.attrib['name']
+        x = int(float(pin.attrib['x'])*100)
+        y = int(float(pin.attrib['y'])*100)
+        p1 = Point(x,y)
+        if pin.attrib.get('rot') == 'R180':
+          x -= 10
+          p2 = Point(x,y)
+        else:
+          x += 10
+          p2 = Point(x,y)
+        # TODO figure out actual default pin length
+        l = Label(0,0,n,'left',0)
+        return Pin(n,p1,p2,l)
+    def parse_symbol(self,symbol):
+        name = symbol.attrib['name']
+        b = Body()
+        for wire in symbol.findall('wire'):
+          b.add_shape(self.parse_wire(wire))
+        for text in symbol.findall('text'):
+          b.add_shape(self.parse_text(text))
+        for pin in symbol.findall('pin'):
+          b.add_pin(self.parse_pin(pin))
+        s = Symbol()
+        s.add_body(b)
+        self.symbols[name] = s
+        """
+        gat = instance.attrib.get('gate')
+        symnam = self.gates.get(gat).get('symbol')
+        sym = self.symbols.get(symnam)
+        # TODO leet hax
+        c = Component(library_id,symnam)
+        c.add_symbol(sym)
+        circuit.add_component(c)
+        """
 
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
@@ -78,45 +135,7 @@ class EagleXML:
                     pass
                 for symbols in library.findall('symbols'):
                   for symbol in symbols.findall('symbol'):
-                    name = symbol.attrib['name']
-                    lib_id = library.attrib['name']+'_'+name
-                    # NOTE: this is NOT the correct library_id
-                    s = Symbol()
-                    b = Body()
-                    for wire in symbol.findall('wire'):
-                      # TODO: grab the width and layer
-                      x1 = int(float(wire.attrib['x1'])*1000)
-                      y1 = int(float(wire.attrib['y1'])*1000)
-                      x2 = int(float(wire.attrib['x2'])*1000)
-                      y2 = int(float(wire.attrib['y2'])*1000)
-                      b.add_shape(Line(x1,y1,x2,y2))
-                    for text in symbol.findall('text'):
-                      # TODO grab the size
-                      x = int(float(text.attrib['x'])*1000)
-                      y = int(float(text.attrib['y'])*1000)
-                      r = 0 # TODO check rotation
-                      t = text.text
-                      align = 'left' # TODO check that this is never else
-                      b.add_shape(Label(x,y,t,align,r))
-                    for pin in symbol.findall('pin'):
-                      # TODO get pins direction, 
-                      n = pin.attrib['name']
-                      x = int(float(pin.attrib['x'])*1000)
-                      y = int(float(pin.attrib['y'])*1000)
-                      p1 = Point(x,y)
-                      if pin.attrib.get('rot') == 'R180':
-                        x -= 10
-                        p2 = Point(x,y)
-                      else:
-                        x += 10
-                        p2 = Point(x,y)
-                      # TODO figure out actual default length
-                      l = Label(0,0,n,'left',0)
-                      b.add_pin(Pin(n,p1,p2,l))
-                    s.add_body(b)
-                    self.symbols[name] = s
-                    #print "SYMBOL", symbol.attrib
-                    pass
+                    self.parse_symbol(symbol)
                 for devicesets in library.findall('devicesets'):
                   for deviceset in devicesets.findall('deviceset'):
                     #print "DEVICESET", list(deviceset), deviceset.attrib
@@ -161,6 +180,7 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
+                    self.parse_instance(instance)
                     i = self.newinstance(instance.attrib)
                     instance_id = instance.attrib['part']
                     library_id = self.getpartlib(instance_id)
