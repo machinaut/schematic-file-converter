@@ -13,7 +13,7 @@ class Component:
     self.attributes[key] = value
 
   def add_symbol(self, symbol):
-    self.symbols.append(symbol.json())
+    self.symbols.append(symbol)
 
   def json(self):
     return {"symbols": [s.json() for s in self.symbols],
@@ -40,7 +40,7 @@ class Body:
     self.pins.append(pin)
 
   def add_shape(self, shape):
-    self.shape.append(shape)
+    self.shapes.append(shape)
 
   def json(self):
     return {"shapes":[s.json() for s in self.shapes],

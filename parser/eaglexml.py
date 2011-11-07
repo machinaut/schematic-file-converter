@@ -6,9 +6,10 @@
 # 3) ...
 # 4) Profit!
 
-from core.design import Design
-from core.component import Component
-from core.instance import Instance,SymbolAttribute
+from core.design import *
+from core.component import *
+from core.instance import *
+from core.shape import *
 from xml.etree.ElementTree import ElementTree
 
 
@@ -18,6 +19,8 @@ class EagleXML:
     def __init__(self):
         self.parts = dict() # key by part name == instance_id
         self.lib = dict() # key by lib_devset_dev == library_id
+        self.gates = dict() # key by gate name
+        self.symbols = dict() # key by symbol name
         pass
 
     def getpartlib(self,name):
@@ -43,7 +46,7 @@ class EagleXML:
         circuit = Design()
 
         #import an xmltree from the file provided
-       	xmltree = ElementTree(file=filename)
+        xmltree = ElementTree(file=filename)
         root = xmltree.getroot()
         # use elem.findall() to make sure to iterate over duplicates
         drawings = root.findall('drawing')
@@ -75,6 +78,43 @@ class EagleXML:
                     pass
                 for symbols in library.findall('symbols'):
                   for symbol in symbols.findall('symbol'):
+                    name = symbol.attrib['name']
+                    lib_id = library.attrib['name']+'_'+name
+                    # NOTE: this is NOT the correct library_id
+                    s = Symbol()
+                    b = Body()
+                    for wire in symbol.findall('wire'):
+                      # TODO: grab the width and layer
+                      x1 = int(float(wire.attrib['x1'])*1000)
+                      y1 = int(float(wire.attrib['y1'])*1000)
+                      x2 = int(float(wire.attrib['x2'])*1000)
+                      y2 = int(float(wire.attrib['y2'])*1000)
+                      b.add_shape(Line(x1,y1,x2,y2))
+                    for text in symbol.findall('text'):
+                      # TODO grab the size
+                      x = int(float(text.attrib['x'])*1000)
+                      y = int(float(text.attrib['y'])*1000)
+                      r = 0 # TODO check rotation
+                      t = text.text
+                      align = 'left' # TODO check that this is never else
+                      b.add_shape(Label(x,y,t,align,r))
+                    for pin in symbol.findall('pin'):
+                      # TODO get pins direction, 
+                      n = pin.attrib['name']
+                      x = int(float(pin.attrib['x'])*1000)
+                      y = int(float(pin.attrib['y'])*1000)
+                      p1 = Point(x,y)
+                      if pin.attrib.get('rot') == 'R180':
+                        x -= 10
+                        p2 = Point(x,y)
+                      else:
+                        x += 10
+                        p2 = Point(x,y)
+                      # TODO figure out actual default length
+                      l = Label(0,0,n,'left',0)
+                      b.add_pin(Pin(n,p1,p2,l))
+                    s.add_body(b)
+                    self.symbols[name] = s
                     #print "SYMBOL", symbol.attrib
                     pass
                 for devicesets in library.findall('devicesets'):
@@ -86,22 +126,19 @@ class EagleXML:
                       pass
                     for gates in deviceset.findall('gates'):
                       for gate in gates.findall('gate'):
-                        #print "GATE", gate.attrib
+                        self.gates[gate.attrib['name']] = gate.attrib
                         pass
                     for devices in deviceset.findall('devices'):
                       for device in devices.findall('device'):
                         #print "DEVICES", device.attrib
                         # there be japage's here
-						library_id = '_'.join(
-								[library.attrib['name'],
-								deviceset.attrib['name'],
-								device.attrib['name']])
-						name = device.attrib['name']
-						attributes = {}
-						symbols = {}
-						
-
-                        #pass
+                        library_id = '_'.join(
+                            [library.attrib['name'],
+                            deviceset.attrib['name'],
+                            device.attrib['name']])
+                        name = device.attrib['name']
+                        c = Component(library_id,name)
+                        self.lib[library_id] = c
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
                 pass # this iterates over ALL the attributes
@@ -125,6 +162,15 @@ class EagleXML:
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
                     i = self.newinstance(instance.attrib)
+                    instance_id = instance.attrib['part']
+                    library_id = self.getpartlib(instance_id)
+                    gat = instance.attrib.get('gate')
+                    symnam = self.gates.get(gat).get('symbol')
+                    sym = self.symbols.get(symnam)
+                    # TODO leet hax
+                    c = Component(library_id,symnam)
+                    c.add_symbol(sym)
+                    circuit.add_component(c)
                     circuit.add_instance(i)
                 for busses in sheet.findall('busses'):
                   pass
@@ -137,4 +183,7 @@ class EagleXML:
                         pass
                       for pinref in segment.findall('pinref'):
                         pass
+        print self.symbols
+        print self.gates
+        print self.lib
         return circuit

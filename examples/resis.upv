@@ -1,0 +1,196 @@
+{
+  "component_instances": [
+    {
+      "attributes": {
+        "refdes": "R1"
+      }, 
+      "instance_id": "d6e292935dcf4ecf", 
+      "library_id": "0b9371925a87fdf7", 
+      "symbol_attributes": [
+        {
+          "annotations": [
+            {
+              "rotation": 0.0, 
+              "value": "_name", 
+              "visible": "true", 
+              "x": 465, 
+              "y": 330
+            }, 
+            {
+              "rotation": 0.0, 
+              "value": "refdes", 
+              "visible": "true", 
+              "x": 450, 
+              "y": 325
+            }
+          ], 
+          "rotation": 0.0, 
+          "x": 460, 
+          "y": 370
+        }
+      ], 
+      "symbol_index": 0
+    }
+  ], 
+  "components": {
+    "0b9371925a87fdf7": {
+      "attributes": {
+        "Connect": "", 
+        "Imported from": "Seeed Studio", 
+        "Resistance": "1.5 k\u03a9", 
+        "_datasheet": "http://www.tai.com.tw/media/files/spec/RM.pdf", 
+        "_lead_free": "Yes", 
+        "_manufacturer": "TA-I Technology", 
+        "_num_pins": "2", 
+        "_package": "0603", 
+        "_part_number": "RM06JTN152", 
+        "_prefix": "R", 
+        "_rohs": "???", 
+        "_symbol_0_0": "Resistor", 
+        "_type": "resistor"
+      }, 
+      "name": "1.5 k\u03a9 Resistor", 
+      "symbols": [
+        {
+          "bodies": [
+            {
+              "pins": [
+                {
+                  "p1": {
+                    "x": 10, 
+                    "y": -10
+                  }, 
+                  "p2": {
+                    "x": 0, 
+                    "y": -10
+                  }, 
+                  "pin_number": "1"
+                }, 
+                {
+                  "p1": {
+                    "x": 40, 
+                    "y": -10
+                  }, 
+                  "p2": {
+                    "x": 50, 
+                    "y": -10
+                  }, 
+                  "pin_number": "2"
+                }
+              ], 
+              "shapes": [
+                {
+                  "p1": {
+                    "x": 10, 
+                    "y": -10
+                  }, 
+                  "p2": {
+                    "x": 13, 
+                    "y": -5
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 13, 
+                    "y": -5
+                  }, 
+                  "p2": {
+                    "x": 18, 
+                    "y": -15
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 18, 
+                    "y": -15
+                  }, 
+                  "p2": {
+                    "x": 23, 
+                    "y": -5
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 23, 
+                    "y": -5
+                  }, 
+                  "p2": {
+                    "x": 28, 
+                    "y": -15
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 28, 
+                    "y": -15
+                  }, 
+                  "p2": {
+                    "x": 33, 
+                    "y": -5
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 33, 
+                    "y": -5
+                  }, 
+                  "p2": {
+                    "x": 38, 
+                    "y": -15
+                  }, 
+                  "type": "line"
+                }, 
+                {
+                  "p1": {
+                    "x": 38, 
+                    "y": -15
+                  }, 
+                  "p2": {
+                    "x": 40, 
+                    "y": -10
+                  }, 
+                  "type": "line"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }, 
+  "design_attributes": {
+    "annotations": [
+      {
+        "rotation": 0.0, 
+        "value": "_name", 
+        "visible": "true", 
+        "x": 665, 
+        "y": 570
+      }
+    ], 
+    "attributes": {
+      "_resistor_counter": "1"
+    }, 
+    "comments": [], 
+    "metadata": {
+      "attached_urls": [], 
+      "description": " ", 
+      "design_id": "4af2c4ef381064db", 
+      "license": "No Licence", 
+      "name": "resis", 
+      "owner": "ajray", 
+      "slug": "resis", 
+      "updated_timestamp": 1320640136
+    }
+  }, 
+  "nets": [], 
+  "version": {
+    "exporter": "Upverter", 
+    "file_version": "0.1.0"
+  }
+}

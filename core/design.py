@@ -15,6 +15,9 @@ class Design:
     def add_instance(self, instance):
         self.instances.append(instance)
 
+    def add_component(self, component):
+        self.instances.append(component)
+
     def json(self):
         """ prettify design for json outputting """
         return {
