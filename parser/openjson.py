@@ -10,6 +10,7 @@ from core.components import *
 from core.design import *
 from core.design_attributes import *
 from core.shape import *
+from core.net import *
 
 class JSON:
     """ The JSON Format Parser """
@@ -182,7 +183,39 @@ class JSON:
 
 
     def parse_nets(self, nets):
-        pass
+        for net in nets:
+            net_id = net.get('net_id')
+            n = Net(net_id)
+            # Add Annotations
+            for annotation in net.get('annotations'):
+                a = self.parse_annotation(annotation)
+                n.add_annotation(a)
+            # Get the Attributes
+            for key,value in net.get('attributes').items():
+                n.add_attribute(key, value)
+            # Get the Points
+            for net_point in net.get('points'):
+                np = self.parse_net_point(net_point)
+                n.add_net_point(np)
+            self.design.add_net(n)
 
 
+    def parse_net_point(self,net_point):
+        point_id = net_point.get('point_id')
+        x = int(net_point.get('x'))
+        y = int(net_point.get('y'))
+        np = NetPoint(point_id,x,y)
+        # Get the connected points
+        for point in net_point.get('connected_points'):
+            np.add_connected_point(point)
+        # Get the ConnectedComponents
+        for connectedcomponent in net_point.get('connected_components'):
+            cc = self.parse_connected_component(connectedcomponent)
+            np.add_connected_component(cc)
+        return np
 
+
+    def parse_connected_component(self,connectedcomponent):
+        instance_id = connectedcomponent.get('instance_id')
+        pin_number = connectedcomponent.get('pin_number')
+        return ConnectedComponent(instance_id, pin_number)

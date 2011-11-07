@@ -1,0 +1,80 @@
+{
+  "component_instances": [], 
+  "components": {}, 
+  "design_attributes": {
+    "annotations": [], 
+    "attributes": {}, 
+    "comments": [], 
+    "metadata": {
+      "attached_urls": [], 
+      "description": " ", 
+      "design_id": "0fcf44f91f3924a9", 
+      "license": "No Licence", 
+      "name": "nets", 
+      "owner": "ajray", 
+      "slug": "nets", 
+      "updated_timestamp": 1320673493
+    }
+  }, 
+  "nets": [
+    {
+      "annotations": [], 
+      "attributes": {}, 
+      "net_id": "24fd228db1d0515b", 
+      "points": [
+        {
+          "connected_components": [], 
+          "connected_points": [
+            "eac65a90971ed892"
+          ], 
+          "point_id": "c1fa9119bf8234b2", 
+          "x": 820, 
+          "y": 510
+        }, 
+        {
+          "connected_components": [], 
+          "connected_points": [
+            "eac65a90971ed892"
+          ], 
+          "point_id": "e29f1ec28abc09d4", 
+          "x": 540, 
+          "y": 510
+        }, 
+        {
+          "connected_components": [], 
+          "connected_points": [
+            "e29f1ec28abc09d4", 
+            "c1fa9119bf8234b2", 
+            "13796b2c5891a9da"
+          ], 
+          "point_id": "eac65a90971ed892", 
+          "x": 670, 
+          "y": 510
+        }, 
+        {
+          "connected_components": [], 
+          "connected_points": [
+            "eac65a90971ed892", 
+            "b94b85d0a1682c27"
+          ], 
+          "point_id": "13796b2c5891a9da", 
+          "x": 670, 
+          "y": 430
+        }, 
+        {
+          "connected_components": [], 
+          "connected_points": [
+            "13796b2c5891a9da"
+          ], 
+          "point_id": "b94b85d0a1682c27", 
+          "x": 590, 
+          "y": 430
+        }
+      ]
+    }
+  ], 
+  "version": {
+    "exporter": "Upverter", 
+    "file_version": "0.1.0"
+  }
+}
