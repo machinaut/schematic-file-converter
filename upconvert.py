@@ -14,7 +14,7 @@
 import os, re, copy, json
 import parser.json, parser.kicad
 import parser.eaglexml
-import writer.json, writer.kicad
+import writer.openjson, writer.kicad
 from argparse import ArgumentParser
 
 parsers = {
@@ -24,7 +24,7 @@ parsers = {
 }
 
 writers = {
-    'json': writer.json.JSON,
+    'openjson': writer.openjson.JSON,
     'kicad': writer.kicad.KiCAD
 }
 
@@ -38,7 +38,7 @@ def parse(f, format='kicad'):
         exit(1)
 
 
-def write(d, f, format='json'):
+def write(d, f, format='openjson'):
     try:
         w = writers[format]()
         return w.write(d, f)
@@ -65,6 +65,4 @@ if __name__ == "__main__":
 
     # parse and export the data
     design = parse(inputfile, inputtype)
-    #FIXME write(design, outputfile, outputtype)
-    #design.write(outputfile)
-    #print design
+    write(design, outputfile, outputtype)

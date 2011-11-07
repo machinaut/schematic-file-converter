@@ -8,6 +8,7 @@
 
 from core.design import Design
 from core.component import Component
+from core.instance import Instance
 from xml.etree.ElementTree import ElementTree
 
 
@@ -58,7 +59,7 @@ class EagleXML:
                     pass
                 for devicesets in library.findall('devicesets'):
                   for deviceset in devicesets.findall('deviceset'):
-                    print "DEVICESET", list(deviceset), deviceset.attrib
+                    #print "DEVICESET", list(deviceset), deviceset.attrib
                     for description in deviceset.findall('description'):
                       #print "DESCRIPTION", description.text, \
                       #    list(description), description.attrib
@@ -90,7 +91,13 @@ class EagleXML:
                     pass
                 for instances in sheet.findall('instances'):
                   for instance in instances.findall('instance'):
-                    print "INSTANCE", instance.attrib
+                    d = instance.attrib
+                    instance_id = d['part']
+                    library_id = 'foo' # TODO figure these out from lib
+                    symbol_index = 'bar' # TODO same
+                    i = Instance(instance_id, library_id, symbol_index)
+                    i.add_attribute('gate',d['gate'])
+                    circuit.add_instance(i)
                     pass
                 for busses in sheet.findall('busses'):
                   pass

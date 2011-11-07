@@ -19,8 +19,8 @@ class Design:
         """ prettify design for json outputting """
         return {
                 "version" : self.version,
-                "nets" : [i.json() for i in self.nets],
+                "nets" : [n.json() for n in self.nets],
                 "components" : self.components,
-                "instances" : self.instances,
+                "instances" : [i.json() for i in self.instances],
                 "attributes" : self.attributes
                 }
