@@ -68,7 +68,7 @@ class Symbol:
 
 
     def json(self):
-        return [b.json() for b in self.bodies]
+        return {"bodies":[b.json() for b in self.bodies]}
 
 
 class Body:

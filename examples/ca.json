@@ -1,20 +1,20 @@
 {
-  "component_instances": [
-    {
-      "attributes": {}, 
-      "instance_id": "C1", 
-      "library_id": "cap_C-US",
-      "symbol_attributes": [
+    "component_instances": [
         {
-          "annotations": [], 
-          "rotation": 0.0, 
-          "x": 600, 
-          "y": 510
+            "attributes": {}, 
+            "instance_id": "C1", 
+            "library_id": "cap_C-US", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 6096, 
+                    "y": 3810
+                }
+            ], 
+            "symbol_index": 0
         }
-      ], 
-      "symbol_index": 0
-    }
-  ], 
+    ], 
   "components": {
     "cap_C-US": {
       "attributes": { }, 

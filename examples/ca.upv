@@ -85,7 +85,14 @@
                     "y": -20
                   }, 
                   "type": "line"
-                }
+                },
+                            {
+                                "align": "left", 
+                                "rotation": 0, 
+                                "text": "VALUE", 
+                                "type": "label", 
+                                "x": 0, "y": 0
+                            }
               ]
             }
           ]

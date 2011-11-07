@@ -107,19 +107,19 @@ class EagleXML:
 
     def parse_wire(self,wire):
         # TODO: grab the width and layer
-        x1 = int(float(wire.attrib['x1'])*100)
-        y1 = int(float(wire.attrib['y1'])*100)
+        x1 = int(float(wire.attrib['x1'])*10)
+        y1 = int(float(wire.attrib['y1'])*10)
         p1 = Point(x1,y1)
-        x2 = int(float(wire.attrib['x2'])*100)
-        y2 = int(float(wire.attrib['y2'])*100)
+        x2 = int(float(wire.attrib['x2'])*10)
+        y2 = int(float(wire.attrib['y2'])*10)
         p2 = Point(x2,y2)
         return Line(p1,p2)
 
 
     def parse_text(self,text):
         # TODO grab the size
-        x = int(float(text.attrib['x'])*100)
-        y = int(float(text.attrib['y'])*100)
+        x = int(float(text.attrib['x'])*10)
+        y = int(float(text.attrib['y'])*10)
         r = 0 # TODO check rotation
         t = text.text
         align = 'left' # TODO check that this is never otherwise
@@ -129,8 +129,8 @@ class EagleXML:
     def parse_pin(self,pin):
         # TODO get pins direction, 
         n = pin.attrib['name']
-        x = int(float(pin.attrib['x'])*100)
-        y = int(float(pin.attrib['y'])*100)
+        x = int(float(pin.attrib['x'])*10)
+        y = int(float(pin.attrib['y'])*10)
         p1 = Point(x,y)
         # TODO handle all of the rotations
         if pin.attrib.get('rot') == 'R180':
@@ -204,8 +204,8 @@ class EagleXML:
 
         # Make the instance's symbol_attribute
         # TODO handle multi-body symbols
-        x = int(float(instance.attrib['x'])*100)
-        y = int(float(instance.attrib['y'])*100)
+        x = int(float(instance.attrib['x'])*10)
+        y = int(float(instance.attrib['y'])*10)
         rotation = 0 # TODO get the real rotation
         sa = SymbolAttribute(x,y,rotation)
         inst.add_symbol_attribute(sa)
