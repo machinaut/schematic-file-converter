@@ -9,8 +9,8 @@
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="resistor">
-<description>&lt;b&gt;Resistors, Capacitors, Inductors&lt;/b&gt;&lt;p&gt;
+<library name="cap">
+<description>Capacitor</description>
 <symbols>
 <symbol name="C-US">
 <wire x1="-2.54" y1="0" x2="2.54" y2="0" width="0.254" layer="94"/>
@@ -39,14 +39,6 @@
 <technology name=""/>
 </technologies>
 </device>
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
 </devices>
 </deviceset>
 </devicesets>
@@ -61,7 +53,7 @@
 </class>
 </classes>
 <parts>
-<part name="C1" library="resistor" deviceset="C-US" device="C0805"/>
+<part name="C1" library="cap" deviceset="C-US" device="C0805"/>
 </parts>
 <sheets>
 <sheet>
