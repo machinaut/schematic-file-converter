@@ -23,9 +23,6 @@ class EagleXML:
     def getpartlib(self,name):
         spn = self.parts[name]
         return '_'.join([spn['library'],spn['deviceset'],spn['device']])
-	def getdevlib(self,name):
-		sdn = self.lib[name]
-		return '_'.join([sdn[''],sdn[''],sdn['name']])
 
     def newinstance(self,inst):
         instance_id = inst['part']
@@ -95,8 +92,15 @@ class EagleXML:
                       for device in devices.findall('device'):
                         #print "DEVICES", device.attrib
                         # there be japage's here
-						print library,deviceset,device
+						library_id = '_'.join(
+								[library.attrib['name'],
+								deviceset.attrib['name'],
+								device.attrib['name']])
+						name = device.attrib['name']
+						attributes = {}
+						symbols = {}
 						
+
                         #pass
             for attributes in schematic.findall('attributes'):
               for attribute in attributes.findall('attribute'):
