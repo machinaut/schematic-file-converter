@@ -97,20 +97,22 @@ class EagleXML:
 
         # Make the Component
         # TODO handle multi-symbol components; now a comp for each symbol
-        c = Component(library_id,sym)
+        c = Component(sym)
         c.add_symbol(s)
 
         # Add the Component (and Symbol and Body)
-        self.design.add_component(c)
+        self.design.add_component(library_id,c)
 
 
     def parse_wire(self,wire):
         # TODO: grab the width and layer
         x1 = int(float(wire.attrib['x1'])*100)
         y1 = int(float(wire.attrib['y1'])*100)
+        p1 = Point(x1,y1)
         x2 = int(float(wire.attrib['x2'])*100)
         y2 = int(float(wire.attrib['y2'])*100)
-        return Line(x1,y1,x2,y2)
+        p2 = Point(x2,y2)
+        return Line(p1,p2)
 
 
     def parse_text(self,text):
