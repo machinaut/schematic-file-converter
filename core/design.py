@@ -2,11 +2,13 @@
 
 
 class Design:
-    """ Design represents the whole schematic, and the top level of the output format
-    Internal representation of a Design, closely matches JSON Design"""
+    """ The Design class represents the whole schematic, which is also
+    the top level of the output format.  The internal structure of this
+    class closely matches the JSON output."""
 
     def __init__(self):
-        self.version = {"file_version":"0.0.1", "tool_name":"Upverter converter"}
+        self.version = {"file_version":"0.0.1",
+                        "tool_name":"Upverter converter"}
         self.nets = []
         self.components = []
         self.instances = []
@@ -18,11 +20,11 @@ class Design:
     def add_component(self, component):
         self.components.append(component)
 	
-	def add_net(self, net):
-		self.nets.append(net)
+    def add_net(self, net):
+        self.nets.append(net)
 
-	def add_attribute(self, key, value):
-		self.attributes[key] = value
+    def add_attribute(self, key, value):
+        self.attributes[key] = value
 
     def json(self):
         """ prettify design for json outputting """
