@@ -2,16 +2,6 @@
 import random
 import shape
 
-class componentInstance:
-  def __init__(self, instance_id, library_id):
-    self.instance_id = instance_id
-    self.library_id = library_id
-    self.symbol_index = list()
-  
-  def get_instance_id(self):
-    return self.instance_id
-
-
 class Component:
   def __init__(self,library_id,name):
     self.library_id = library_id

@@ -17,7 +17,6 @@ class EagleXML:
     def __init__(self):
         pass
 
-
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
         circuit = Design()
