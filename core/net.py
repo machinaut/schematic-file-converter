@@ -16,7 +16,7 @@ class Net:
         
 
     def add_attribute(self, key, value):
-        self.attribute[key] = value
+        self.attributes[key] = value
 
 
     def add_point(self,p):

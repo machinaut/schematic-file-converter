@@ -118,7 +118,7 @@ class Label(Shape):
         self.x = x
         self.y = y
         self.text = text
-        self.rotation = rotation
+        self.rotation = rotation # TODO verify correct value
         # Parse , TODO maybe clean this up some, dont need to accept 
         #   all of these inputs, converting to lowercase would be enough
         if align in ["left","Left"]:
@@ -180,26 +180,34 @@ class Polygon(Shape):
             }
 
 
-class Biezer_Curve(Shape):
+class BezierCurve(Shape):
     """ A parametric curved line """
 
-    def __init__(self,control1x,control1y,control2x,control2y,point1x,
-            point1y,point2x,point2y):
+    def __init__(self,control1,control2,p1,p2):
+        self.type = "bezier" 
+        self.control1 = control1
+        self.control2 = control2
+        self.p1 = p1
+        self.p2 = p2
+
+
+    def build(self,control1x,control1y,control2x,control2y,p1x,
+            p1y,p2x,p2y):
         self.type = "bezier" 
         self.control1 = {"x":control1x,"y":control1y}
         self.control2 = {"x":control2x,"y":control2y}
-        self.point1 = {"x":point1x,"y":point1y}
-        self.point2 = {"x":point2x,"y":point2y}
+        self.p1 = {"x":p1x,"y":p1y}
+        self.p2 = {"x":p2x,"y":p2y}
 
 
     def json(self):
         """ return a dict for json outputting """
         return {
             "type":self.type,
-            "control1":self.control1,
-            "control2":self.control2,
-            "point1":self.point1,
-            "point2":self.point2,
+            "control1":self.control1.json(),
+            "control2":self.control2.json(),
+            "p1":self.p1.json(),
+            "p2":self.p2.json(),
             }
 
 

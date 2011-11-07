@@ -29,6 +29,7 @@ class JSON:
         self.parse_design_attributes(read.get('design_attributes'))
         self.parse_nets(read.get('nets'))
         self.parse_version(read.get('version'))
+
         return self.design
 
 
@@ -144,11 +145,53 @@ class JSON:
 
     def parse_shape(self,shape):
         typ = shape.get('type')
-        # TODO finish these out
-        if typ == 'line':
+        if 'rectangle' == typ:
+            x = int(shape.get('x'))
+            y = int(shape.get('y'))
+            height = int(shape.get('height'))
+            width = int(shape.get('width'))
+            return Rectangle(x,y,width,height)
+        elif 'rounded_rectangle' == typ:
+            x = int(shape.get('x'))
+            y = int(shape.get('y'))
+            height = int(shape.get('height'))
+            width = int(shape.get('width'))
+            radius = int(shape.get('radius'))
+            return RoundedRectangle(x,y,width,height,radius)
+        elif 'arc' == typ:
+            x = int(shape.get('x'))
+            y = int(shape.get('y'))
+            start_angle = int(shape.get('start_angle'))
+            end_angle = int(shape.get('end_angle'))
+            radius = int(shape.get('radius'))
+            return Arc(x,y,start_angle,end_angle,radius)
+        elif 'circle' == typ:
+            x = int(shape.get('x'))
+            y = int(shape.get('y'))
+            radius = int(shape.get('radius'))
+            return Circle(x,y,radius)
+        elif 'label' == typ:
+            x = int(shape.get('x'))
+            y = int(shape.get('y'))
+            rotation = float(shape.get('rotation'))
+            text = shape.get('text')
+            align = shape.get('align')
+            return Label(x,y,text,align,rotation)
+        elif 'line' == typ:
             p1 = self.parse_point(shape.get('p1'))
             p2 = self.parse_point(shape.get('p2'))
             return Line(p1,p2)
+        elif 'polygon' == typ:
+            p = Polygon()
+            for point in shape.get('points'):
+                p.addPoint(self.parse_point(point))
+            return p
+        elif 'bezier' == typ:
+            control1 = self.parse_point(shape.get('control1'))
+            control2 = self.parse_point(shape.get('control2'))
+            p1 = self.parse_point(shape.get('p1'))
+            p2 = self.parse_point(shape.get('p2'))
+            return BezierCurve(control1,control2,p1,p2)
 
 
     def parse_design_attributes(self, design_attributes):
