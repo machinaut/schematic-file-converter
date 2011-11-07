@@ -138,7 +138,7 @@ class EagleXML:
         inst.add_symbolattribute(sa)
 
         # Add Instance to the design
-        self.design.add_instance(inst)
+        self.design.add_component_instance(inst)
 
 
     def parse(self, filename):

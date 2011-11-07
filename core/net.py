@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 class Net:
     """ a Net with metadata and a list of points (with connections)
     Internal representation of a net, closely matches JSON net """
@@ -12,13 +11,17 @@ class Net:
         self.annotations = []
 
 
+    def add_annotation(self, annotation):
+        self.annotations.append(annotation)
+
+
     def addpoint(self,p):
         """ Add a point p to the net """
         self.points[p] = {
-            "point_id": p, #internally use the point tuples as ID's, output as string id's
+            "point_id": p, # use the point tuples as ID's
             "x":p[0],
             "y":p[1],
-            "connected_components": [], #TODO: read component library to find this
+            "connected_components": [],
             "connected_points": set()
             }
 
@@ -54,16 +57,18 @@ class Net:
         return a
 
 
-    def json(self):
-        """ return a dict for json outputting """
-        return {
-                "attributes":self.attributes,
-                "annotations":self.annotations,
-                "net_id":self.net_id,
-                "points":self.prettypoints()
-                }
-
-
     def point_id(self, p):
         """ point_id gives a point id of the form 6100x4950, which is unique for each point """
         return str(p[0])+"x"+str(p[1])
+
+
+    def json(self):
+        """ return a dict for json outputting """
+        return {
+            "attributes":self.attributes,
+            "annotations":[a.json() for a in self.annotations],
+            "net_id":self.net_id,
+            "points":self.prettypoints()
+            }
+
+
