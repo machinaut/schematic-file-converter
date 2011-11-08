@@ -12,6 +12,7 @@
 #     libraries, devicesets, devices, packages, and symbols
 #     but thats all too complex for right now
 
+import math
 from core.design import *
 from core.component_instance import *
 from core.components import *
@@ -110,11 +111,35 @@ class EagleXML:
         # TODO: grab the width and layer
         x1 = int(round(float(wire.attrib['x1'])*self.scale,-0))
         y1 = int(round(float(wire.attrib['y1'])*self.scale,-0))
-        p1 = Point(x1,y1)
         x2 = int(round(float(wire.attrib['x2'])*self.scale,-0))
         y2 = int(round(float(wire.attrib['y2'])*self.scale,-0))
-        p2 = Point(x2,y2)
-        return Line(p1,p2)
+        curve = wire.attrib.get('curve')
+        if curve is None:
+            p1 = Point(x1,y1)
+            p2 = Point(x2,y2)
+            return Line(p1,p2)
+        else: # curve is not None:
+            return self.parse_curve(x1,y1,x2,y2,curve)
+
+
+    def parse_curve(self,x1,y1,x2,y2,curve):
+        # NOTE: oh dear lord geometry
+        # TODO: add this mathematical def'n of an arc to core/shape.py
+        theta = math.radians(float(curve))
+        if theta < 0: # negative angle-> switch points
+            x1,y1,x2,y2 = x2,y2,x1,y1
+            theta = -theta
+        d = math.sqrt((x1-x2)**2+(y1-y2)**2)
+        R = d / 2 / math.sin(theta/2.)
+        alpha = (math.pi-theta)/2. - math.atan2(y2-y1,x2-x1)
+        yc = int(y2 + R * math.sin(alpha))
+        xc = int(x2 + R * math.cos(alpha))
+        start_angle = ((2.*math.pi - alpha - theta) / math.pi) % 2.0
+        end_angle = ((2.*math.pi - alpha) / math.pi) % 2.0
+        print x1,y1,x2,y2
+        print xc,yc,start_angle,end_angle,R,int(R)
+        return Arc(xc,yc,start_angle,end_angle,int(R))
+
 
 
     def parse_text(self,text):
