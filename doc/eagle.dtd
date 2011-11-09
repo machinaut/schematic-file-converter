@@ -50,14 +50,14 @@
 
 <!ELEMENT eagle (compatibility?, drawing)>
 <!ATTLIST eagle
-          version       %Real;         #REQUIRED -- the EAGLE program version that generated this file, in the form V.RR --
+          version       %Real;         #REQUIRED<!-- the EAGLE program version that generated this file, in the form V.RR -->
           >
 
 <!ELEMENT compatibility (note)*>
 
 <!ELEMENT note (#PCDATA)>
 <!ATTLIST note
-          version       %Real;         #REQUIRED -- the EAGLE program version that introduced this compatibility note --
+          version       %Real;         #REQUIRED<!-- the EAGLE program version that introduced this compatibility note -->
           severity      %Severity;     #REQUIRED
           >
 
@@ -65,7 +65,7 @@
 
 <!ELEMENT library (description?, packages?, symbols?, devicesets?)>
 <!ATTLIST library
-          name          %String;       #REQUIRED -- only in libraries used inside boards or schematics --
+          name          %String;       #REQUIRED<!-- only in libraries used inside boards or schematics -->
           >
 
 <!ELEMENT schematic (description?, libraries?, attributes?, variantdefs?, classes?, parts?, sheets?, errors?)>
@@ -136,7 +136,7 @@
           name          %String;       #REQUIRED
           populate      %Bool;         "yes"
           value         %String;       #IMPLIED
-          technology    %String;       #IMPLIED  -- only in part context --
+          technology    %String;       #IMPLIED <!-- only in part context -->
           >
 
 <!ELEMENT gate EMPTY>
@@ -157,10 +157,10 @@
           y2            %Coord;        #REQUIRED
           width         %Dimension;    #REQUIRED
           layer         %Layer;        #REQUIRED
-          extent        %Extent;       #IMPLIED  -- only applicable for airwires --
+          extent        %Extent;       #IMPLIED <!-- only applicable for airwires -->
           style         %WireStyle;    "continuous"
           curve         %WireCurve;    "0"
-          cap           %WireCap;      "round"   -- only applicable if 'curve' is not zero --
+          cap           %WireCap;      "round"  <!-- only applicable if 'curve' is not zero -->
           >
 
 <!ELEMENT dimension EMPTY>
@@ -288,17 +288,17 @@
           layer         %Layer;        #REQUIRED
           spacing       %Dimension;    #IMPLIED
           pour          %PolygonPour;  "solid"
-          isolate       %Dimension;    #IMPLIED -- only in <signal> or <package> context --
-          orphans       %Bool;         "no"  -- only in <signal> context --
-          thermals      %Bool;         "yes" -- only in <signal> context --
-          rank          %Int;          "0"   -- 1..6 in <signal> context, 0 or 7 in <package> context --
+          isolate       %Dimension;    #IMPLIED<!-- only in <signal> or <package> context -->
+          orphans       %Bool;         "no" <!-- only in <signal> context -->
+          thermals      %Bool;         "yes"<!-- only in <signal> context -->
+          rank          %Int;          "0"  <!-- 1..6 in <signal> context, 0 or 7 in <package> context -->
           >
 
 <!ELEMENT vertex EMPTY>
 <!ATTLIST vertex
           x             %Coord;        #REQUIRED
           y             %Coord;        #REQUIRED
-          curve         %WireCurve;    "0" -- the curvature from this vertex to the next one --
+          curve         %WireCurve;    "0"<!-- the curvature from this vertex to the next one -->
           >
 
 <!ELEMENT pin EMPTY>
@@ -331,7 +331,7 @@
           x             %Coord;        #REQUIRED
           y             %Coord;        #REQUIRED
           smashed       %Bool;         "no"
-          rot           %Rotation;     "R0" -- only 0, 90, 180 or 270 --
+          rot           %Rotation;     "R0"<!-- only 0, 90, 180 or 270 -->
           >
 
 <!ELEMENT label EMPTY>
@@ -342,8 +342,8 @@
           layer         %Layer;        #REQUIRED
           font          %TextFont;     "proportional"
           ratio         %Int;          "8"
-          rot           %Rotation;     "R0" -- only 0, 90, 180 or 270 --
-          xref          %Bool;         "no" -- only in <net> context --
+          rot           %Rotation;     "R0"<!-- only 0, 90, 180 or 270 -->
+          xref          %Bool;         "no"<!-- only in <net> context -->
           >
 
 <!ELEMENT junction EMPTY>
@@ -376,8 +376,8 @@
           font          %TextFont;     #IMPLIED
           ratio         %Int;          #IMPLIED
           rot           %Rotation;     "R0"
-          display       %AttributeDisplay; "value" -- only in <element> or <instance> context --
-          constant      %Bool;         "no"     -- only in <device> context --
+          display       %AttributeDisplay; "value"<!-- only in <element> or <instance> context -->
+          constant      %Bool;         "no"    <!-- only in <device> context -->
           >
 
 <!ELEMENT pinref EMPTY>
