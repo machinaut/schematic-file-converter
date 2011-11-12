@@ -120,9 +120,17 @@ class Pin:
 class Point:
     """ Simple x,y coordinate. Different from the 'Point' in Nets """
 
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, x, y=None):
+        if y is not None:
+            self.x = x
+            self.y = y
+        # Do a copy of a Point if passed
+        elif isinstance(x, Point):
+            self.x = x.x
+            self.y = x.y
+        # Allow for instantiation from a tuple
+        else:
+            self.x, self.y = x
 
 
     def json(self):
@@ -130,6 +138,3 @@ class Point:
             "x":self.x, 
             "y":self.y
             }
-
-
-
