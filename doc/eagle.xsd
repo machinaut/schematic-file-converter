@@ -1,0 +1,1205 @@
+<schema
+  xmlns='http://www.w3.org/2000/10/XMLSchema'
+  targetNamespace='http://www.w3.org/namespace/'
+  xmlns:t='http://www.w3.org/namespace/'>
+
+ <element name='eagle'>
+  <complexType>
+   <sequence>
+    <element ref='t:compatibility' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:drawing'/>
+   </sequence>
+   <attribute name='version' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='compatibility'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:note'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='note'>
+  <complexType mixed='true'>
+   <attribute name='version' type='string' use='required'/>
+   <attribute name='severity' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='info'/>
+      <enumeration value='warning'/>
+      <enumeration value='error'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='drawing'>
+  <complexType>
+   <sequence>
+    <element ref='t:settings' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:grid' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:layers'/>
+    <choice>
+     <element ref='t:library'/>
+     <element ref='t:schematic'/>
+     <element ref='t:board'/>
+    </choice>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='library'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:packages' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:symbols' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:devicesets' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='schematic'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:libraries' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:attributes' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:variantdefs' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:classes' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:parts' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:sheets' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:errors' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='xreflabel' type='string' use='optional'/>
+   <attribute name='xrefpart' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='board'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:plain' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:libraries' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:attributes' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:variantdefs' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:classes' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:designrules' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:autorouter' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:elements' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:signals' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:errors' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='sheet'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:plain' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:instances' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:busses' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:nets' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='package'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <choice minOccurs='0' maxOccurs='unbounded'>
+     <element ref='t:polygon'/>
+     <element ref='t:wire'/>
+     <element ref='t:text'/>
+     <element ref='t:circle'/>
+     <element ref='t:rectangle'/>
+     <element ref='t:frame'/>
+     <element ref='t:hole'/>
+     <element ref='t:pad'/>
+     <element ref='t:smd'/>
+    </choice>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='symbol'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <choice minOccurs='0' maxOccurs='unbounded'>
+     <element ref='t:polygon'/>
+     <element ref='t:wire'/>
+     <element ref='t:text'/>
+     <element ref='t:pin'/>
+     <element ref='t:circle'/>
+     <element ref='t:rectangle'/>
+     <element ref='t:frame'/>
+    </choice>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='deviceset'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:gates'/>
+    <element ref='t:devices'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='prefix' type='string' use='default' value=''/>
+   <attribute name='uservalue' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='device'>
+  <complexType>
+   <sequence>
+    <element ref='t:connects' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:technologies' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='name' type='string' use='default' value=''/>
+   <attribute name='package' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='bus'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:segment'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='net'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:segment'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='class' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='segment'>
+  <complexType>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:pinref'/>
+    <element ref='t:wire'/>
+    <element ref='t:junction'/>
+    <element ref='t:label'/>
+   </choice>
+  </complexType>
+ </element>
+
+ <element name='signal'>
+  <complexType>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:contactref'/>
+    <element ref='t:polygon'/>
+    <element ref='t:wire'/>
+    <element ref='t:via'/>
+   </choice>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='class' type='string' use='default' value='0'/>
+   <attribute name='airwireshidden' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='variantdef'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='variant'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='populate' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='value' type='string' use='optional'/>
+   <attribute name='technology' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='gate'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='symbol' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='addlevel' use='default' value='next'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='must'/>
+      <enumeration value='can'/>
+      <enumeration value='next'/>
+      <enumeration value='request'/>
+      <enumeration value='always'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='swaplevel' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='wire'>
+  <complexType>
+   <attribute name='x1' type='string' use='required'/>
+   <attribute name='y1' type='string' use='required'/>
+   <attribute name='x2' type='string' use='required'/>
+   <attribute name='y2' type='string' use='required'/>
+   <attribute name='width' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='extent' type='string' use='optional'/>
+   <attribute name='style' use='default' value='continuous'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='continuous'/>
+      <enumeration value='longdash'/>
+      <enumeration value='shortdash'/>
+      <enumeration value='dashdot'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='curve' type='string' use='default' value='0'/>
+   <attribute name='cap' use='default' value='round'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='flat'/>
+      <enumeration value='round'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='dimension'>
+  <complexType>
+   <attribute name='x1' type='string' use='required'/>
+   <attribute name='y1' type='string' use='required'/>
+   <attribute name='x2' type='string' use='required'/>
+   <attribute name='y2' type='string' use='required'/>
+   <attribute name='x3' type='string' use='required'/>
+   <attribute name='y3' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='dtype' use='default' value='parallel'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='parallel'/>
+      <enumeration value='horizontal'/>
+      <enumeration value='vertical'/>
+      <enumeration value='radius'/>
+      <enumeration value='diameter'/>
+      <enumeration value='leader'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='text'>
+  <complexType mixed='true'>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='size' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='font' use='default' value='proportional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='vector'/>
+      <enumeration value='proportional'/>
+      <enumeration value='fixed'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='ratio' type='string' use='default' value='8'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+   <attribute name='align' use='default' value='bottom-left'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='bottom-left'/>
+      <enumeration value='bottom-center'/>
+      <enumeration value='bottom-right'/>
+      <enumeration value='center-left'/>
+      <enumeration value='center'/>
+      <enumeration value='center-right'/>
+      <enumeration value='top-left'/>
+      <enumeration value='top-center'/>
+      <enumeration value='top-right'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='circle'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='radius' type='string' use='required'/>
+   <attribute name='width' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='rectangle'>
+  <complexType>
+   <attribute name='x1' type='string' use='required'/>
+   <attribute name='y1' type='string' use='required'/>
+   <attribute name='x2' type='string' use='required'/>
+   <attribute name='y2' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+  </complexType>
+ </element>
+
+ <element name='frame'>
+  <complexType>
+   <attribute name='x1' type='string' use='required'/>
+   <attribute name='y1' type='string' use='required'/>
+   <attribute name='x2' type='string' use='required'/>
+   <attribute name='y2' type='string' use='required'/>
+   <attribute name='columns' type='string' use='required'/>
+   <attribute name='rows' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='border-left' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='border-top' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='border-right' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='border-bottom' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='hole'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='drill' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='pad'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='drill' type='string' use='required'/>
+   <attribute name='diameter' type='string' use='default' value='0'/>
+   <attribute name='shape' use='default' value='round'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='square'/>
+      <enumeration value='round'/>
+      <enumeration value='octagon'/>
+      <enumeration value='long'/>
+      <enumeration value='offset'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+   <attribute name='stop' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='thermals' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='first' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='smd'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='dx' type='string' use='required'/>
+   <attribute name='dy' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='roundness' type='string' use='default' value='0'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+   <attribute name='stop' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='thermals' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='cream' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='element'>
+  <complexType>
+   <sequence>
+    <element ref='t:attribute' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:variant' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='library' type='string' use='required'/>
+   <attribute name='package' type='string' use='required'/>
+   <attribute name='value' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='locked' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='smashed' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+  </complexType>
+ </element>
+
+ <element name='via'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='extent' type='string' use='required'/>
+   <attribute name='drill' type='string' use='required'/>
+   <attribute name='diameter' type='string' use='default' value='0'/>
+   <attribute name='shape' use='default' value='round'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='square'/>
+      <enumeration value='round'/>
+      <enumeration value='octagon'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='alwaysstop' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='polygon'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:vertex'/>
+   </sequence>
+   <attribute name='width' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='spacing' type='string' use='optional'/>
+   <attribute name='pour' use='default' value='solid'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='solid'/>
+      <enumeration value='hatch'/>
+      <enumeration value='cutout'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='isolate' type='string' use='optional'/>
+   <attribute name='orphans' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='thermals' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='rank' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='vertex'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='curve' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='pin'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='visible' use='default' value='both'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='off'/>
+      <enumeration value='pad'/>
+      <enumeration value='pin'/>
+      <enumeration value='both'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='length' use='default' value='long'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='point'/>
+      <enumeration value='short'/>
+      <enumeration value='middle'/>
+      <enumeration value='long'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='direction' use='default' value='io'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='nc'/>
+      <enumeration value='in'/>
+      <enumeration value='out'/>
+      <enumeration value='io'/>
+      <enumeration value='oc'/>
+      <enumeration value='pwr'/>
+      <enumeration value='pas'/>
+      <enumeration value='hiz'/>
+      <enumeration value='sup'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='function' use='default' value='none'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='none'/>
+      <enumeration value='dot'/>
+      <enumeration value='clk'/>
+      <enumeration value='dotclk'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='swaplevel' type='string' use='default' value='0'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+  </complexType>
+ </element>
+
+ <element name='part'>
+  <complexType>
+   <sequence>
+    <element ref='t:attribute' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:variant' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='library' type='string' use='required'/>
+   <attribute name='deviceset' type='string' use='required'/>
+   <attribute name='device' type='string' use='required'/>
+   <attribute name='technology' type='string' use='default' value=''/>
+   <attribute name='value' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <element name='instance'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:attribute'/>
+   </sequence>
+   <attribute name='part' type='string' use='required'/>
+   <attribute name='gate' type='string' use='required'/>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='smashed' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+  </complexType>
+ </element>
+
+ <element name='label'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+   <attribute name='size' type='string' use='required'/>
+   <attribute name='layer' type='string' use='required'/>
+   <attribute name='font' use='default' value='proportional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='vector'/>
+      <enumeration value='proportional'/>
+      <enumeration value='fixed'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='ratio' type='string' use='default' value='8'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+   <attribute name='xref' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='junction'>
+  <complexType>
+   <attribute name='x' type='string' use='required'/>
+   <attribute name='y' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='connect'>
+  <complexType>
+   <attribute name='gate' type='string' use='required'/>
+   <attribute name='pin' type='string' use='required'/>
+   <attribute name='pad' type='string' use='required'/>
+   <attribute name='route' use='default' value='all'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='all'/>
+      <enumeration value='any'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='technology'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:attribute'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='attribute'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='value' type='string' use='optional'/>
+   <attribute name='x' type='string' use='optional'/>
+   <attribute name='y' type='string' use='optional'/>
+   <attribute name='size' type='string' use='optional'/>
+   <attribute name='layer' type='string' use='optional'/>
+   <attribute name='font' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='vector'/>
+      <enumeration value='proportional'/>
+      <enumeration value='fixed'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='ratio' type='string' use='optional'/>
+   <attribute name='rot' type='string' use='default' value='R0'/>
+   <attribute name='display' use='default' value='value'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='off'/>
+      <enumeration value='value'/>
+      <enumeration value='name'/>
+      <enumeration value='both'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='constant' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='pinref'>
+  <complexType>
+   <attribute name='part' type='string' use='required'/>
+   <attribute name='gate' type='string' use='required'/>
+   <attribute name='pin' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='contactref'>
+  <complexType>
+   <attribute name='element' type='string' use='required'/>
+   <attribute name='pad' type='string' use='required'/>
+   <attribute name='route' use='default' value='all'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='all'/>
+      <enumeration value='any'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='variantdefs'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:variantdef'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='settings'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:setting'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='sheets'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:sheet'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='layers'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:layer'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='packages'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:package'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='symbols'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:symbol'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='devicesets'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:deviceset'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='gates'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:gate'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='devices'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:device'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='libraries'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:library'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='connects'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:connect'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='technologies'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:technology'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='attributes'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:attribute'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='classes'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:class'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='parts'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:part'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='instances'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:instance'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='errors'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:approved'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='plain'>
+  <complexType>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:polygon'/>
+    <element ref='t:wire'/>
+    <element ref='t:text'/>
+    <element ref='t:circle'/>
+    <element ref='t:rectangle'/>
+    <element ref='t:frame'/>
+    <element ref='t:hole'/>
+   </choice>
+  </complexType>
+ </element>
+
+ <element name='designrules'>
+  <complexType>
+   <sequence>
+    <element ref='t:description' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:param' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='autorouter'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:pass'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='elements'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:element'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='signals'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:signal'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='busses'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:bus'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='nets'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:net'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <element name='setting'>
+  <complexType>
+   <attribute name='alwaysvectorfont' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='verticaltext' use='default' value='up'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='up'/>
+      <enumeration value='down'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='grid'>
+  <complexType>
+   <attribute name='distance' type='string' use='optional'/>
+   <attribute name='unitdist' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='mic'/>
+      <enumeration value='mm'/>
+      <enumeration value='mil'/>
+      <enumeration value='inch'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='unit' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='mic'/>
+      <enumeration value='mm'/>
+      <enumeration value='mil'/>
+      <enumeration value='inch'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='style' use='default' value='lines'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='lines'/>
+      <enumeration value='dots'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='multiple' type='string' use='default' value='1'/>
+   <attribute name='display' use='default' value='no'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='altdistance' type='string' use='optional'/>
+   <attribute name='altunitdist' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='mic'/>
+      <enumeration value='mm'/>
+      <enumeration value='mil'/>
+      <enumeration value='inch'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='altunit' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='mic'/>
+      <enumeration value='mm'/>
+      <enumeration value='mil'/>
+      <enumeration value='inch'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='layer'>
+  <complexType>
+   <attribute name='number' type='string' use='required'/>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='color' type='string' use='required'/>
+   <attribute name='fill' type='string' use='required'/>
+   <attribute name='visible' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='active' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='class'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:clearance'/>
+   </sequence>
+   <attribute name='number' type='string' use='required'/>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='width' type='string' use='default' value='0'/>
+   <attribute name='drill' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='clearance'>
+  <complexType>
+   <attribute name='class' type='string' use='required'/>
+   <attribute name='value' type='string' use='default' value='0'/>
+  </complexType>
+ </element>
+
+ <element name='description'>
+  <complexType mixed='true'>
+   <attribute name='language' type='string' use='default' value='en'/>
+  </complexType>
+ </element>
+
+ <element name='param'>
+  <complexType>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='value' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <element name='pass'>
+  <complexType>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:param'/>
+   </sequence>
+   <attribute name='name' type='string' use='required'/>
+   <attribute name='refer' type='string' use='optional'/>
+   <attribute name='active' use='default' value='yes'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='no'/>
+      <enumeration value='yes'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <element name='approved'>
+  <complexType>
+   <attribute name='hash' type='string' use='required'/>
+  </complexType>
+ </element>
+</schema>

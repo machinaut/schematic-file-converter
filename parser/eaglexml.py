@@ -11,6 +11,7 @@
 #     we should properly handle all of Eagle's:
 #     libraries, devicesets, devices, packages, and symbols
 #     but thats all too complex for right now
+# TODO(ajray): check the DTD against eagle.dtd
 
 import math
 from core.design import *
@@ -30,7 +31,6 @@ class EagleXML:
         self.gates = dict()     # key:gate_id     val:{lib,devset,sym}
         self.parts = dict()     # key:instance_id val:{lib,devset,dev}
         self.scale = 10./2.54  # TODO: figure out a way to infer this
-        pass
 
 
     def parse(self, filename):
@@ -46,6 +46,9 @@ class EagleXML:
             #    for setting in settings.findall('settings'):
             for schematic in drawing.findall('schematic'):
                 self.parse_schematic(schematic)
+        print 'symbols\n',self.symbols.keys()
+        print 'gates\n',self.gates.keys()
+        print 'parts\n',self.parts.keys()
         return self.design
 
 
@@ -119,25 +122,20 @@ class EagleXML:
             p2 = Point(x2,y2)
             return Line(p1,p2)
         else: # curve is not None:
-            return self.parse_curve(x1,y1,x2,y2,curve)
+            # give the angle in pi radians
+            angle = math.radians(round(float(curve)),-1)/math.pi
+            return self.parse_curve(x1,y1,x2,y2,angle)
 
 
-    def parse_curve(self,x1,y1,x2,y2,curve):
-        # NOTE: oh dear lord geometry
+    def parse_curve(self,x1,y1,x2,y2,angle):
         # TODO: add this mathematical def'n of an arc to core/shape.py
-        theta = math.radians(float(curve))
-        if theta < 0: # negative angle-> switch points
-            x1,y1,x2,y2 = x2,y2,x1,y1
-            theta = -theta
-        d = math.sqrt((x1-x2)**2+(y1-y2)**2)
-        R = d / 2 / math.sin(theta/2.)
-        alpha = (math.pi-theta)/2. - math.atan2(y2-y1,x2-x1)
-        yc = int(y2 + R * math.sin(alpha))
-        xc = int(x2 + R * math.cos(alpha))
-        start_angle = ((2.*math.pi - alpha - theta) / math.pi) % 2.0
-        end_angle = ((2.*math.pi - alpha) / math.pi) % 2.0
-        print x1,y1,x2,y2
-        print xc,yc,start_angle,end_angle,R,int(R)
+        # TODO: more general form of an arc. right now just restricted to
+        #   Multiples of right angles. Adding special cases as necessary
+        if -0.5 == angle:
+            x1,y1,x2,y2 = x2,y2,x1,y1 # switch points
+            angle = 0.5
+        if 0.5 == angle:
+            pass
         return Arc(xc,yc,start_angle,end_angle,int(R))
 
 
@@ -251,3 +249,92 @@ class EagleXML:
         self.design.add_component_instance(inst)
 
 
+class Schematic:
+    def __init__(self):
+        self.libraries = dict()
+        self.parts = dict()
+        self.sheets = list()
+    def add_library(self,library_id,library):
+        self.libraries[library_id] = library
+    def add_part(self,part_id,part):
+        self.parts[part_id] = part
+    def add_sheet(self,sheet):
+        self.sheets.append(sheet)
+
+class Library:
+    def __init__(self,name):
+        self.name = name
+        self.packages = dict()
+        self.symbols = dict()
+        self.devicesets = dict()
+    def add_package(self,name,package):
+        self.packages[name] = package
+    def add_symbol(self,name,symbol):
+        self.symbols[name] = symbol
+    def add_deviceset(self,name,deviceset):
+        self.devicesets[name] = deviceset
+class Part:
+    def __init__(self,name,library,deviceset,device,value=None):
+        self.name = name
+        self.library = library
+        self.deviceset = deviceset
+        self.device = device
+        self.value = value
+class Sheet:
+    def __init__(self):
+        self.shapes = list()
+        self.instances = dict() # key:("part","gate")
+        self.busses = None # TODO: parse busses
+        self.nets = dict()
+    def add_shape(self,shape):
+        self.shapes.append(shape)
+    def add_instance(self,part,gate,instance):
+        self.instances[(part,gate)] = instance
+    def add_net(self,name,net):
+        self.nets[name] = net
+class Instance:
+    def __init__(self,part,gate,x,y,rot)
+class Package:
+    def __init__(self,name):
+        self.name = name
+        self.shapes = list()
+    def add_shape(self,shape):
+        self.shapes.append(shape)
+class Symbol:
+    def __init__(self,name):
+        self.name = name
+        self.shapes = list()
+    def add_shape(self,shape):
+        self.shapes.append(shape)
+class Deviceset:
+    def __init__(self,name,prefix=None):
+        self.name = name
+        self.prefix = prefix
+        self.description = ""
+        self.gates = dict()
+        self.devices = dict()
+    def set_description(self,description):
+        self.description = description
+    def add_gate(self,name,gate):
+        self.gates[name] = gate
+    def add_device(self,name,device):
+        self.devices[name] = device
+class Gate:
+    def __init__(self,name,symbol,x,y,addlevel=None):
+        self.name = name
+        self.symbol = symbol
+        self.x = x
+        self.y = y
+        self.addlevel = addlevel # TODO figure out what this does
+class Device:
+    def __init__(self,name,package=None):
+        self.name = name
+        self.package = package
+        self.connects = list()
+    def add_connect(self,connect)
+        self.connects.append(connect)
+class Connect:
+    def __init__(self,gate,pin,pad):
+        self.gate = gate
+        self.pin = pin
+        self.pad = pad
