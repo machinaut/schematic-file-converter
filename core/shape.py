@@ -148,8 +148,8 @@ class Line(Shape):
 
     def __init__(self,p1,p2):
         self.type = "line" 
-        self.p1 = p1
-        self.p2 = p2
+        self.p1 = Point(p1)
+        self.p2 = Point(p2)
 
 
     def json(self):
@@ -184,11 +184,11 @@ class BezierCurve(Shape):
     """ A parametric curved line """
 
     def __init__(self,control1,control2,p1,p2):
-        self.type = "bezier" 
-        self.control1 = control1
-        self.control2 = control2
-        self.p1 = p1
-        self.p2 = p2
+        self.type = "bezier"
+        self.control1 = Point(control1)
+        self.control2 = Point(control2)
+        self.p1 = Point(p1)
+        self.p2 = Point(p2)
 
 
     def build(self,control1x,control1y,control2x,control2y,p1x,
@@ -210,4 +210,26 @@ class BezierCurve(Shape):
             "p2":self.p2.json(),
             }
 
+
+class Point:
+    """ Simple x,y coordinate. Different from the 'Point' in Nets """
+
+    def __init__(self, x, y=None):
+        if y is not None:
+            self.x = x
+            self.y = y
+        # Do a copy of a Point if passed
+        elif isinstance(x, Point):
+            self.x = x.x
+            self.y = x.y
+        # Allow for instantiation from a tuple
+        else:
+            self.x, self.y = x
+
+
+    def json(self):
+        return {
+            "x":self.x, 
+            "y":self.y
+            }
 

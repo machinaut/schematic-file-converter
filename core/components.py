@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import random
-import shape
+from shape import Point
 
 class Components:
     """ Container class for individual 'Component's.
@@ -101,8 +101,8 @@ class Pin:
 
     def __init__(self, pin_number, p1, p2, label=None):
         self.label = label # is a Label
-        self.p1 = p1 # is a Point, null end
-        self.p2 = p2 # is a Point, connect end
+        self.p1 = Point(p1) # null end
+        self.p2 = Point(p2) # connect end
         self.pin_number = pin_number
 
 
@@ -116,25 +116,3 @@ class Pin:
             d["label"] = self.label.json()
         return d
 
-
-class Point:
-    """ Simple x,y coordinate. Different from the 'Point' in Nets """
-
-    def __init__(self, x, y=None):
-        if y is not None:
-            self.x = x
-            self.y = y
-        # Do a copy of a Point if passed
-        elif isinstance(x, Point):
-            self.x = x.x
-            self.y = x.y
-        # Allow for instantiation from a tuple
-        else:
-            self.x, self.y = x
-
-
-    def json(self):
-        return {
-            "x":self.x, 
-            "y":self.y
-            }
