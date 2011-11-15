@@ -38,11 +38,11 @@ class Net:
         """ connect segment to this net """
         a,b = seg
         if a not in self.points:
-            self.addpoint(a)
-        self.connpoint(a,b)
+            self.add_point(a)
+        self.conn_point(a,b)
         if b not in self.points:
-            self.addpoint(b)
-        self.connpoint(b,a)
+            self.add_point(b)
+        self.conn_point(b,a)
 
     def json(self):
         return {
