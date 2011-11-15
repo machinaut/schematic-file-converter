@@ -241,7 +241,7 @@ class JSON:
             # Get the Points
             for net_point in net.get('points'):
                 np = self.parse_net_point(net_point)
-                n.add_net_point(np)
+                n.add_point(np)
             self.design.add_net(n)
 
 
