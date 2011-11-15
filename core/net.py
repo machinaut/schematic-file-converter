@@ -6,7 +6,7 @@ class Net:
 
     def __init__(self,net_id):
         self.net_id = net_id
-        self.points = list()
+        self.points = dict()
         self.attributes = dict()
         self.annotations = list()
 
@@ -21,28 +21,17 @@ class Net:
 
     def add_point(self,p):
         """ Add a point p to the net """
-        self.points[p] = {
-            "point_id": p, # use the point tuples as ID's
-            "x":p[0],
-            "y":p[1],
-            "connected_components": [],
-            "connected_points": set()
-            }
-
-
-    def add_net_point(self,net_point):
-        self.points.append(net_point)
-
+        self.points[p.point_id] = p
 
     def conn_point(self,a,b):
         """ connect point b to point a """
-        self.points[a]["connected_points"].add(b)
+        self.points[a.point_id].connected_points.append(b.point_id)
 
 
     def connected(self,seg):
         """ is segment connected to this net """
         a,b = seg
-        return a in self.points or b in self.points
+        return a.point_id in self.points or b.point_id in self.points
 
 
     def connect(self,seg):
@@ -54,21 +43,6 @@ class Net:
         if b not in self.points:
             self.addpoint(b)
         self.connpoint(b,a)
-
-
-    def pretty_points(self):
-        """ return points array with point_id's instead of tuples """
-        a = self.points.values()
-        for p in a:
-            p["connected_points"] = [self.point_id(i) for i in p["connected_points"]]
-            p["point_id"] = self.point_id(p["point_id"])
-        return a
-
-
-    def point_id(self, p):
-        """ point_id gives a point id of the form 6100x4950, which is unique for each point """
-        return str(p[0])+"x"+str(p[1])
-
 
     def json(self):
         return {
@@ -118,11 +92,3 @@ class ConnectedComponent:
             "instance_id" : self.instance_id,
             "pin_number" : self.pin_number
             }
-
-
-
-
-
-
-
-
