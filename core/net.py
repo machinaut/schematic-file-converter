@@ -44,20 +44,6 @@ class Net:
             self.addpoint(b)
         self.connpoint(b,a)
 
-    def pretty_points(self):
-        """ return points array with point_id's instead of tuples """
-        a = self.points.values()
-        for p in a:
-            p["connected_points"] = [self.point_id(i) for i in p["connected_points"]]
-            p["point_id"] = self.point_id(p["point_id"])
-        return a
-
-
-    def point_id(self, p):
-        """ point_id gives a point id of the form 6100x4950, which is unique for each point """
-        return str(p[0])+"x"+str(p[1])
-
-
     def json(self):
         return {
             "net_id":self.net_id,
