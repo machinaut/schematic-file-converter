@@ -49,7 +49,7 @@ class Net:
             "net_id":self.net_id,
             "attributes":self.attributes,
             "annotations":[a.json() for a in self.annotations],
-            "points":[p.json() for p in self.points]
+            "points":[p.json() for p in self.points.values()]
             }
 
 
