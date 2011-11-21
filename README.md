@@ -17,12 +17,16 @@ Usage
 ---------------
 
 ```bash
-./upconvert.py -i test.sch -f kicad -t json -o test.json
+usage: upconvert.py [-h] [-i INPUT] [-f TYPE] [-o OUTPUT] [-t TYPE]
 
--i: input file
--f: from format
--t: to format
--o: output file
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        read INPUT file in
+  -f TYPE, --from TYPE  read input file as TYPE
+  -o OUTPUT, --output OUTPUT
+                        write OUTPUT file out
+  -t TYPE, --to TYPE    write output file as TYPE
 ```
 
 
