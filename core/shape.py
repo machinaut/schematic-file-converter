@@ -6,18 +6,28 @@ class Shape:
 
     def __init__(self):
         self.type = None
+        self.points = list()
 
+    def bounds(self):
+        ''' returns two corners of a box that bounds the entire shape'''
+        xy = lambda p: isinstance(p, Point) and (p.x, p.y) or p
+        pts = map(xy, self.points)
+        xs, ys = [x for x,y in pts], [y for x,y in pts]
+        return ((min(xs), min(ys)), (max(xs), max(ys)))
+
+    def translate(self, dx, dy):
+        ''' translate (move or slide) the shape by dx and dy '''
+        for p in self.points:
+            p.x += dx
+            p.y += dy
 
 class Rectangle(Shape):
     """ A rectangle, defined by x,y of top left corner and width, height"""
 
     def __init__(self,x,y,width,height):
         self.type = "rectangle"
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-
+        self.points = map(Point, [(x, y), (x+width, y), (x+width, y+width),
+                                  (x, y+width)])
 
     @classmethod
     def fromCorners(cls,x,y,x2,y2):
@@ -28,55 +38,63 @@ class Rectangle(Shape):
 
 
     def json(self):
-        return {
-            "height":self.height,
-            "type":self.type,
-            "width":self.width,
-            "x":self.x,
-            "y":self.y,
-            }
+        p1, p2 = self.points[:2]
+        if p1.x == p2.x or p1.y == p2.y:
+            # still lined up along the axes
+            (left, top), (right, bot) = self.bounds()
+            return {
+                "height": bot - top,
+                "type":self.type,
+                "width": right - left,
+                "x":left,
+                "y": top
+                }
+        else:
+            # in the case that it's been rotated, just treat it like a polygon
+            pol = Polygon()
+            for p in self.points:
+                # TODO does a closed n-gon need n, or n+1 points?
+                pol.addPoint(p)
+            return pol.json()
 
 
-class RoundedRectangle(Shape):
+class RoundedRectangle(Rectangle):
 
   def __init__(self,x,y,width,height,radius):
     """ x and y are from the top left corner of the rectangle """
+    Rectangle.__init__(self, x, y, width, height)
     self.type = "rounded_rectangle"
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
     self.radius = radius
+
   @classmethod
   def fromCorners(cls,x,y,x2,y2,radius):
     """ x and y are the top left corner of the rectangle, x2 and y2 are the
     bottom right corner of the rectangle """
-    x = x
-    y = y
     width = x2-x
     height = y2-y
-    radius = radius
     return cls(x,y,width,height,radius)
+
   def json(self):
     """ return a dict for json outputting """
-    return {
-        "height":self.height,
-        "type":self.type,
-        "width":self.width,
-        "x":self.x,
-        "y":self.y,
-        "radius":self.radius,
-        }
+    ret = Rectangle.json(self)
+    ret['radius'] = self.radius
+    # will have some weirdness when a rotated RoundedRectangle creates a
+    # polygon with a radius value...
+    return ret
 
 class Arc(Shape):
 
   def __init__(self,x,y,start_angle,end_angle,radius):
     self.type = "arc"
-    self.x = x
-    self.y = y
+    self.points = [Point(x,y)]
     self.start_angle = start_angle
     self.end_angle = end_angle
     self.radius = radius
+
+  def bounds(self):
+    #TODO special-case this
+    return Shape.bounds(self)
+
   def json(self):
     """ return a dict for json outputting """
     return {
@@ -84,8 +102,8 @@ class Arc(Shape):
         "end_angle":self.end_angle,
         "type":self.type,
         "radius":self.radius,
-        "x":self.x,
-        "y":self.y,
+        "x":self.points[0].x,
+        "y":self.points[0].y,
         }
 
 class Circle(Shape):
@@ -93,18 +111,20 @@ class Circle(Shape):
 
     def __init__(self,x,y,radius):
         self.type = "circle"
-        self.x = x
-        self.y = y
+        self.points = [Point(x,y)]
         self.radius = radius
 
+    def bounds(self):
+        x, y, r = self.points[0].x, self.points[0].y, self.radius
+        return ((x-r, y-r), (x+r, y+r))
 
     def json(self):
         """ return a dict for json outputting """
         return {
             "radius":self.radius,
             "type":self.type,
-            "x":self.x,
-            "y":self.y,
+            "x":self.points[0].x,
+            "y":self.points[0].y,
             }
 
 
@@ -115,8 +135,7 @@ class Label(Shape):
 
     def __init__(self,x,y,text,align,rotation):
         self.type = "label"
-        self.x = x
-        self.y = y
+        self.points= [Point(x,y)]
         self.text = text
         self.rotation = rotation # TODO verify correct value
         # Parse , TODO maybe clean this up some, dont need to accept
@@ -131,6 +150,10 @@ class Label(Shape):
             raise ValueError("Label requires the align to be either " +
                     "\"left\", \"right\", or \"center\" ")
 
+    def bounds(self):
+        # TODO Absolutely no clue how to make this dependably correct
+        p = self.points[0]
+        return ((p.x - 10, p.y - 10), (p.x + 10, p.y + 10))
 
     def json(self):
         return {
@@ -138,8 +161,8 @@ class Label(Shape):
             "align":self.align,
             "rotation":self.rotation,
             "text":self.text,
-            "x":self.x,
-            "y":self.y,
+            "x":self.points[0].x,
+            "y":self.points[0].y,
             }
 
 
@@ -148,16 +171,15 @@ class Line(Shape):
 
     def __init__(self,p1,p2):
         self.type = "line"
-        self.p1 = Point(p1)
-        self.p2 = Point(p2)
+        self.points = [Point(p1), Point(p2)]
 
 
     def json(self):
         """ return a dict for json outputting """
         return {
             "type":self.type,
-            "p1":self.p1.json(),
-            "p2":self.p2.json(),
+            "p1":self.points[0].json(),
+            "p2":self.points[1].json(),
             }
 
 
@@ -165,8 +187,8 @@ class Polygon(Shape):
     """ A polygon is just a list of points, drawn as connected in order """
 
     def __init__(self):
+        Shape.__init__(self)
         self.type = "polygon"
-        self.points = list()
 
     def addPoint(self, pt):
         self.points.append(Point(pt))
@@ -184,19 +206,16 @@ class BezierCurve(Shape):
 
     def __init__(self,control1,control2,p1,p2):
         self.type = "bezier"
-        self.control1 = Point(control1)
-        self.control2 = Point(control2)
-        self.p1 = Point(p1)
-        self.p2 = Point(p2)
+        self.points = map(Point, (p1, control1, control2, p2))
 
     def json(self):
         """ return a dict for json outputting """
         return {
             "type":self.type,
-            "control1":self.control1.json(),
-            "control2":self.control2.json(),
-            "point1":self.p1.json(),
-            "point2":self.p2.json(),
+            "control1":self.points[1].json(),
+            "control2":self.points[2].json(),
+            "point1":self.points[0].json(),
+            "point2":self.points[3].json(),
             }
 
 
