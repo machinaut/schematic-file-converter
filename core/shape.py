@@ -186,8 +186,8 @@ class Line(Shape):
 class Polygon(Shape):
     """ A polygon is just a list of points, drawn as connected in order """
 
-    def __init__(self):
-        Shape.__init__(self)
+    def __init__(self, pts=[]):
+        self.points = map(Point, pts)
         self.type = "polygon"
 
     def addPoint(self, pt):
