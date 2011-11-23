@@ -6,9 +6,15 @@ class Shape:
 
     def __init__(self):
         self.type = None
+        # All Shapes have a list of Points, self.points. Moving the entire list
+        # by a constant (x, y) offset will move the entire shape properly. No
+        # promises on rotating yet, no promises on stretching/shearing shapes
+        # ever.
         self.points = list()
 
     def __getattr__(self, name):
+        # just here, with __setattr__, for backwards compat. with code that
+        # expects theSshape to have shape.x and shape.y
         if name not in ('x', 'y'):
             raise AttributeError("Shape instance has no attribute '%s'" % name)
         return getattr(self.points[0], name)
@@ -35,6 +41,7 @@ class Rectangle(Shape):
 
     def __init__(self,x,y,width,height):
         self.type = "rectangle"
+        # internally, it's just four Points
         self.points = map(Point, [(x, y), (x+width, y), (x+width, y+height),
                                   (x, y+height)])
 
@@ -161,7 +168,7 @@ class Label(Shape):
                     "\"left\", \"right\", or \"center\" ")
 
     def bounds(self):
-        # TODO Absolutely no clue how to make this dependably correct
+        # FIXME Absolutely no clue how to make this dependably correct
         p = self.points[0]
         return ((p.x - 10, p.y - 10), (p.x + 10, p.y + 10))
 
@@ -195,6 +202,9 @@ class Line(Shape):
 
 class Polygon(Shape):
     """ A polygon is just a list of points, drawn as connected in order """
+    #TODO should clear up if this is strictly a closed polygon, or if an open
+    # polygon is valid as well. If strictly closed, does an n-gon need n points,
+    # or n+1 points (does the start/end point need to be repeated)?
 
     def __init__(self, pts=[]):
         self.points = map(Point, pts)
