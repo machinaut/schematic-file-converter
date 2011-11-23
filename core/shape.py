@@ -21,9 +21,7 @@ class Shape:
 
     def bounds(self):
         ''' returns two corners of a box that bounds the entire shape'''
-        xy = lambda p: isinstance(p, Point) and (p.x, p.y) or p
-        pts = map(xy, self.points)
-        xs, ys = [x for x,y in pts], [y for x,y in pts]
+        xs, ys = [p.x for p in self.points], [p.y for p in self.points]
         return ((min(xs), min(ys)), (max(xs), max(ys)))
 
     def translate(self, dx, dy):
@@ -37,8 +35,8 @@ class Rectangle(Shape):
 
     def __init__(self,x,y,width,height):
         self.type = "rectangle"
-        self.points = map(Point, [(x, y), (x+width, y), (x+width, y+width),
-                                  (x, y+width)])
+        self.points = map(Point, [(x, y), (x+width, y), (x+width, y+height),
+                                  (x, y+height)])
 
     @classmethod
     def fromCorners(cls,x,y,x2,y2):
@@ -62,11 +60,9 @@ class Rectangle(Shape):
                     }
         else:
             # in the case that it's been rotated, just treat it like a polygon
-            pol = Polygon()
-            for p in self.points:
-                # TODO does a closed n-gon need n, or n+1 points?
-                pol.addPoint(p)
-            return pol.json()
+            return Polygon(self.points).json()
+            # TODO does a closed n-gon need n, or n+1 points?
+            # TODO want to set type='rectangle' anyway in the returned dict?
 
 
 class RoundedRectangle(Rectangle):
@@ -113,8 +109,8 @@ class Arc(Shape):
                 "end_angle":self.end_angle,
                 "type":self.type,
                 "radius":self.radius,
-                "x":self.points[0].x,
-                "y":self.points[0].y,
+                "x":self.x,
+                "y":self.y,
                 }
 
 class Circle(Shape):
@@ -126,7 +122,7 @@ class Circle(Shape):
         self.radius = radius
 
     def bounds(self):
-        x, y, r = self.points[0].x, self.points[0].y, self.radius
+        x, y, r = self.x, self.y, self.radius
         return ((x-r, y-r), (x+r, y+r))
 
     def json(self):
@@ -134,8 +130,8 @@ class Circle(Shape):
         return {
                 "radius":self.radius,
                 "type":self.type,
-                "x":self.points[0].x,
-                "y":self.points[0].y,
+                "x":self.x,
+                "y":self.y,
                 }
 
 
@@ -172,8 +168,8 @@ class Label(Shape):
                 "align":self.align,
                 "rotation":self.rotation,
                 "text":self.text,
-                "x":self.points[0].x,
-                "y":self.points[0].y,
+                "x":self.x,
+                "y":self.y,
                 }
 
 
