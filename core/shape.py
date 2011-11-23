@@ -99,8 +99,11 @@ class Arc(Shape):
         self.radius = radius
 
     def bounds(self):
-        #TODO special-case this
-        return Shape.bounds(self)
+        # this can be tightened up, if need be. For now, just returns bounds for
+        # a circle at (x,y), radius same as us, under the assumption that it's
+        # better to have bounds() too big than too small.
+        return ((self.x - self.radius, self.y - self.radius),
+                (self.x + self.radius, self.y + self.radius))
 
     def json(self):
         """ return a dict for json outputting """
