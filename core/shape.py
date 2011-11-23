@@ -8,6 +8,17 @@ class Shape:
         self.type = None
         self.points = list()
 
+    def __getattr__(self, name):
+        if name not in ('x', 'y'):
+            raise AttributeError("Shape instance has no attribute '%s'" % name)
+        return getattr(self.points[0], name)
+
+    def __setattr__(self, name, val):
+        if name not in ('x', 'y'):
+            self.__dict__[name] = val
+        else:
+            setattr(self.points[0], name, val)
+
     def bounds(self):
         ''' returns two corners of a box that bounds the entire shape'''
         xy = lambda p: isinstance(p, Point) and (p.x, p.y) or p
