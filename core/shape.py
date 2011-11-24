@@ -26,9 +26,10 @@ class Shape:
             setattr(self.points[0], name, val)
 
     def bounds(self):
-        ''' returns two corners of a box that bounds the entire shape'''
+        ''' returns a 4-tuple (left, top, right, bot) that encloses the 
+        entire shape'''
         xs, ys = [p.x for p in self.points], [p.y for p in self.points]
-        return ((min(xs), min(ys)), (max(xs), max(ys)))
+        return (min(xs), min(ys), max(xs), max(ys))
 
     def translate(self, dx, dy):
         ''' translate (move or slide) the shape by dx and dy '''
@@ -57,7 +58,7 @@ class Rectangle(Shape):
         p1, p2 = self.points[:2]
         if p1.x == p2.x or p1.y == p2.y:
             # still lined up along the axes
-            (left, top), (right, bot) = self.bounds()
+            (left, top, right, bot) = self.bounds()
             return {
                     "height": bot - top,
                     "type":self.type,
@@ -109,8 +110,8 @@ class Arc(Shape):
         # this can be tightened up, if need be. For now, just returns bounds for
         # a circle at (x,y), radius same as us, under the assumption that it's
         # better to have bounds() too big than too small.
-        return ((self.x - self.radius, self.y - self.radius),
-                (self.x + self.radius, self.y + self.radius))
+        return (self.x - self.radius, self.y - self.radius,
+                self.x + self.radius, self.y + self.radius)
 
     def json(self):
         """ return a dict for json outputting """
@@ -133,7 +134,7 @@ class Circle(Shape):
 
     def bounds(self):
         x, y, r = self.x, self.y, self.radius
-        return ((x-r, y-r), (x+r, y+r))
+        return (x-r, y-r, x+r, y+r)
 
     def json(self):
         """ return a dict for json outputting """
@@ -170,7 +171,7 @@ class Label(Shape):
     def bounds(self):
         # FIXME Absolutely no clue how to make this dependably correct
         p = self.points[0]
-        return ((p.x - 10, p.y - 10), (p.x + 10, p.y + 10))
+        return (p.x - 10, p.y - 10, p.x + 10, p.y + 10)
 
     def json(self):
         return {

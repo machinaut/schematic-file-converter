@@ -11,7 +11,7 @@ class Annotation:
         self.visible = visible
 
     def bounds(self):
-        return ((self.x - 10, self.y - 10), (self.x + 10, self.y + 10))
+        return (self.x - 10, self.y - 10, self.x + 10, self.y + 10)
 
     def json(self):
         return {
