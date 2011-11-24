@@ -14,8 +14,8 @@ class Net:
         xs = [p.x for p in self.points.values()]
         ys = [p.y for p in self.points.values()]
         bounds = [a.bounds() for a in self.annotations]
-        xs += sum([b[0::2] for b in bounds], [])
-        ys += sum([b[1::2] for b in bounds], [])
+        xs += sum([list(b[0::2]) for b in bounds], [])
+        ys += sum([list(b[1::2]) for b in bounds], [])
         return (min(xs), min(ys), max(xs), max(ys))
 
     def add_annotation(self, annotation):

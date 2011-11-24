@@ -25,8 +25,8 @@ class Design:
             bbounds = [b.bounds() for b in
                        lib_comp.symbols[comp.symbol_index].bodies]
             bounds.extend([offset_bounds(b,o) for b,o in zip(bbounds, offsets)])
-            xs = sum([b[0::2] for b in bounds], [])
-            ys = sum([b[1::2] for b in bounds], [])
+            xs = sum([list(b[0::2]) for b in bounds], [])
+            ys = sum([list(b[1::2]) for b in bounds], [])
         return (min(xs), min(ys), max(xs), max(ys))
 
 

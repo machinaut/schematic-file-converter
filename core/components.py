@@ -80,8 +80,8 @@ class Body:
 
     def bounds(self):
         limits = [s.bounds() for s in self.shapes + self.pins]
-        xs = sum([b[0::2] for b in limits], [])
-        ys = sum([b[1::2] for b in limits], [])
+        xs = sum([list(b[0::2]) for b in limits], [])
+        ys = sum([list(b[1::2]) for b in limits], [])
         return (min(xs), min(ys), max(xs), max(ys))
 
     def add_pin(self, pin):
