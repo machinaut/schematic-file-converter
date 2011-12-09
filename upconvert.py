@@ -70,4 +70,8 @@ if __name__ == "__main__":
 
     # parse and export the data
     design = parse(inputfile, inputtype)
-    write(design, outputfile, outputtype)
+    if design is not None: # we got a good result
+        write(design, outputfile, outputtype)
+    else: # parse returned None -> something went wrong
+        print "Output cancelled due to previous errors."
+        exit(1)

@@ -6,12 +6,35 @@
 # 3) read all parts (relation instance->library) into self.parts
 # 3) read all instances (locations of instances) and use self.parts,
 #       self.gates, and self.symbols to connect to it's symbol
-
+#
+# NOTE: I've added most of the looping structures (for x in y.findall('foo'))
+#       for each element thats given in eagle.dtd.  Unused ones are left
+#       commented out or empty, but exist for reference in case they're used later
+# NOTE: Someone at CADSoft needs to be taught how to do better XML, so theres lots of 
+#       silly redundancy, like having a <settings> tag that contains a bunch of <setting> tags
+#       (instead of just having all the <setting>s at the top level). We're not using
+#       Separate parsing functions for the plurality.
+# NOTE: In cases where there is an optional element (zero or one of it) we will
+#       Happily parse multiples, with each one clobbering the last. TODO: generate a 
+#       soft warning when this happens
+# NOTE: Not all parse_* functions are created equal.  Some modify the design (self) tree,
+#       while others do not alter state and instead return an object.  TODO: change the non-
+#       state altering parse_* functions that return objects into make_* functions instead
+#
 # TODO(ajray): right now its one symbol per component
 #     we should properly handle all of Eagle's:
 #     libraries, devicesets, devices, packages, and symbols
 #     but thats all too complex for right now
 # TODO(ajray): check the DTD against eagle.dtd
+# TODO(ajray): could possibly auto-generate a parser from the dtd,
+#     converted to an xsd (I've already done this, it's in doc/)
+#     Huge amount of generated spaghetti code, but could save time
+#     in writing an output parser.
+# TODO(ajray): make a custom exception to throw on parsing error,
+#     handle it gracefully in upconvert.py 
+# TODO(ajray): figure out a way to give back soft warnings (non-fatal issues)
+# TODO(ajray): I have the hierarchy of bodies and symbols in the parsed schematic wonky
+
 
 import math
 from core.design import *
@@ -22,7 +45,10 @@ from xml.etree.ElementTree import ElementTree
 
 
 class EagleXML:
-    """ The Eagle XML Format Parser """
+    """ 
+    The Eagle XML Format Parser 
+    Built referencing the eagle.dtd that comes with Eagle 6 Beta
+    """
 
     def __init__(self):
         self.design = Design()
@@ -30,74 +56,106 @@ class EagleXML:
         self.symbols = dict()   # key:library_id  val:Symbol()
         self.gates = dict()     # key:gate_id     val:{lib,devset,sym}
         self.parts = dict()     # key:instance_id val:{lib,devset,dev}
-        self.scale = 10./2.54  # TODO: figure out a way to infer this
+        self.scale = 10./2.54   # TODO: figure out a way to infer this
+        self.version = None     # EAGLE program version that generated this file ('V.RR')
 
 
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
         xmltree = ElementTree(file=filename)
         root = xmltree.getroot()
-        drawings = root.findall('drawing')
-        for drawing in drawings:
-            #for grid in drawing.findall('grid'):
-            #for layers in drawing.findall('layers'):
-            #    for layer in layers.findall('layer'):
-            #for settings in drawing.findall('settings'):
-            #    for setting in settings.findall('settings'):
-            for schematic in drawing.findall('schematic'):
-                self.parse_schematic(schematic)
+        # Verify the root tag, beginning what is essentially
+        if root.tag.lower() != "eagle":
+            print "ERROR reading eagle XML file, root tag is not 'eagle'"
+            return None
+        self.version = root.get('version') # Should be required but may be absent
+        # From here we descend the document using these parsing functions
+        for compatibility in root.findall('compatibility'):
+            pass # These aren't useful yet
+        for drawing in root.findall('drawing'):
+            self.parse_drawing(drawing)
+        # Parsed the
         print 'symbols\n',self.symbols.keys()
         print 'gates\n',self.gates.keys()
         print 'parts\n',self.parts.keys()
         return self.design
 
 
+    def parse_drawing(self, drawing):
+        for settings in drawing.findall('settings'): # should have zero or one of these
+            for setting in settings.findall('settings'):
+                pass #TODO maybe the scale information we want for self.scale is here
+        for grid in drawing.findall('grid'): # should have zero or one of these
+            pass
+        for layers in drawing.findall('layers'): # required exactly one, we handle many
+            for layer in layers.findall('layer'):
+                pass
+        # TODO: technically this can be schematic, board, or library
+        # but in reality we shouldn't be handed in anything *but* schematics
+        for schematic in drawing.findall('schematic'):
+            self.parse_schematic(schematic)
+
+
     def parse_schematic(self, schematic):
+        # Someone needs to teach CADSoft how to do proper XML plurality
+        for description in schematic.findall('description'):
+            pass
         for libraries in schematic.findall('libraries'):
             for library in libraries.findall('library'):
                 self.parse_library(library)
-        #for attributes in schematic.findall('attributes'):
-        #    for attribute in attributes.findall('attribute'):
-        #for variantdefs in schematic.findall('variantdefs'):
-        #    for variantdef in variantdefs.findall('variantdef'):
-        #for classes in schematic.findall('classes'):
-        #    for class_ in classes.findall('class'):
+        for attributes in schematic.findall('attributes'):
+            for attribute in attributes.findall('attribute'):
+                pass
+        for variantdefs in schematic.findall('variantdefs'):
+            for variantdef in variantdefs.findall('variantdef'):
+                pass
+        for classes in schematic.findall('classes'):
+            for class_ in classes.findall('class'):
+                pass
         for parts in schematic.findall('parts'):
             for part in parts.findall('part'):
                 self.parse_part(part)
         for sheets in schematic.findall('sheets'):
             for sheet in sheets.findall('sheet'):
                 self.parse_sheet(sheet)
+        for errors in schematic.findall('errors'):
+            for error in errors.findall('error'):
+                pass
 
 
     def parse_library(self,library):
-        #for description in library.findall('description'):
-        #for packages in library.findall('packages'):
-        #    for package in packages.findall('package'):
+        for description in library.findall('description'):
+            pass
+        for packages in library.findall('packages'):
+            for package in packages.findall('package'):
+                pass
         for symbols in library.findall('symbols'):
             for symbol in symbols.findall('symbol'):
                 self.parse_symbol(library,symbol)
         for devicesets in library.findall('devicesets'):
             for deviceset in devicesets.findall('deviceset'):
-                self.parse_deviceset(library,deviceset)
+                self.parse_deviceset(library,deviceset) # pass in the library as context
       
 
     def parse_symbol(self,library,symbol):
+        for description in symbol.findall('description'):
+            pass
         # Make the Body
-        # TODO handle multi-body symbols
         b = Body()
-        for wire in symbol.findall('wire'):
-          b.add_shape(self.parse_wire(wire))
-        for text in symbol.findall('text'):
-          b.add_shape(self.parse_text(text))
-        for pin in symbol.findall('pin'):
-          b.add_pin(self.parse_pin(pin))
-
+        # Add pins
+        for pin       in symbol.findall('pin'):       b.add_pin(self.parse_pin(pin))
+        # Add shapes
+        for polygon   in symbol.findall('polygon'):   b.add_shape(self.parse_polygon(polygon))
+        for wire      in symbol.findall('wire'):      b.add_shape(self.parse_wire(wire))
+        for text      in symbol.findall('text'):      b.add_shape(self.parse_text(text))
+        for circle    in symbol.findall('circle'):    b.add_shape(self.parse_circle(circle))
+        for rectangle in symbol.findall('rectangle'): b.add_shape(self.parse_rectangle(rectangle))
+        for frame     in symbol.findall('frame'):     b.add_shape(self.parse_frame(frame))
         # Make the Symbol
         s = Symbol()
-        s.add_body(b)
-        lib  = library.attrib.get('name')
-        sym = symbol.attrib.get('name')
+        s.add_body(b) # add the body to the symbol
+        lib  = library.get('name')
+        sym = symbol.get('name')
         library_id = lib + '_' + sym
         self.symbols[library_id] = s
 
@@ -111,12 +169,12 @@ class EagleXML:
 
 
     def parse_wire(self,wire):
-        # TODO: grab the width and layer
-        x1 = int(round(float(wire.attrib['x1'])*self.scale,-0))
-        y1 = int(round(float(wire.attrib['y1'])*self.scale,-0))
-        x2 = int(round(float(wire.attrib['x2'])*self.scale,-0))
-        y2 = int(round(float(wire.attrib['y2'])*self.scale,-0))
-        curve = wire.attrib.get('curve')
+        # TODO: grab the wire width and layer as well
+        x1 = int(round(float(wire.get('x1'))*self.scale,-0))
+        y1 = int(round(float(wire.get('y1'))*self.scale,-0))
+        x2 = int(round(float(wire.get('x2'))*self.scale,-0))
+        y2 = int(round(float(wire.get('y2'))*self.scale,-0))
+        curve = wire.get('curve')
         if curve is None:
             p1 = Point(x1,y1)
             p2 = Point(x2,y2)
@@ -137,7 +195,6 @@ class EagleXML:
         if 0.5 == angle:
             pass
         return Arc(xc,yc,start_angle,end_angle,int(R))
-
 
 
     def parse_text(self,text):
@@ -249,6 +306,8 @@ class EagleXML:
         self.design.add_component_instance(inst)
 
 
+# Feeble attempt at class-based parsing after I was unhappy with the all-one class approach
+# This is (to me) the happy medium between generated and handmade
 class Schematic:
     def __init__(self):
         self.libraries = dict()
