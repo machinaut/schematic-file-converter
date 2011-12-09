@@ -114,12 +114,12 @@ class Label(Shape):
     """
 
     def __init__(self,x,y,text,align,rotation):
-        self.type = "label" 
+        self.type = "label"
         self.x = x
         self.y = y
         self.text = text
         self.rotation = rotation # TODO verify correct value
-        # Parse , TODO maybe clean this up some, dont need to accept 
+        # Parse , TODO maybe clean this up some, dont need to accept
         #   all of these inputs, converting to lowercase would be enough
         if align in ["left","Left"]:
             self.align = "left"
@@ -147,7 +147,7 @@ class Line(Shape):
     """ line segment from point1 to point2 """
 
     def __init__(self,p1,p2):
-        self.type = "line" 
+        self.type = "line"
         self.p1 = Point(p1)
         self.p2 = Point(p2)
 
@@ -165,7 +165,7 @@ class Polygon(Shape):
     """ A polygon is just a list of points, drawn as connected in order """
 
     def __init__(self):
-        self.type = "polygon" 
+        self.type = "polygon"
         self.points = list()
 
 
@@ -193,7 +193,7 @@ class BezierCurve(Shape):
 
     def build(self,control1x,control1y,control2x,control2y,p1x,
             p1y,p2x,p2y):
-        self.type = "bezier" 
+        self.type = "bezier"
         self.control1 = {"x":control1x,"y":control1y}
         self.control2 = {"x":control2x,"y":control2y}
         self.p1 = {"x":p1x,"y":p1y}
@@ -229,7 +229,7 @@ class Point:
 
     def json(self):
         return {
-            "x":self.x, 
+            "x":self.x,
             "y":self.y
             }
 

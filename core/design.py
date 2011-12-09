@@ -27,7 +27,7 @@ class Design:
 
     def add_component(self, library_id, component):
         self.components.add_component(library_id,component)
-    
+
 
     def add_net(self, net):
         self.nets.append(net)
@@ -38,11 +38,11 @@ class Design:
 
 
     def json(self):
-        return { 
+        return {
             "version" : self.version,
             "nets" : [n.json() for n in self.nets],
             "components" : self.components.json(),
-            "component_instances" : 
+            "component_instances" :
                 [i.json() for i in self.component_instances],
             "design_attributes" : self.design_attributes.json()
             }

@@ -13,7 +13,7 @@ class Net:
 
     def add_annotation(self, annotation):
         self.annotations.append(annotation)
-        
+
 
     def add_attribute(self, key, value):
         self.attributes[key] = value

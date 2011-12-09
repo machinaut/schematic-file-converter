@@ -13,7 +13,7 @@ class Components:
     def add_component(self,library_id, component):
         self.components[library_id] = component
 
-    
+
     def json(self):
         """ Copy to a new dictionary to return """
         d = dict()
@@ -24,7 +24,7 @@ class Components:
 
 class Component:
     """ The Component class represents a single kind of part (component).
-    It can have multiple graphical representations (Symbols), each with 
+    It can have multiple graphical representations (Symbols), each with
     multiple sections (Bodies).
     The 'components' of a design is basically it's library of available
     parts.  The actual placed parts on the design are 'Instances' of
@@ -61,7 +61,7 @@ class Symbol:
 
     def __init__(self):
         self.bodies = list()
-  
+
 
     def add_body(self, body):
         self.bodies.append(body)
@@ -109,7 +109,7 @@ class Pin:
     def json(self):
         d = {
             "pin_number":self.pin_number,
-            "p1":self.p1.json(), 
+            "p1":self.p1.json(),
             "p2":self.p2.json()
             }
         if self.label is not None:

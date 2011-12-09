@@ -2,13 +2,14 @@
 #
 # upconvert.py - A universal hardware design file format converter using
 # Upverter's Open JSON Interchange Format
+# (http://upverter.com/resources/open-json-format/)
 #
 # Authors:
 #   Alex Ray ajray@ncsu.edu
 #   Upverter support@upverter.com
 #
 # Usage example:
-#   ./upconvert.py -i test.sch -o test.json -f kicad -t json
+#   ./upconvert.py -i test.upv -o test.json 
 
 
 import os, re, copy, json
@@ -49,10 +50,14 @@ def write(d, f, format='openjson'):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("-i","--input", dest="inputfile",help="read INPUT file in",metavar="INPUT")
-    parser.add_argument("-f","--from", dest="inputtype",help="read input file as TYPE",metavar="TYPE")
-    parser.add_argument("-o","--output", dest="outputfile",help="write OUTPUT file out",metavar="OUTPUT")
-    parser.add_argument("-t","--to", dest="outputtype",help="write output file as TYPE",metavar="TYPE")
+    parser.add_argument("-i","--input", dest="inputfile",help="read INPUT file in",
+            metavar="INPUT")
+    parser.add_argument("-f","--from", dest="inputtype",help="read input file as TYPE",
+            metavar="TYPE", default="openjson")
+    parser.add_argument("-o","--output", dest="outputfile",help="write OUTPUT file out",
+            metavar="OUTPUT")
+    parser.add_argument("-t","--to", dest="outputtype",help="write output file as TYPE",
+            metavar="TYPE", default="openjson")
 
     args = parser.parse_args()
     inputtype = args.inputtype

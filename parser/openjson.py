@@ -13,7 +13,7 @@ from core.shape import *
 from core.net import *
 
 class JSON:
-    """ The Open JSON Format Parser 
+    """ The Open JSON Format Parser
     This is mostly for sanity checks, it reads in the Open JSON format,
     and then outputs it. """
 
@@ -83,7 +83,7 @@ class JSON:
         y = int(annotation.get('y'))
         rotation = float(annotation.get('rotation'))
         visible = annotation.get('visible')
-        if visible.lower() == 'false':
+        if visible is not None and visible.lower() == 'false':
             visible = 'false'
         else:
             visible = 'true'
@@ -101,7 +101,7 @@ class JSON:
                 s = self.parse_symbol(symbol)
                 c.add_symbol(s)
             self.design.add_component(library_id,c)
-            
+
 
     def parse_symbol(self, symbol):
         s = Symbol()
@@ -136,7 +136,7 @@ class JSON:
         x = int(point.get('x'))
         y = int(point.get('y'))
         return Point(x,y)
-    
+
     def parse_label(self,label):
         x = int(label.get('x'))
         y = int(label.get('y'))
