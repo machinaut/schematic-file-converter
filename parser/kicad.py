@@ -8,57 +8,67 @@
 # 4) Read the part library to figure out pin connectivity [TODO]
 
 from core.design import Design
+from core.net import Net, NetPoint
 
 
 class KiCAD:
     """ The KiCAD Format Parser """
 
-    def __init__(self):
-        pass
-
-
     def parse(self, filename):
         """ Parse a kicad file into a design """
-        # Rough'n'dirty parsing, assume nothing useful comes before the description
+
+        # Rough'n'dirty parsing, assume nothing useful comes before
+        # the description
         circuit = Design()
         segments = set() # each wire segment
         junctions = set() # wire junction point (connects all wires under it)
         f = open(filename)
+
         # Read until the end of the description
-        line = ""
-        while line.strip() != "$EndDescr":
-            line = f.readline()
-        # Now parse wires and components, ignore connections, we get connectivity from wire segments
+        while f.readline().strip() != "$EndDescr":
+            pass
+
+        # Now parse wires and components, ignore connections, we get
+        # connectivity from wire segments
+
         line = f.readline()
-        while line != '': # loop til end of file
+        while line:
             element = line.split()[0] # whats next on the list
             if element == "Wire": # Wire Segment, coords on 2nd line
-                line = f.readline() # Read the second line with the coordinates
-                x1,y1,x2,y2 = [int(i) for i in line.split()]
+                x1,y1,x2,y2 = [int(i) for i in f.readline().split()]
                 if not(x1 == x2 and y1 == y2): # ignore zero-length segments
                     segments.add(((x1,y1),(x2,y2)))
             elif element == "Connection": # Store these to apply later
                 x,y = [int(i) for i in line.split()[2:4]]
                 junctions.add((x,y))
             elif element == "$Comp": # Component
-                # TODO(ajray): probably should can by leading letter, instead of assuming they're what we expect
-                compnames = f.readline()
-                name,reference = compnames.split()[1:3]
-                unused_timestamp = f.readline()
-                positions = f.readline()
-                compx,compy = [int(i) for i in f.readline()[1:3]]
-                # TODO(ajray): ignore all the fields for now, probably could make these annotations
-                line = f.readline()
-                while line.strip() != "$EndComp":
-                    line = f.readline()
+                # name & reference
+                prefix,name,reference = f.readline().split()
+                assert prefix == 'L'
+
+                # timestamp
+                prefix, _ = f.readline().split(None, 1)
+                assert prefix == 'U'
+
+                # position
+                prefix, compx,compy = f.readline().split()
+                assert prefix == 'P'
+                compx, compy = int(compx), int(compy)
+
+                # TODO(ajray): ignore all the fields for now, probably
+                # could make these annotations
+
+                while f.readline().strip() not in ("$EndComp", ''):
+                    pass
+
             line = f.readline()
-        segments = self.divide(segments,junctions)
-        nets = self.calc_nets(segments)
-        circuit.nets = nets
+
+        segments = self.divide(segments, junctions)
+        circuit.nets = self.calc_nets(segments)
         return circuit
 
 
-    def intersect(self, segment,c):
+    def intersect(self, segment, c):
         """ Does point c intersect the segment """
         a,b = segment
         ax,ay, bx,by, cx,cy = a + b + c
@@ -74,7 +84,7 @@ class KiCAD:
         return False
 
 
-    def divide(self, segments,junctions):
+    def divide(self, segments, junctions):
         """ Divide segments by junctions """
         for c in junctions:
             toremove = set()
@@ -90,23 +100,38 @@ class KiCAD:
         return segments
 
 
-    def calc_nets(self, asegments):
+    def calc_nets(self, segments):
         """ Return a set of Nets from segments """
-        segments = copy.deepcopy(asegments)
+
+        points = {} # (x,y) -> NetPoint
+
+        def get_point(p):
+            if p not in points:
+                points[p] = NetPoint('%da%d' % p, *p)
+            return points[p]
+
+        # turn the (x, y) points into unique NetPoint objects
+        segments = set((get_point(p1), get_point(p2)) for p1, p2 in segments)
         nets = []
-        # Iterate over the copied set, removing segments when added to a net
-        while len(segments) > 0 :
+
+        # Iterate over the segments, removing segments when added to a net
+        while segments:
             seg = segments.pop() # pick a point
-            newnet = Net()
+            newnet = Net('')
             newnet.connect(seg)
             found = True
+
             while found:
                 found = set()
+
                 for seg in segments: # iterate over segments
                     if newnet.connected(seg): # segment touching the net
                         newnet.connect(seg) # add the segment
                         found.add(seg)
+
                 for seg in found:
                     segments.remove(seg)
+
             nets.append(newnet)
+
         return nets

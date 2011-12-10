@@ -1,11 +1,25 @@
 {
     "attributes": [], 
-    "components": [], 
-    "instances": [], 
+    "components": {}, 
+    "component_instances": [], 
+    "design_attributes": {
+        "annotations": [], 
+        "attributes": {}, 
+        "metadata": {
+            "attached_urls": [], 
+            "description": "", 
+            "design_id": "", 
+            "license": "", 
+            "name": "", 
+            "owner": "", 
+            "slug": "", 
+            "updated_timestamp": 1323544478
+        }
+    },
     "nets": [
         {
             "annotations": [], 
-            "attributes": [], 
+            "attributes": {}, 
             "net_id": "", 
             "points": [
                 {
@@ -90,7 +104,7 @@
         }, 
         {
             "annotations": [], 
-            "attributes": [], 
+            "attributes": {}, 
             "net_id": "", 
             "points": [
                 {
@@ -135,7 +149,7 @@
         }, 
         {
             "annotations": [], 
-            "attributes": [], 
+            "attributes": {}, 
             "net_id": "", 
             "points": [
                 {
@@ -170,7 +184,7 @@
         }, 
         {
             "annotations": [], 
-            "attributes": [], 
+            "attributes": {}, 
             "net_id": "", 
             "points": [
                 {
@@ -215,7 +229,7 @@
         }, 
         {
             "annotations": [], 
-            "attributes": [], 
+            "attributes": {}, 
             "net_id": "", 
             "points": [
                 {
