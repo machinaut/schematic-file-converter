@@ -49,7 +49,6 @@ class EagleXML:
     The Eagle XML Format Parser 
     Built referencing the eagle.dtd that comes with Eagle 6 Beta
     """
-
     def __init__(self):
         self.design = Design()
         # In the order they are parsed:
@@ -58,7 +57,6 @@ class EagleXML:
         self.parts = dict()     # key:instance_id val:{lib,devset,dev}
         self.scale = 10./2.54   # TODO: figure out a way to infer this
         self.version = None     # EAGLE program version that generated this file ('V.RR')
-
 
     def parse(self, filename):
         """ Parse an Eagle XML file into a design """
@@ -74,12 +72,7 @@ class EagleXML:
             pass # These aren't useful yet
         for drawing in root.findall('drawing'):
             self.parse_drawing(drawing)
-        # Parsed the
-        print 'symbols\n',self.symbols.keys()
-        print 'gates\n',self.gates.keys()
-        print 'parts\n',self.parts.keys()
         return self.design
-
 
     def parse_drawing(self, drawing):
         for settings in drawing.findall('settings'): # should have zero or one of these
@@ -96,76 +89,151 @@ class EagleXML:
             self.parse_schematic(schematic)
 
 
-    def parse_schematic(self, schematic):
+
+class Schematic:
+    def __init__(self, schematic):
+        self.library = dict()
+        self.part    = dict()
+        self.sheet   = list()
         # Someone needs to teach CADSoft how to do proper XML plurality
-        for description in schematic.findall('description'):
+        for d in schematic.findall('description'):
             pass
         for libraries in schematic.findall('libraries'):
-            for library in libraries.findall('library'):
-                self.parse_library(library)
+            for l in libraries.findall('library'):
+                self.add_library(l)
         for attributes in schematic.findall('attributes'):
-            for attribute in attributes.findall('attribute'):
+            for a in attributes.findall('attribute'):
                 pass
         for variantdefs in schematic.findall('variantdefs'):
-            for variantdef in variantdefs.findall('variantdef'):
+            for v in variantdefs.findall('variantdef'):
                 pass
         for classes in schematic.findall('classes'):
-            for class_ in classes.findall('class'):
+            for c in classes.findall('class'):
                 pass
         for parts in schematic.findall('parts'):
-            for part in parts.findall('part'):
-                self.parse_part(part)
+            for p in parts.findall('part'):
+                self.add_part(p)
         for sheets in schematic.findall('sheets'):
-            for sheet in sheets.findall('sheet'):
-                self.parse_sheet(sheet)
+            for s in sheets.findall('sheet'):
+                self.add_sheet(s)
         for errors in schematic.findall('errors'):
-            for error in errors.findall('error'):
+            for e in errors.findall('error'):
                 pass
 
+    def add_library(l):
+        library = Library(l)
+        self.library[library.name] = library
 
-    def parse_library(self,library):
-        for description in library.findall('description'):
+    def add_part(p):
+        part = Part(p)
+        self.part[part.name] = part
+
+    def add_sheet(s):
+        sheet = Sheet(s)
+        self.sheet.append(sheet)
+
+
+class Library:
+    def __init__(self,library):
+        self.name       = library.get("name") #TODO: warn if not present
+        self.symbol     = dict()
+        self.deviceset  = dict()
+        for d in library.findall('description'):
             pass
         for packages in library.findall('packages'):
-            for package in packages.findall('package'):
+            for p in packages.findall('package'):
                 pass
         for symbols in library.findall('symbols'):
-            for symbol in symbols.findall('symbol'):
-                self.parse_symbol(library,symbol)
+            for s in symbols.findall('symbol'):
+                self.add_symbol(s)
         for devicesets in library.findall('devicesets'):
-            for deviceset in devicesets.findall('deviceset'):
-                self.parse_deviceset(library,deviceset) # pass in the library as context
-      
+            for d in devicesets.findall('deviceset'):
+                self.add_deviceset(d) # pass in the library as context
 
-    def parse_symbol(self,library,symbol):
-        for description in symbol.findall('description'):
+    def add_symbol(self,s):
+        symbol = Symbol(s)
+        self.symbol[symbol.name] = symbol
+
+    def add_deviceset(self,d):
+        deviceset = Deviceset(d)
+        self.deviceset[deviceset.name] = deviceset
+
+
+class Part:
+    def __init__(self, part):
+        self.name       = part.get("name") #TODO: warn if not present
+        self.library    = part.get("library")
+        self.deviceset  = part.get("deviceset")
+        self.device     = part.get("device")
+        self.value      = part.get("value")
+        self.attribute  = list()
+        self.variant    = list()
+        for a in part.findall('attribute'): 
+            self.attribute.append(Attribute(a))
+        for v in part.findall('variant'):
+            self.variant.append(Variant(v))
+
+
+class Sheet:
+    def __init__(self,sheet):
+        self.instance = list()
+        self.bus      = list()
+        self.net      = list()
+        for d in sheet.findall('description'):
             pass
-        # Make the Body
-        b = Body()
-        # Add pins
-        for pin       in symbol.findall('pin'):       b.add_pin(self.parse_pin(pin))
-        # Add shapes
-        for polygon   in symbol.findall('polygon'):   b.add_shape(self.parse_polygon(polygon))
-        for wire      in symbol.findall('wire'):      b.add_shape(self.parse_wire(wire))
-        for text      in symbol.findall('text'):      b.add_shape(self.parse_text(text))
-        for circle    in symbol.findall('circle'):    b.add_shape(self.parse_circle(circle))
-        for rectangle in symbol.findall('rectangle'): b.add_shape(self.parse_rectangle(rectangle))
-        for frame     in symbol.findall('frame'):     b.add_shape(self.parse_frame(frame))
-        # Make the Symbol
-        s = Symbol()
-        s.add_body(b) # add the body to the symbol
-        lib  = library.get('name')
-        sym = symbol.get('name')
-        library_id = lib + '_' + sym
-        self.symbols[library_id] = s
+        for p in sheet.findall('plain'):
+            pass
+        for instances in sheet.findall('instances'):
+            for i in instances.findall('instance'):
+                self.instance.append(Instance(i))
+        for busses in sheet.findall('busses'):
+            for b in busses.findall('bus'):
+                self.bus.append(Bus(b))
+        for nets in sheet.findall('nets'):
+            for n in nets.findall('net'):
+                self.net.append(Net(n))
 
-        # Make the Component
-        # TODO handle multi-symbol components; now a comp for each symbol
-        c = Component(sym)
-        c.add_symbol(s)
 
-        # Add the Component (and Symbol and Body)
-        self.design.add_component(library_id,c)
+class Symbol:
+    def __init__(self,symbol):
+        self.name  = symbol.get("name") #TODO: warn if not present
+        self.shape = list()
+        self.pin   = list()
+        for d in symbol.findall('description'):
+            pass
+        for p in symbol.findall('polygon'):   self.shape.append(Polygon(p))
+        for w in symbol.findall('wire'):      self.shape.append(Wire(w))
+        for t in symbol.findall('text'):      self.shape.append(Text(t))
+        for p in symbol.findall('pin'):       self.pin.append(Pin(p))
+        for c in symbol.findall('circle'):    self.shape.append(Circle(c))
+        for r in symbol.findall('rectangle'): self.shape.append(Rectangle(r))
+        for f in symbol.findall('frame'):     self.shape.append(Frame(f))
+
+
+class Deviceset:
+    def __init__(self,deviceset):
+        self.name   = deviceset.get("name") #TODO: warn if not present
+        p = deviceset.get("prefix") # Can be None
+        if p: self.prefix = p
+        else: self.prefix = ""
+        u = deviceset.get("uservalue") # Can be None
+        if p: self.prefix = p
+        else: self.prefix = "no"
+        self.uservalue = deviceset.get("prefix") # Can be None
+        self.description = ""
+        self.gates = dict()
+        self.devices = dict()
+        for gates in deviceset.findall('gates'):
+            for gate in gates.findall('gate'):
+                self.parse_gate(library,deviceset,gate)
+        #for devices in deviceset.findall('devices'):
+        #    for device in devices.findall('device'):
+    def set_description(self,description):
+        self.description = description
+    def add_gate(self,name,gate):
+        self.gates[name] = gate
+    def add_device(self,name,device):
+        self.devices[name] = device
 
 
     def parse_wire(self,wire):
@@ -236,15 +304,6 @@ class EagleXML:
         return Pin(n,p1,p2,l)
         
 
-    def parse_deviceset(self,library,deviceset):
-        #for description in deviceset.findall('description'):
-        for gates in deviceset.findall('gates'):
-            for gate in gates.findall('gate'):
-                self.parse_gate(library,deviceset,gate)
-        #for devices in deviceset.findall('devices'):
-        #    for device in devices.findall('device'):
-
-
     def parse_gate(self,library,deviceset,gate):
         lib     = library.attrib.get('name')
         devset  = deviceset.attrib.get('name')
@@ -256,27 +315,7 @@ class EagleXML:
                                "symbol" : sym}
 
 
-    def parse_part(self, part):
-        instance_id = part.attrib.get('name')
-        self.parts[instance_id] = {
-            "library"   : part.attrib.get('library'),
-            "deviceset" : part.attrib.get('deviceset'),
-            "device"    : part.attrib.get('device') }
 
-
-    def parse_sheet(self,sheet):
-        #for plain in sheet.findall('plain'):
-        #    for text in plain.findall('text'):
-        for instances in sheet.findall('instances'):
-            for instance in instances.findall('instance'):
-                self.parse_instance(instance)
-        #for busses in sheet.findall('busses'):
-        #for nets in sheet.findall('nets'):
-        #    for net in nets.findall('net'):
-        #        for segment in net.findall('segment'):
-        #            for wire in segment.findall('wire'):
-        #            for junction in segment.findall('junction'):
-        #            for pinref in segment.findall('pinref'):
         
 
     def parse_instance(self,instance):
@@ -332,52 +371,15 @@ class Library:
         self.symbols[name] = symbol
     def add_deviceset(self,name,deviceset):
         self.devicesets[name] = deviceset
-class Part:
-    def __init__(self,name,library,deviceset,device,value=None):
-        self.name = name
-        self.library = library
-        self.deviceset = deviceset
-        self.device = device
-        self.value = value
-class Sheet:
-    def __init__(self):
-        self.shapes = list()
-        self.instances = dict() # key:("part","gate")
-        self.busses = None # TODO: parse busses
-        self.nets = dict()
-    def add_shape(self,shape):
-        self.shapes.append(shape)
-    def add_instance(self,part,gate,instance):
-        self.instances[(part,gate)] = instance
-    def add_net(self,name,net):
-        self.nets[name] = net
 class Instance:
-    def __init__(self,part,gate,x,y,rot)
+    def __init__(self,part,gate,x,y,rot):
+        pass
 class Package:
     def __init__(self,name):
         self.name = name
         self.shapes = list()
     def add_shape(self,shape):
         self.shapes.append(shape)
-class Symbol:
-    def __init__(self,name):
-        self.name = name
-        self.shapes = list()
-    def add_shape(self,shape):
-        self.shapes.append(shape)
-class Deviceset:
-    def __init__(self,name,prefix=None):
-        self.name = name
-        self.prefix = prefix
-        self.description = ""
-        self.gates = dict()
-        self.devices = dict()
-    def set_description(self,description):
-        self.description = description
-    def add_gate(self,name,gate):
-        self.gates[name] = gate
-    def add_device(self,name,device):
-        self.devices[name] = device
 class Gate:
     def __init__(self,name,symbol,x,y,addlevel=None):
         self.name = name
