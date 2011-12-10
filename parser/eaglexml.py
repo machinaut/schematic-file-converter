@@ -7,6 +7,7 @@
 # 3) read all instances (locations of instances) and use self.parts,
 #       self.gates, and self.symbols to connect to it's symbol
 #
+# NOTE: The overall order of this file is a class for every element type in doc/eagle.dtd
 # NOTE: I've added most of the looping structures (for x in y.findall('foo'))
 #       for each element thats given in eagle.dtd.  Unused ones are left
 #       commented out or empty, but exist for reference in case they're used later
@@ -34,6 +35,8 @@
 #     handle it gracefully in upconvert.py 
 # TODO(ajray): figure out a way to give back soft warnings (non-fatal issues)
 # TODO(ajray): I have the hierarchy of bodies and symbols in the parsed schematic wonky
+# TODO(ajray): Having each class check it's tag to verify would be great. Though I
+#     can't imagine them being called outside of this file (so that shouldnt happen)
 
 
 import math
@@ -43,6 +46,7 @@ from core.components import *
 from core.shape import *
 from xml.etree.ElementTree import ElementTree
 
+SCALE = 10./2.54   # TODO: figure out a way to infer this
 
 class EagleXML:
     """ 
@@ -55,7 +59,6 @@ class EagleXML:
         self.symbols = dict()   # key:library_id  val:Symbol()
         self.gates = dict()     # key:gate_id     val:{lib,devset,sym}
         self.parts = dict()     # key:instance_id val:{lib,devset,dev}
-        self.scale = 10./2.54   # TODO: figure out a way to infer this
         self.version = None     # EAGLE program version that generated this file ('V.RR')
 
     def parse(self, filename):
@@ -66,38 +69,59 @@ class EagleXML:
         if root.tag.lower() != "eagle":
             print "ERROR reading eagle XML file, root tag is not 'eagle'"
             return None
-        self.version = root.get('version') # Should be required but may be absent
-        # From here we descend the document using these parsing functions
-        for compatibility in root.findall('compatibility'):
-            pass # These aren't useful yet
-        for drawing in root.findall('drawing'):
-            self.parse_drawing(drawing)
-        return self.design
+        eagle = Eagle(root)
 
-    def parse_drawing(self, drawing):
-        for settings in drawing.findall('settings'): # should have zero or one of these
-            for setting in settings.findall('settings'):
-                pass #TODO maybe the scale information we want for self.scale is here
-        for grid in drawing.findall('grid'): # should have zero or one of these
-            pass
-        for layers in drawing.findall('layers'): # required exactly one, we handle many
-            for layer in layers.findall('layer'):
-                pass
-        # TODO: technically this can be schematic, board, or library
-        # but in reality we shouldn't be handed in anything *but* schematics
-        for schematic in drawing.findall('schematic'):
-            self.parse_schematic(schematic)
 
+class Eagle:
+    def __init__(self, eagle):
+        self.version = eagle.get('version') #TODO: warn if absent
+        self.note    = list()
+        self.drawing = None
+        for compatibility in eagle.findall('compatibility'):
+            for n in compatibility.findall('note'):
+                self.note.append(Note(n))
+        for d in eagle.findall('drawing'): #TODO: warn if multiples
+            self.drawing = Drawing(d)
+
+
+class Note:
+    def __init__(self, note):
+        self.version  = note.get("version")  #TODO: warn if absent
+        self.severity = note.get("severity") #TODO: warn if absent
+        
+
+class Drawing:
+    def __init__(self, drawing):
+        self.setting    = list()
+        self.layer      = list()
+        self.grid       = None
+        self.schematic  = None
+        for settings in drawing.findall('settings'):
+            for s in settings.findall('settings'):
+                self.setting.append(Setting(s))
+        for g in drawing.findall('grid'): #TODO: warn if multiples
+            self.grid = Grid(g)
+        for layers in drawing.findall('layers'):
+            for l in layers.findall('layer'):
+                self.layer.append(Layer(l))
+        for s in drawing.findall('schematic'): #TODO: warn if multiples
+            self.schematic = Schematic(s)
 
 
 class Schematic:
     def __init__(self, schematic):
-        self.library = dict()
-        self.part    = dict()
-        self.sheet   = list()
+        self.description = None
+        self.library    = dict()
+        self.attribute  = dict()
+        self.variantdef = dict()
+        self.class_     = dict() # Python has a cluttered namespace
+        self.part       = dict()
+        self.sheet      = list()
+        self.xreflabel  = schematic.get("xreflabel")
+        self.xrefpart   = schematic.get("xrefpart")
         # Someone needs to teach CADSoft how to do proper XML plurality
         for d in schematic.findall('description'):
-            pass
+            self.description = d
         for libraries in schematic.findall('libraries'):
             for l in libraries.findall('library'):
                 self.add_library(l)
@@ -238,10 +262,10 @@ class Deviceset:
 
     def parse_wire(self,wire):
         # TODO: grab the wire width and layer as well
-        x1 = int(round(float(wire.get('x1'))*self.scale,-0))
-        y1 = int(round(float(wire.get('y1'))*self.scale,-0))
-        x2 = int(round(float(wire.get('x2'))*self.scale,-0))
-        y2 = int(round(float(wire.get('y2'))*self.scale,-0))
+        x1 = int(round(float(wire.get('x1'))*SCALE,-0))
+        y1 = int(round(float(wire.get('y1'))*SCALE,-0))
+        x2 = int(round(float(wire.get('x2'))*SCALE,-0))
+        y2 = int(round(float(wire.get('y2'))*SCALE,-0))
         curve = wire.get('curve')
         if curve is None:
             p1 = Point(x1,y1)
@@ -267,8 +291,8 @@ class Deviceset:
 
     def parse_text(self,text):
         # TODO grab the size
-        x = int(round(float(text.attrib['x'])*self.scale,-0))
-        y = int(round(float(text.attrib['y'])*self.scale,-0))
+        x = int(round(float(text.attrib['x'])*SCALE,-0))
+        y = int(round(float(text.attrib['y'])*SCALE,-0))
         r = 0 # TODO check rotation
         t = text.text
         align = 'left' # TODO check that this is never otherwise
@@ -288,8 +312,8 @@ class Deviceset:
         else: # 'short' == length, and default
             off = 10
         n = pin.attrib.get('name')
-        x = int(round(float(pin.attrib['x'])*self.scale,-0))
-        y = int(round(float(pin.attrib['y'])*self.scale,-0))
+        x = int(round(float(pin.attrib['x'])*SCALE,-0))
+        y = int(round(float(pin.attrib['y'])*SCALE,-0))
         p2 = Point(x,y)
         # TODO handle all of the rotations
         if pin.attrib.get('rot') == 'R180':
@@ -335,8 +359,8 @@ class Deviceset:
 
         # Make the instance's symbol_attribute
         # TODO handle multi-body symbols
-        x = int(round(float(instance.attrib['x'])*self.scale,-0))
-        y = int(round(float(instance.attrib['y'])*self.scale,-0))
+        x = int(round(float(instance.attrib['x'])*SCALE,-0))
+        y = int(round(float(instance.attrib['y'])*SCALE,-0))
         rotation = 0 # TODO get the real rotation
         sa = SymbolAttribute(x,y,rotation)
         inst.add_symbol_attribute(sa)
