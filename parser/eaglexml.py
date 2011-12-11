@@ -120,7 +120,7 @@ class Schematic:
         self.xreflabel  = schematic.get("xreflabel")
         self.xrefpart   = schematic.get("xrefpart")
         # Someone needs to teach CADSoft how to do proper XML plurality
-        for d in schematic.findall('description'):
+        for d in schematic.findall('description'): #TODO: warn if multiples
             self.description = d.text
         for libraries in schematic.findall('libraries'):
             for l in libraries.findall('library'):
