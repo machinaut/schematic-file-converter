@@ -112,7 +112,7 @@ class Schematic:
     def __init__(self, schematic):
         self.description = None
         self.library    = dict()
-        self.attribute  = dict()
+        self.attribute  = list()
         self.variantdef = dict()
         self.class_     = dict() # Python has a cluttered namespace
         self.part       = dict()
@@ -121,13 +121,13 @@ class Schematic:
         self.xrefpart   = schematic.get("xrefpart")
         # Someone needs to teach CADSoft how to do proper XML plurality
         for d in schematic.findall('description'):
-            self.description = d
+            self.description = d.text
         for libraries in schematic.findall('libraries'):
             for l in libraries.findall('library'):
                 self.add_library(l)
         for attributes in schematic.findall('attributes'):
             for a in attributes.findall('attribute'):
-                pass
+                self.attribute.append(Attribute(a))
         for variantdefs in schematic.findall('variantdefs'):
             for v in variantdefs.findall('variantdef'):
                 pass
