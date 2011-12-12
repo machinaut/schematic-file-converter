@@ -261,7 +261,84 @@ class Symbol:
         for c in symbol.findall('circle'):    self.shape.append(Circle(c))
         for r in symbol.findall('rectangle'): self.shape.append(Rectangle(r))
         for f in symbol.findall('frame'):     self.shape.append(Frame(f))
-        
+
+class Deviceset:
+    def __init__(self,deviceset):
+        self.description = None
+        self.gate        = list()
+        self.device      = list()
+        self.name        = deviceset.get("name") #TODO: warn if not present
+        self.prefix      = deviceset.get("prefix") #TODO: warn if not present
+        self.uservalue   = deviceset.get("uservalue") #TODO: warn if not present
+        for d in deviceset.findall('description'):
+            self.description = d.text
+        for gates in deviceset.findall('gates'):
+            for g in deviceset.findall('gate'):
+                self.gate.append(Gate(g))
+        for devices in deviceset.findall('devices'):
+            for d in deviceset.findall('device'):
+                self.device.append(Device(d))
+
+class Device:
+    def __init__(self,device):
+        self.connect     = list()
+        self.technology  = list()
+        self.name        = device.get("name") #TODO: warn if not present
+        self.package     = device.get("package") #TODO: warn if not present
+        for connects in device.findall('connects'):
+            for c in connects.findall('connect'):
+                self.device.append(Connect(c))
+        for technologies in device.findall('technologies'):
+            for t in technologies.findall('technology'):
+                self.technology.append(Technology(t))
+
+class Bus:
+    def __init__(self,bus):
+        self.segment    = list()
+        self.name       = bus.get("name") #TODO: warn if not present
+        for s in bus.findall('segment'):
+            self.segment.append(Segment(s))
+
+class Net:
+    def __init__(self,net):
+        self.segment    = list()
+        self.name       = net.get("name") #TODO: warn if not present
+        for s in net.findall('segment'):
+            self.segment.append(Segment(s))
+
+class Segment:
+    def __init__(self, segment):
+        self.pinref     = list()
+        self.wire       = list()
+        self.junction   = list()
+        self.label      = list()
+        for p in segment.findall('pinref'):
+            self.pinref.append(Pinref(p))
+        for w in segment.findall('wire'):
+            self.wire.append(Wire(w))
+        for j in segment.findall('junction'):
+            self.junction.append(Junction(j))
+        for l in segment.findall('label'):
+            self.label.append(Label(l))
+
+class Signal:
+    def __init__(self,signal):
+        self.contactref     = list()
+        self.polygon        = list()
+        self.wire           = list()
+        self.via            = list()
+        self.name           = signal.get("name") #TODO: warn if not present
+        self.class_         = signal.get("class") #TODO: warn if not present
+        self.airwireshidden = signal.get("airwireshidden") #TODO: warn if not 
+        for c in segment.findall('contactref'):
+            self.contactref.append(Contactref(c))
+        for p in segment.findall('polygon'):
+            self.polygon.append(Polygon(p))
+        for w in segment.findall('wire'):
+            self.wire.append(Wire(w))
+        for v in segment.findall('via'):
+            self.via.append(Via(v))
+
 class Part:
     def __init__(self, part):
         self.name       = part.get("name") #TODO: warn if not present
@@ -275,137 +352,3 @@ class Part:
             self.attribute.append(Attribute(a))
         for v in part.findall('variant'):
             self.variant.append(Variant(v))
-
-class Deviceset:
-    def __init__(self,deviceset):
-        self.name   = deviceset.get("name") #TODO: warn if not present
-        p = deviceset.get("prefix") # Can be None
-        if p: self.prefix = p
-        else: self.prefix = ""
-        u = deviceset.get("uservalue") # Can be None
-        if p: self.prefix = p
-        else: self.prefix = "no"
-        self.uservalue = deviceset.get("prefix") # Can be None
-        self.description = ""
-        self.gates = dict()
-        self.devices = dict()
-        for gates in deviceset.findall('gates'):
-            for gate in gates.findall('gate'):
-                self.parse_gate(library,deviceset,gate)
-        #for devices in deviceset.findall('devices'):
-        #    for device in devices.findall('device'):
-    def set_description(self,description):
-        self.description = description
-    def add_gate(self,name,gate):
-        self.gates[name] = gate
-    def add_device(self,name,device):
-        self.devices[name] = device
-
-
-    def parse_wire(self,wire):
-        # TODO: grab the wire width and layer as well
-        x1 = int(round(float(wire.get('x1'))*SCALE,-0))
-        y1 = int(round(float(wire.get('y1'))*SCALE,-0))
-        x2 = int(round(float(wire.get('x2'))*SCALE,-0))
-        y2 = int(round(float(wire.get('y2'))*SCALE,-0))
-        curve = wire.get('curve')
-        if curve is None:
-            p1 = Point(x1,y1)
-            p2 = Point(x2,y2)
-            return Line(p1,p2)
-        else: # curve is not None:
-            # give the angle in pi radians
-            angle = math.radians(round(float(curve)),-1)/math.pi
-            return self.parse_curve(x1,y1,x2,y2,angle)
-
-
-    def parse_curve(self,x1,y1,x2,y2,angle):
-        # TODO: add this mathematical def'n of an arc to core/shape.py
-        # TODO: more general form of an arc. right now just restricted to
-        #   Multiples of right angles. Adding special cases as necessary
-        if -0.5 == angle:
-            x1,y1,x2,y2 = x2,y2,x1,y1 # switch points
-            angle = 0.5
-        if 0.5 == angle:
-            pass
-        return Arc(xc,yc,start_angle,end_angle,int(R))
-
-
-    def parse_text(self,text):
-        # TODO grab the size
-        x = int(round(float(text.attrib['x'])*SCALE,-0))
-        y = int(round(float(text.attrib['y'])*SCALE,-0))
-        r = 0 # TODO check rotation
-        t = text.text
-        align = 'left' # TODO check that this is never otherwise
-        return Label(x,y-5,t,align,r)
-
-
-    def parse_pin(self,pin):
-        # TODO get pins direction, 
-        length = pin.attrib.get('length')
-        # TODO handle zero-length pins
-        if 'long' == length:
-            off = 30
-        elif 'middle' == length:
-            off = 20
-        #elif 'point' == length:
-        #    off = 0
-        else: # 'short' == length, and default
-            off = 10
-        n = pin.attrib.get('name')
-        x = int(round(float(pin.attrib['x'])*SCALE,-0))
-        y = int(round(float(pin.attrib['y'])*SCALE,-0))
-        p2 = Point(x,y)
-        # TODO handle all of the rotations
-        if pin.attrib.get('rot') == 'R180':
-          x -= off
-          p1 = Point(x,y)
-          l = Label(x-5,y-5,n,'right',0)
-        else:
-          x += off
-          p1 = Point(x,y)
-          l = Label(x+5,y-5,n,'left',0)
-        # TODO figure out actual default pin length
-        return Pin(n,p1,p2,l)
-        
-
-    def parse_gate(self,library,deviceset,gate):
-        lib     = library.attrib.get('name')
-        devset  = deviceset.attrib.get('name')
-        sym     = gate.attrib.get('symbol')
-        gat     = gate.attrib.get('name')
-        gate_id = lib + '_' + gat
-        self.gates[gate_id] = {"library" : lib,
-                               "deviceset" : devset, 
-                               "symbol" : sym}
-
-
-
-        
-
-    def parse_instance(self,instance):
-        instance_id = instance.attrib.get('part')
-        # Figure out library_id from part->gate/library->symbol
-        part_dict = self.parts.get(instance_id)
-        gat = instance.attrib.get('gate')
-        lib = part_dict.get('library')
-        gate_id = lib + '_' + gat
-        gate_dict = self.gates.get(gate_id)
-        sym = gate_dict.get('symbol')
-        library_id = lib + '_' + sym # figured out
-
-        # Make the ComponentInstance()
-        symbol_index = 0 # TODO handle multi-symbol components
-        inst = ComponentInstance(instance_id, library_id, symbol_index)
-
-        # Make the instance's symbol_attribute
-        # TODO handle multi-body symbols
-        x = int(round(float(instance.attrib['x'])*SCALE,-0))
-        y = int(round(float(instance.attrib['y'])*SCALE,-0))
-        rotation = 0 # TODO get the real rotation
-        sa = SymbolAttribute(x,y,rotation)
-        inst.add_symbol_attribute(sa)
-
-        # Add ComponentInstance to the design
-        self.design.add_component_instance(inst)
