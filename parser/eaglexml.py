@@ -48,53 +48,6 @@ from xml.etree.ElementTree import ElementTree
 
 SCALE = 10./2.54   # TODO: figure out a way to infer this
 
-class Circle:
-    def __init__(self, c_element):
-        self.c_element = c_element
-        self.x = self.parse_element('x')
-        self.y = self.parse_element('y')
-        self.r = self.parse_element('radius')
-        self.width = self.parse_element('width')
-        self.layer = self.parse_element('layer')
-
-    def parse_element(self, att_to_get):
-        return self.c_element.get(att_to_get)
-
-    def get_upv(self):
-        return core.shape.Circle(self.x, self.y, self.r)
-
-
-class Text:
-    def __init__(self, t_element):
-        self.t_element = t_element
-        self.x = self.parse_element('x')
-        self.y = self.parse_element('y')
-        self.size = self.parse_element('radius')
-        self.layer = self.parse_element('layer')
-        self.font = self.parse_element('font')
-        self.text = t_element.text
-        if self.font is None:
-            self.font = "proportional"
-        self.ratio = self.parse_element('ratio')
-        if self.ratio is None:
-            self.ratio = "8"
-        self.rot = self.parse_element('rot')
-        if self.rot is None:
-            self.rot = "R0"
-        self.align = self.parse_element('align')
-        if self.align is None:
-            self.align = "bottom-left"
-
-    def parse_element(self, att_to_get):
-        return self.t_element.get(att_to_get)
-    
-    def get_upv(self):
-        templist = self.align.split('-')
-        if len(templist) > 1:
-            tempalign = templist[1]
-        if len(templist) == 1:
-            tempalign = templist[0]
-        return core.shape.Label(self.x, self.y, self.text, tempalign, round((float(self.rot.lower.replace('r', ''))%360)/90)/2.0) 
 
 class EagleXML:
     """ 
@@ -119,7 +72,6 @@ class EagleXML:
             return None
         eagle = Eagle(root)
 
-
 class Eagle:
     def __init__(self, eagle):
         self.version = eagle.get('version') #TODO: warn if absent
@@ -131,13 +83,10 @@ class Eagle:
         for d in eagle.findall('drawing'): #TODO: warn if multiples
             self.drawing = Drawing(d)
 
-
 class Note:
     def __init__(self, note):
         self.version  = note.get("version")  #TODO: warn if absent
         self.severity = note.get("severity") #TODO: warn if absent
-        
-
 
 class Drawing:
     def __init__(self, drawing):
@@ -388,3 +337,331 @@ class Signal:
             self.wire.append(Wire(w))
         for v in segment.findall('via'):
             self.via.append(Via(v))
+
+class Variantdef:
+    def __init__(self, variantdef):
+        self.name           = variantdef.get("name")
+
+class Variant:
+    def __init__(self, variant):
+        self.name           = variant.get("name")
+        self.populate       = variant.get("populate") #TODO: convert to bool
+        self.value          = variant.get("value") #IMPLIED
+        self.technology     = variant.get("technology") #IMPLIED
+
+class Gate:
+    def __init__(self, gate):
+        self.name           = gate.get("name")
+        self.symbol         = gate.get("symbol")
+        self.x              = gate.get("x")
+        self.y              = gate.get("y")
+        self.addlevel       = gate.get("addlevel") #TODO: implement defaults
+        self.swaplevel      = gate.get("swaplevel") #TODO: implement defaults
+
+class Wire:
+    def __init__(self, wire):
+        self.x1             = wire.get("x1")
+        self.y1             = wire.get("y1")
+        self.x2             = wire.get("x2")
+        self.y2             = wire.get("y2")
+        self.width          = wire.get("width")
+        self.layer          = wire.get("layer")
+        self.extent         = wire.get("extent")
+        self.style          = wire.get("sytle")
+        self.curve          = wire.get("curve")
+        self.cap            = wire.get("cap")
+
+class Dimension:
+    def __init__(self.dimension):
+        self.x1             = dimension.get("x1")
+        self.y1             = dimension.get("y1")
+        self.x2             = dimension.get("x2")
+        self.y2             = dimension.get("y2")
+        self.x3             = dimension.get("x3")
+        self.y3             = dimension.get("y3")
+        self.layer          = dimension.get("layer")
+        self.dtype          = dimension.get("dtype")
+
+class Text:
+    def __init__(self.text):
+        self.pcdata         = description.findall('#PCDATA') #TODO:check me!
+        self.x              = text.get("x")
+        self.y              = text.get("y")
+        self.size           = text.get("size")
+        self.layer          = text.get("layer")
+        self.font           = text.get("font")
+        self.ratio          = text.get("ratio")
+        self.rot            = text.get("rot")
+        self.align          = text.get("align")
+
+class Circle:
+    def __init__(self, circle):
+        self.x              = circle.get("x")
+        self.y              = circle.get("y")
+        self.radius         = circle.get("radius")
+        self.width          = circle.get("width")
+        self.layer          = circle.get("layer")
+
+class Rectangle:
+    def __init__(self, rectangle):
+        self.x1             = rectangle.get("x1")
+        self.y1             = rectangle.get("y1")
+        self.x2             = rectangle.get("x2")
+        self.y2             = rectangle.get("y2")
+        self.layer          = rectangle.get("layer")
+        self.rot            = rectangle.get("rot")
+
+class Frame:
+    def __init__(self, frame):
+        self.x1             = frame.get("x1")
+        self.y1             = frame.get("y1")
+        self.x2             = frame.get("x2")
+        self.y2             = frame.get("y2")
+        self.columns        = frame.get("columns")
+        self.rows           = frame.get("rows")
+        self.layer          = frame.get("layer")
+        self.border-left    = frame.get("border-left")
+        self.border-top     = frame.get("border-top")
+        self.border-right   = frame.get("border-right")
+        self.border-bottom  = frame.get("border-bottom")
+
+class Hole:
+    def __init__(self, hole):
+        self.x              = hole.get("x")
+        self.y              = hole.get("y")
+        self.drill          = hole.get("drill")
+
+class Pad:
+    def __init__(self, pad):
+        self.name           = pad.get("name")
+        self.x              = pad.get("x")
+        self.y              = pad.get("y")
+        self.drill          = pad.get("drill")
+        self.diameter       = pad.get("diameter")
+        self.shape          = pad.get("shape")
+        self.rot            = pad.get("rot")
+        self.stop           = pad.get("stop")
+        self.thermals       = pad.get("thermals")
+        self.first          = pad.get("first")
+
+class Smd:
+    def __init__(self, smd):
+        self.name           = smd.get("name")
+        self.x              = smd.get("x")
+        self.y              = smd.get("y")
+        self.dx             = smd.get("dx")
+        self.dy             = smd.get("dy")
+        self.layer          = smd.get("layer")
+        self.roundness      = smd.get("roundness")
+        self.rot            = smd.get("rot")
+        self.stop           = smd.get("stop")
+        self.thermals       = smd.get("thermals")
+        self.cream          = smd.get("cream")
+
+class Element:
+    def __init__(self, element):
+        self.attribute      = list()
+        self.variant        = list()
+        self.name           = element.get("name")
+        self.library        = element.get("library")
+        self.package        = element.get("package")
+        self.value          = element.get("value")
+        self.x              = element.get("x")
+        self.y              = element.get("y")
+        self.locked         = element.get("locked")
+        self.smashed        = element.get("smashed")
+        self.rot            = element.get("rot")
+        for a in element.findall('attribute'):
+            self.attribute.append(Attribute(a))
+        for v in element.findall('variant'):
+            self.variant.append(Variant(v))
+
+class Via:
+    def __init__(self, via):
+        self.x              = via.get("x")
+        self.y              = via.get("y")
+        self.extent         = via.get("extent")
+        self.drill          = via.get("drill")
+        self.diameter       = via.get("diameter")
+        self.shape          = via.get("shape")
+        self.alwaysstop     = via.get("alwaysstop")
+
+class Polygon:
+    def __init__(self,polygon):
+        self.vertex         = list()
+        self.width          = polygon.get("width")
+        self.layer          = polygon.get("layer")
+        self.spacing        = polygon.get("spacing")
+        self.pour           = polygon.get("pour")
+        self.isolate        = polygon.get("isolate")
+        self.orphans        = polygon.get("orphans")
+        self.thermals       = polygon.get("thermals")
+        self.rank           = polygon.get("rank")
+        for v in polygon.findall("vertex"):
+            self.vertex.append(Vertex(v))
+
+class Vertex:
+    def __init__(self,vertex):
+        self.x              = vertex.get("x")
+        self.y              = vertex.get("y")
+        self.curve          = vertex.get("curve")
+
+class Pin:
+    def __init__(self,pin):
+        self.name           = pin.get("name")
+        self.x              = pin.get("x")
+        self.y              = pin.get("y")
+        self.visible        = pin.get("visible")
+        self.length         = pin.get("length")
+        self.direction      = pin.get("direction")
+        self.function       = pin.get("function")
+        self.swaplevel      = pin.get("swaplevel")
+        self.rot            = pin.get("rot")
+
+class Part:
+    def __init__(self,part):
+        self.attribute      = list()
+        self.variant        = list()
+        self.name           = part.get("name")
+        self.library        = part.get("library")
+        self.deviceset      = part.get("deviceset")
+        self.device         = part.get("device")
+        self.technology     = part.get("technology")
+        self.value          = part.get("value")
+        for a in part.findall('attribute'):
+            self.attribute.append(Attribute(a))
+        for v in part.findall('variant'):
+            self.variant.append(Variant(v))
+
+class Instance:
+    def __init__(self,instance):
+        self.attribute      = list()
+        self.part           = instance.get("part")
+        self.gate           = instance.get("gate")
+        self.x              = instance.get("x")
+        self.y              = instance.get("y")
+        self.smashed        = instance.get("smashed")
+        self.rot            = instance.get("rot")
+        for a in instance.findall('attribute'):
+            self.attribute.append(Attribute(a))
+
+class Label:
+    def __init__(self,label):
+        self.x              = label.get("x")
+        self.y              = label.get("y")
+        self.size           = label.get("size")
+        self.layer          = label.get("layer")
+        self.font           = label.get("font")
+        self.ratio          = label.get("ratio")
+        self.rot            = label.get("rot")
+        self.xref           = label.get("xref")
+
+class Junction:
+    def __init__(self,junction):
+        self.x              = junction.get("x")
+        self.y              = junction.get("y")
+
+class Connect:
+    def __init__(self,connect):
+        self.gate           = connect.get("gate")
+        self.pin            = connect.get("pin")
+        self.pad            = connect.get("pad")
+        self.route          = connect.get("route")
+
+class Technology:
+    def __init__(self,technology):
+        self.attribute      = list()
+        self.name           = technology.get("name")
+        for a in technology.findall('attribute'):
+            self.attribute.append(Attribute(a))
+
+class Attribute:
+    def __init__(self,attribute):
+        self.name           = attribute.get("name")
+        self.value          = attribute.get("value")
+        self.x              = attribute.get("x")
+        self.y              = attribute.get("y")
+        self.size           = attribute.get("size")
+        self.layer          = attribute.get("layer")
+        self.font           = attribute.get("font")
+        self.ratio          = attribute.get("ratio")
+        self.rot            = attribute.get("rot")
+        self.display        = attribute.get("display")
+        self.constant       = attribute.get("constant")
+
+class Pinref:
+    def __init__(self,pinref):
+        self.part           = pinref.get("part")
+        self.gate           = pinref.get("gate")
+        self.pin            = pinref.get("pin")
+
+class Contactref:
+    def __init__(self,contactref):
+        self.element        = contactref.get("element")
+        self.pad            = contactref.get("pad")
+        self.route          = contactref.get("route")
+
+class Setting:
+    def __init__(self,setting):
+        self.alwaysvectorfont = setting.get("alwaysvectorfont")
+        self.verticaltext   = setting.get("verticaltext")
+
+class Grid:
+    def __init__(self,grid):
+        self.distance       = grid.get("distance")
+        self.unitdist       = grid.get("unitdist")
+        self.unit           = grid.get("unit")
+        self.style          = grid.get("style")
+        self.multiple       = grid.get("multiple")
+        self.display        = grid.get("display")
+        self.altdistance    = grid.get("altdistance")
+        self.altunitdist    = grid.get("altunitdist")
+        self.altunit        = grid.get("altunit")
+
+class layer:
+    def __init__(self,layer):
+        self.number         = layer.get("number")
+        self.name           = layer.get("name")
+        self.color          = layer.get("color")
+        self.fill           = layer.get("fill")
+        self.visible        = layer.get("visible")
+        self.active         = layer.get("active")
+
+class Class:
+    def __init__(self,class_):
+        self.clearance      = list()
+        self.number         = class_.get("number")
+        self.name           = class_.get("name")
+        self.width          = class_.get("width")
+        self.drill          = class_.get("drill")
+        for c in class_.findall('clearance'):
+            self.clearance.append(Clearance(c))
+
+class Clearance:
+    def __init__(self,clearance):
+        self.class_         = clearance.get('class')
+        self.value          = clearance.get("value")
+
+class Description:
+    def __init__(self,description):
+        self.pcdata         = description.findall('#PCDATA') #TODO:check me!
+        self.language       = description.get("language")
+
+class Param:
+    def __init__(self,param):
+        self.name           = param.get("name")
+        self.value          = param.get("value")
+
+class Pass:
+    def __init__(self,pass_):
+        self.param          = list()
+        self.name           = pass_.get("param")
+        self.refer          = pass_.get("refer")
+        self.active         = pass_.get("active")
+        for p in pass_.findall('param'):
+            self.param.append(Param(p))
+
+class Approved:
+    def __init__(self,approved):
+        self.hash_          = approved.get('hash')
+
