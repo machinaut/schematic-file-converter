@@ -14,14 +14,12 @@
 
 import os, re, copy, json
 import parser.openjson, parser.kicad
-import parser.eaglexml
 import writer.openjson, writer.kicad
 from argparse import ArgumentParser
 
 parsers = {
     'openjson': parser.openjson.JSON,
     'kicad': parser.kicad.KiCAD,
-    'eaglexml': parser.eaglexml.EagleXML
 }
 
 writers = {

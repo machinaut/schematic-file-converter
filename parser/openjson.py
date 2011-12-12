@@ -4,6 +4,7 @@
 # 0) 1:1 Input of the data model
 
 import json
+import core
 from core.annotation import *
 from core.component_instance import *
 from core.components import *
@@ -264,3 +265,9 @@ class JSON:
         instance_id = connectedcomponent.get('instance_id')
         pin_number = connectedcomponent.get('pin_number')
         return ConnectedComponent(instance_id, pin_number)
+
+if __name__ == '__main__':
+  #Test case
+  test = JSON()
+  test.parse('/home/m/Downloads/High-Voltage-Converter-90V-From-15V.upv')
+  open('./trololoTest.json', 'w').write(test.design.json())

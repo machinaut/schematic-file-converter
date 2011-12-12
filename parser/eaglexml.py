@@ -48,6 +48,54 @@ from xml.etree.ElementTree import ElementTree
 
 SCALE = 10./2.54   # TODO: figure out a way to infer this
 
+class Circle:
+    def __init__(self, c_element):
+        self.c_element = c_element
+        self.x = self.parse_element('x')
+        self.y = self.parse_element('y')
+        self.r = self.parse_element('radius')
+        self.width = self.parse_element('width')
+        self.layer = self.parse_element('layer')
+
+    def parse_element(self, att_to_get):
+        return self.c_element.get(att_to_get)
+
+    def get_upv(self):
+        return core.shape.Circle(self.x, self.y, self.r)
+
+
+class Text:
+    def __init__(self, t_element):
+        self.t_element = t_element
+        self.x = self.parse_element('x')
+        self.y = self.parse_element('y')
+        self.size = self.parse_element('radius')
+        self.layer = self.parse_element('layer')
+        self.font = self.parse_element('font')
+        self.text = t_element.text
+        if self.font is None:
+            self.font = "proportional"
+        self.ratio = self.parse_element('ratio')
+        if self.ratio is None:
+            self.ratio = "8"
+        self.rot = self.parse_element('rot')
+        if self.rot is None:
+            self.rot = "R0"
+        self.align = self.parse_element('align')
+        if self.align is None:
+            self.align = "bottom-left"
+
+    def parse_element(self, att_to_get):
+        return self.t_element.get(att_to_get)
+    
+    def get_upv(self):
+        templist = self.align.split('-')
+        if len(templist) > 1:
+            tempalign = templist[1]
+        if len(templist) == 1:
+            tempalign = templist[0]
+        return core.shape.Label(self.x, self.y, self.text, tempalign, round((float(self.rot.lower.replace('r', ''))%360)/90)/2.0) 
+
 class EagleXML:
     """ 
     The Eagle XML Format Parser 
@@ -90,6 +138,7 @@ class Note:
         self.severity = note.get("severity") #TODO: warn if absent
         
 
+
 class Drawing:
     def __init__(self, drawing):
         self.setting    = list()
@@ -106,6 +155,7 @@ class Drawing:
                 self.layer.append(Layer(l))
         for s in drawing.findall('schematic'): #TODO: warn if multiples
             self.schematic = Schematic(s)
+
 
 class Library:
     def __init__(self,library):

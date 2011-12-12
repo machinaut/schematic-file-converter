@@ -13,7 +13,7 @@ class Design:
         self.component_instances = list()
         self.design_attributes = DesignAttributes()
         self.version = dict()
-        self.set_version("0.0.1","Upverter converter")
+        self.set_version("0.1.0","Upverter converter")
 
 
     def set_version(self, file_version, exporter):
