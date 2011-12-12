@@ -60,6 +60,37 @@ class KiCADTest(unittest.TestCase):
 
         self.assertEqual(good_nets, [])
 
+    def test_components(self):
+        """
+        Test that all the right components are present
+        with the correct values.
+        """
+
+        good_cpts = self.good.components.components.copy()
+
+        for cid, cpt in self.actual.components.components.items():
+            goodcpt = good_cpts.pop(cid)
+
+            self.assertEqual(cpt.name, goodcpt.name)
+            self.assertEqual(cpt.attributes, goodcpt.attributes)
+            self.assertEqual(len(cpt.symbols), 1)
+            self.assertEqual(len(cpt.symbols[0].bodies), 1)
+
+            body = cpt.symbols[0].bodies[0]
+            goodbody = goodcpt.symbols[0].bodies[0]
+
+            self.assertEqual(len(body.shapes), len(goodbody.shapes))
+            for shape, goodshape in zip(body.shapes, goodbody.shapes):
+                self.assertEqual(shape.__class__, goodshape.__class__)
+                self.assertEqual(shape.json(), goodshape.json())
+
+            self.assertEqual(len(body.pins), len(goodbody.pins))
+            for pin, goodpin in zip(body.pins, goodbody.pins):
+                self.assertEqual(pin.__class__, goodpin.__class__)
+                self.assertEqual(pin.json(), goodpin.json())
+
+        self.assertEqual(good_cpts, {})
+
 
 if __name__ == '__main__':
     unittest.main()
