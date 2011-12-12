@@ -169,14 +169,14 @@ class Polygon(Shape):
         self.points = list()
 
 
-    def addPoint(self, x, y):
-        self.points.append({"x":x,"y":y})
+    def addPoint(self, x, y=None):
+        self.points.append(Point(x, y))
 
 
     def json(self):
         return {
             "type":self.type,
-            "points":self.points,
+            "points":[p.json() for p in self.points],
             }
 
 
