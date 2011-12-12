@@ -93,47 +93,47 @@ class Note:
 class Drawing:
     def __init__(self, drawing):
         self.setting    = list()
-        self.layer      = list()
+        self.layer      = dict()
         self.grid       = None
         self.schematic  = None
         for settings in drawing.findall('settings'):
             for s in settings.findall('settings'):
                 self.setting.append(Setting(s))
-        for g in drawing.findall('grid'): #TODO: warn if multiples
-            self.grid = Grid(g)
         for layers in drawing.findall('layers'):
             for l in layers.findall('layer'):
-                self.layer.append(Layer(l))
+                self.layer[l.get("name")]=Layer(l)
+        for g in drawing.findall('grid'): #TODO: warn if multiples
+            self.grid = Grid(g)
         for s in drawing.findall('schematic'): #TODO: warn if multiples
             self.schematic = Schematic(s)
 
 class Library:
     def __init__(self,library):
-        self.description = list()
-        self.package     = list()
+        self.description = None
+        self.package     = dict()
         self.symbol      = dict()
-        self.deviceset   = dict()
+        self.deviceset   = list()
         self.name        = library.get("name") #TODO: warn if not present
         #
         for d in library.findall('description'): #TODO: warn if multiples
             self.description = d.text 
-        for packages in library.findall('packages'):
-            for p in packages.findall('package'):
-                self.package.append(Package(p))
+        for p in library.findall('packages'):
+            for p in packaddges.findall('package'):
+                self.package[p.get("name")]=Package(p)
         for symbols in library.findall('symbols'):
             for s in symbols.findall('symbol'):
-                self.symbol.append(Symbol(s))
+                self.symbol[s.get("name")]=Symbol(s)
         for devicesets in library.findall('devicesets'):
             for d in devicesets.findall('deviceset'):
-                self.deviceset.append(Deviceset(d))
+                self.deviceset[d.get("name")]=Deviceset(d)
 
 class Schematic:
     def __init__(self, schematic):
         self.description = None
-        self.library    = list()
-        self.attribute  = list()
-        self.variantdef = list()
-        self.class_     = list() # Python has a cluttered namespace
+        self.library    = dict()
+        self.attribute  = dict()
+        self.variantdef = dict()
+        self.class_     = dict() # Python has a cluttered namespace
         self.part       = list()
         self.sheet      = list()
         self.xreflabel  = schematic.get("xreflabel")
@@ -143,19 +143,19 @@ class Schematic:
             self.description = d.text
         for libraries in schematic.findall('libraries'):
             for l in libraries.findall('library'):
-                self.library.append(Library(l))
+                self.library[l.get("name")]=Library(l)
         for attributes in schematic.findall('attributes'):
             for a in attributes.findall('attribute'):
-                self.attribute.append(Attribute(a))
+                self.attribute[a.get("name")]=Attribute(a)
         for variantdefs in schematic.findall('variantdefs'):
             for v in variantdefs.findall('variantdef'):
-				self.variantdef.append(Variantdef(v))
+				self.variantdef[v.get("name")]=Variantdef(v)
         for classes in schematic.findall('classes'):
             for c in classes.findall('class'):
-                self.class_.append(Class(c))
+                self.class_[c.get("name")]=Class(c)
         for parts in schematic.findall('parts'):
             for p in parts.findall('part'):
-                self.part.append(Part(p))
+                self.part[p.get("name")]=Part(p)
         for sheets in schematic.findall('sheets'):
             for s in sheets.findall('sheet'):
                 self.sheet.append(Sheet(s))
@@ -167,15 +167,15 @@ class Board:
     def __init__(self, board):
         self.description = None
         self.plain       = None
-        self.library     = list()
-        self.attribute   = list()
-        self.variantdef  = list()
-        self.class_      = list()
-        self.designrule  = list()
-        self.autorouter  = list()
-        self.element     = list()
-        self.signal      = list()
-        self.error       = list()
+        self.library     = dict()
+        self.attribute   = dict()
+        self.variantdef  = dict()
+        self.class_      = dict()
+        self.designrule  = None
+        self.autorouter  = dict()
+        self.element     = dict()
+        self.signal      = dict()
+        self.error       = dict() #Hash values, not names...
         #TODO: if this code is needed, then these need to be checked - Austin
         for d in board.findall('description'): #TODO: warn if multiples
             self.description = d.text
@@ -183,39 +183,38 @@ class Board:
             pass
         for libraries in board.findall('libraries'):
             for l in libraries.findall('library'):
-                self.library.append(Library(l))
+                self.library[l.get("name")]=Library(l)
         for attributes in board.findall('attributes'):
             for a in attributes.findall('attribute'):
-                self.attribute.append(Attribute(a))
+                self.attribute[a.get("name")]=Attribute(a)
         for variantdefs in board.findall('variantdefs'):
             for v in variantdefs.findall('variantdef'):
-				self.variantdef.append(Variantdef(v))
+				self.variantdef[v.get("name")]=Variantdef(v)
         for classes in board.findall('classes'):
             for c in classes.findall('class'):
-                self.class_.append(Class(c))
-        for designrules in board.findall('designrules'):
-            for d in designrules.findall('designrule'):
-                self.designrule.append(Designrule(d))
+                self.class_[c.get("name")]=Class(c)
+        for d in board.findall('designrules'):
+            pass 
         for autorouter in board.findall('autorouter'):
             for p in autorouter.findall('pass'):
-                self.autorouter.append(Pass(p))
+                self.autorouter[p.get("name")]=Pass(p)
         for elements in board.findall('elements'):
             for e in elements.findall('element'):
-                self.element.append(Element(e))
+                self.element[e.get("name")]=Element(e)
         for signals in board.findall('signals'):
             for s in signals.findall('signal'):
-                self.signal.append(Signal(s))
+                self.signal[s.get("name")]=Signal(s)
         for errors in board.findall('errors'):
-            for e in errors.findall('error'):
-                self.error.append(Error(e))
+            for e in errors.findall('approved'):
+                self.error[e.get("hash")]=Error(e)
 
 class Sheet:
     def __init__(self, sheet):
         self.description = None
         self.plain       = list()
         self.instance    = list()
-        self.bus         = list()
-        self.net         = list()
+        self.bus         = dict()
+        self.net         = dict()
         for d in sheet.findall('description'): #TODO: warn if multiples
             self.description = d.text
         for plain in sheet.findall('plain'):
@@ -225,10 +224,11 @@ class Sheet:
                 self.instance.append(Instance(i))
         for busses in sheet.findall('busses'):
             for b in busses.find('bus'):
-                self.bus.append(Bus(b))
+                self.bus[b.get("name")]=Bus(b)
         for nets in sheet.findall('nets'):
             for n in nets.findall('net'):
-                self.net.append(Net(n))
+                self.net[n.get("name")]=Net(n)
+
 class Package:
     def __init__(self, package):
         self.description = None
@@ -265,7 +265,7 @@ class Symbol:
 class Deviceset:
     def __init__(self,deviceset):
         self.description = None
-        self.gate        = list()
+        self.gate        = dict()
         self.device      = list()
         self.name        = deviceset.get("name") #TODO: warn if not present
         self.prefix      = deviceset.get("prefix") #TODO: warn if not present
@@ -274,7 +274,7 @@ class Deviceset:
             self.description = d.text
         for gates in deviceset.findall('gates'):
             for g in deviceset.findall('gate'):
-                self.gate.append(Gate(g))
+                self.gate[g.get("name")]=Gate(g)
         for devices in deviceset.findall('devices'):
             for d in deviceset.findall('device'):
                 self.device.append(Device(d))
@@ -282,18 +282,18 @@ class Deviceset:
 class Device:
     def __init__(self,device):
         self.connect     = list()
-        self.technology  = list()
-        self.name        = device.get("name") #TODO: warn if not present
-        self.package     = device.get("package") #TODO: warn if not present
+        self.technology  = dict()
+        self.name        = device.get("name") 
+        self.package     = device.get("package") 
         for connects in device.findall('connects'):
             for c in connects.findall('connect'):
                 self.device.append(Connect(c))
         for technologies in device.findall('technologies'):
             for t in technologies.findall('technology'):
-                self.technology.append(Technology(t))
+                self.technology[t.get("name")]=Technology(t)
 
 class Bus:
-    def __init__(self,bus):
+def __init__(self,bus):
         self.segment    = list()
         self.name       = bus.get("name") #TODO: warn if not present
         for s in bus.findall('segment'):
@@ -338,17 +338,3 @@ class Signal:
             self.wire.append(Wire(w))
         for v in segment.findall('via'):
             self.via.append(Via(v))
-
-class Part:
-    def __init__(self, part):
-        self.name       = part.get("name") #TODO: warn if not present
-        self.library    = part.get("library")
-        self.deviceset  = part.get("deviceset")
-        self.device     = part.get("device")
-        self.value      = part.get("value")
-        self.attribute  = list()
-        self.variant    = list()
-        for a in part.findall('attribute'): 
-            self.attribute.append(Attribute(a))
-        for v in part.findall('variant'):
-            self.variant.append(Variant(v))
