@@ -107,15 +107,34 @@ class Drawing:
         for s in drawing.findall('schematic'): #TODO: warn if multiples
             self.schematic = Schematic(s)
 
+class Library:
+    def __init__(self,library):
+        self.description = list()
+        self.package     = list()
+        self.symbol      = dict()
+        self.deviceset   = dict()
+        self.name        = library.get("name") #TODO: warn if not present
+        #
+        for d in library.findall('description'): #TODO: warn if multiples
+            self.description = d.text 
+        for packages in library.findall('packages'):
+            for p in packages.findall('package'):
+                self.package.append(Package(p))
+        for symbols in library.findall('symbols'):
+            for s in symbols.findall('symbol'):
+                self.symbol.append(Symbol(s))
+        for devicesets in library.findall('devicesets'):
+            for d in devicesets.findall('deviceset'):
+                self.deviceset.append(Deviceset(d))
 
 class Schematic:
     def __init__(self, schematic):
         self.description = None
-        self.library    = dict()
+        self.library    = list()
         self.attribute  = list()
-        self.variantdef = dict()
-        self.class_     = dict() # Python has a cluttered namespace
-        self.part       = dict()
+        self.variantdef = list()
+        self.class_     = list() # Python has a cluttered namespace
+        self.part       = list()
         self.sheet      = list()
         self.xreflabel  = schematic.get("xreflabel")
         self.xrefpart   = schematic.get("xrefpart")
@@ -124,65 +143,125 @@ class Schematic:
             self.description = d.text
         for libraries in schematic.findall('libraries'):
             for l in libraries.findall('library'):
-                self.add_library(l)
+                self.library.append(Library(l))
         for attributes in schematic.findall('attributes'):
             for a in attributes.findall('attribute'):
                 self.attribute.append(Attribute(a))
         for variantdefs in schematic.findall('variantdefs'):
             for v in variantdefs.findall('variantdef'):
-                pass
+				self.variantdef.append(Variantdef(v))
         for classes in schematic.findall('classes'):
             for c in classes.findall('class'):
-                pass
+                self.class_.append(Class(c))
         for parts in schematic.findall('parts'):
             for p in parts.findall('part'):
-                self.add_part(p)
+                self.part.append(Part(p))
         for sheets in schematic.findall('sheets'):
             for s in sheets.findall('sheet'):
-                self.add_sheet(s)
+                self.sheet.append(Sheet(s))
         for errors in schematic.findall('errors'):
             for e in errors.findall('error'):
-                pass
+                self.error.append(Error(e))
 
-    def add_library(l):
-        library = Library(l)
-        self.library[library.name] = library
-
-    def add_part(p):
-        part = Part(p)
-        self.part[part.name] = part
-
-    def add_sheet(s):
-        sheet = Sheet(s)
-        self.sheet.append(sheet)
-
-
-class Library:
-    def __init__(self,library):
-        self.name       = library.get("name") #TODO: warn if not present
-        self.symbol     = dict()
-        self.deviceset  = dict()
-        for d in library.findall('description'):
+class Board:
+    def __init__(self, board):
+        self.description = None
+        self.plain       = None
+        self.library     = list()
+        self.attribute   = list()
+        self.variantdef  = list()
+        self.class_      = list()
+        self.designrule  = list()
+        self.autorouter  = list()
+        self.element     = list()
+        self.signal      = list()
+        self.error       = list()
+        #TODO: if this code is needed, then these need to be checked - Austin
+        for d in board.findall('description'): #TODO: warn if multiples
+            self.description = d.text
+        for plain in board.findall('plain'):
             pass
-        for packages in library.findall('packages'):
-            for p in packages.findall('package'):
-                pass
-        for symbols in library.findall('symbols'):
-            for s in symbols.findall('symbol'):
-                self.add_symbol(s)
-        for devicesets in library.findall('devicesets'):
-            for d in devicesets.findall('deviceset'):
-                self.add_deviceset(d) # pass in the library as context
+        for libraries in board.findall('libraries'):
+            for l in libraries.findall('library'):
+                self.library.append(Library(l))
+        for attributes in board.findall('attributes'):
+            for a in attributes.findall('attribute'):
+                self.attribute.append(Attribute(a))
+        for variantdefs in board.findall('variantdefs'):
+            for v in variantdefs.findall('variantdef'):
+				self.variantdef.append(Variantdef(v))
+        for classes in board.findall('classes'):
+            for c in classes.findall('class'):
+                self.class_.append(Class(c))
+        for designrules in board.findall('designrules'):
+            for d in designrules.findall('designrule'):
+                self.designrule.append(Designrule(d))
+        for autorouter in board.findall('autorouter'):
+            for p in autorouter.findall('pass'):
+                self.autorouter.append(Pass(p))
+        for elements in board.findall('elements'):
+            for e in elements.findall('element'):
+                self.element.append(Element(e))
+        for signals in board.findall('signals'):
+            for s in signals.findall('signal'):
+                self.signal.append(Signal(s))
+        for errors in board.findall('errors'):
+            for e in errors.findall('error'):
+                self.error.append(Error(e))
 
-    def add_symbol(self,s):
-        symbol = Symbol(s)
-        self.symbol[symbol.name] = symbol
+class Sheet:
+    def __init__(self, sheet):
+        self.description = None
+        self.plain       = list()
+        self.instance    = list()
+        self.bus         = list()
+        self.net         = list()
+        for d in sheet.findall('description'): #TODO: warn if multiples
+            self.description = d.text
+        for plain in sheet.findall('plain'):
+            pass
+        for instances in sheet.findall('instances'):
+            for i in instances.findall('instance'):
+                self.instance.append(Instance(i))
+        for busses in sheet.findall('busses'):
+            for b in busses.find('bus'):
+                self.bus.append(Bus(b))
+        for nets in sheet.findall('nets'):
+            for n in nets.findall('net'):
+                self.net.append(Net(n))
+class Package:
+    def __init__(self, package):
+        self.description = None
+        self.symbol      = list()
+        self.name        = package.get("name")
+        #TODO: populate the symbols
+        for d in package.findall('description'): #TODO: warn if multiples
+            self.description = d.text
+        for p in package.findall('polygon'):   self.package.append(Polygon(p))
+        for w in package.findall('wire'):      self.package.append(Wire(w))
+        for t in package.findall('text'):      self.package.append(Text(t))
+        for c in package.findall('circle'):    self.package.append(Circle(c))
+        for r in package.findall('rectangle'): self.package.append(Rectangle(r))
+        for f in package.findall('frame'):     self.package.append(Frame(f))
+        for h in package.findall('hole'):      self.package.append(Hole(h))
+        for p in package.findall('pad'):       self.package.append(Pad(p))
+        for s in package.findall('smd'):       self.package.append(Smd(s))
 
-    def add_deviceset(self,d):
-        deviceset = Deviceset(d)
-        self.deviceset[deviceset.name] = deviceset
-
-
+class Symbol:
+    def __init__(self,symbol):
+        self.description = None
+        self.shape       = list()
+        self.name        = symbol.get("name") #TODO: warn if not present
+        for d in symbol.findall('description'):
+            self.description = d.text
+        for p in symbol.findall('polygon'):   self.shape.append(Polygon(p))
+        for w in symbol.findall('wire'):      self.shape.append(Wire(w))
+        for t in symbol.findall('text'):      self.shape.append(Text(t))
+        for p in symbol.findall('pin'):       self.shape.append(Pin(p))
+        for c in symbol.findall('circle'):    self.shape.append(Circle(c))
+        for r in symbol.findall('rectangle'): self.shape.append(Rectangle(r))
+        for f in symbol.findall('frame'):     self.shape.append(Frame(f))
+        
 class Part:
     def __init__(self, part):
         self.name       = part.get("name") #TODO: warn if not present
@@ -196,43 +275,6 @@ class Part:
             self.attribute.append(Attribute(a))
         for v in part.findall('variant'):
             self.variant.append(Variant(v))
-
-
-class Sheet:
-    def __init__(self,sheet):
-        self.instance = list()
-        self.bus      = list()
-        self.net      = list()
-        for d in sheet.findall('description'):
-            pass
-        for p in sheet.findall('plain'):
-            pass
-        for instances in sheet.findall('instances'):
-            for i in instances.findall('instance'):
-                self.instance.append(Instance(i))
-        for busses in sheet.findall('busses'):
-            for b in busses.findall('bus'):
-                self.bus.append(Bus(b))
-        for nets in sheet.findall('nets'):
-            for n in nets.findall('net'):
-                self.net.append(Net(n))
-
-
-class Symbol:
-    def __init__(self,symbol):
-        self.name  = symbol.get("name") #TODO: warn if not present
-        self.shape = list()
-        self.pin   = list()
-        for d in symbol.findall('description'):
-            pass
-        for p in symbol.findall('polygon'):   self.shape.append(Polygon(p))
-        for w in symbol.findall('wire'):      self.shape.append(Wire(w))
-        for t in symbol.findall('text'):      self.shape.append(Text(t))
-        for p in symbol.findall('pin'):       self.pin.append(Pin(p))
-        for c in symbol.findall('circle'):    self.shape.append(Circle(c))
-        for r in symbol.findall('rectangle'): self.shape.append(Rectangle(r))
-        for f in symbol.findall('frame'):     self.shape.append(Frame(f))
-
 
 class Deviceset:
     def __init__(self,deviceset):
@@ -367,59 +409,3 @@ class Deviceset:
 
         # Add ComponentInstance to the design
         self.design.add_component_instance(inst)
-
-
-# Feeble attempt at class-based parsing after I was unhappy with the all-one class approach
-# This is (to me) the happy medium between generated and handmade
-class Schematic:
-    def __init__(self):
-        self.libraries = dict()
-        self.parts = dict()
-        self.sheets = list()
-    def add_library(self,library_id,library):
-        self.libraries[library_id] = library
-    def add_part(self,part_id,part):
-        self.parts[part_id] = part
-    def add_sheet(self,sheet):
-        self.sheets.append(sheet)
-
-class Library:
-    def __init__(self,name):
-        self.name = name
-        self.packages = dict()
-        self.symbols = dict()
-        self.devicesets = dict()
-    def add_package(self,name,package):
-        self.packages[name] = package
-    def add_symbol(self,name,symbol):
-        self.symbols[name] = symbol
-    def add_deviceset(self,name,deviceset):
-        self.devicesets[name] = deviceset
-class Instance:
-    def __init__(self,part,gate,x,y,rot):
-        pass
-class Package:
-    def __init__(self,name):
-        self.name = name
-        self.shapes = list()
-    def add_shape(self,shape):
-        self.shapes.append(shape)
-class Gate:
-    def __init__(self,name,symbol,x,y,addlevel=None):
-        self.name = name
-        self.symbol = symbol
-        self.x = x
-        self.y = y
-        self.addlevel = addlevel # TODO figure out what this does
-class Device:
-    def __init__(self,name,package=None):
-        self.name = name
-        self.package = package
-        self.connects = list()
-    def add_connect(self,connect)
-        self.connects.append(connect)
-class Connect:
-    def __init__(self,gate,pin,pad):
-        self.gate = gate
-        self.pin = pin
-        self.pad = pad
