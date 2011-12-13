@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-import random
 from shape import Point
 
 class Components:
@@ -115,4 +113,3 @@ class Pin:
         if self.label is not None:
             d["label"] = self.label.json()
         return d
-

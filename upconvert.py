@@ -12,7 +12,6 @@
 #   ./upconvert.py -i test.upv -o test.json 
 
 
-import os, re, copy, json
 import parser.openjson, parser.kicad
 import writer.openjson, writer.kicad
 from argparse import ArgumentParser
