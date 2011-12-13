@@ -16,6 +16,21 @@ class Design:
         self.set_version("0.0.1","Upverter converter")
 
 
+    def bounds(self):
+        bounds = [net.bounds() for net in self.nets]
+        offset_bounds = lambda (x1, y1, x2, y2), (xo, yo): (x1+xo, y1+yo,
+                                                            x2+xo, y2+yo)
+        for comp in self.component_instances:
+            offsets = [(att.x, att.y) for att in comp.symbol_attributes]
+            lib_comp = self.components.components[comp.library_id]
+            bbounds = [b.bounds() for b in
+                       lib_comp.symbols[comp.symbol_index].bodies]
+            bounds.extend([offset_bounds(b,o) for b,o in zip(bbounds, offsets)])
+            xs = sum([list(b[0::2]) for b in bounds], [])
+            ys = sum([list(b[1::2]) for b in bounds], [])
+        return (min(xs), min(ys), max(xs), max(ys))
+
+
     def set_version(self, file_version, exporter):
         self.version['file_version'] = file_version
         self.version['exporter'] = exporter
