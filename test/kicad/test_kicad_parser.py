@@ -91,6 +91,35 @@ class KiCADTest(unittest.TestCase):
 
         self.assertEqual(good_cpts, {})
 
+    def test_component_instances(self):
+        good_insts = self.good.component_instances[:]
+        test_insts = self.actual.component_instances[:]
+
+        while good_insts:
+            good_inst = good_insts.pop(0)
+            for test_inst in test_insts:
+                if good_inst.instance_id == test_inst.instance_id:
+                    test_insts.remove(test_inst)
+                    break
+            else:
+                raise Exception('missing instance', good_inst.instance_id)
+
+            self.assertEqual(test_inst.library_id, good_inst.library_id)
+            self.assertEqual(test_inst.attributes, good_inst.attributes)
+            self.assertEqual(test_inst.symbol_index, good_inst.symbol_index)
+
+            self.assertEqual(len(test_inst.symbol_attributes),
+                             len(good_inst.symbol_attributes))
+
+            for test_sa, good_sa in zip(test_inst.symbol_attributes,
+                                        good_inst.symbol_attributes):
+                self.assertEqual(test_sa.annotations, good_sa.annotations)
+                self.assertEqual(test_sa.rotation, good_sa.rotation)
+                self.assertEqual(test_sa.x, good_sa.x)
+                self.assertEqual(test_sa.y, good_sa.y)
+
+        self.assertEqual(test_insts, [])
+
 
 if __name__ == '__main__':
     unittest.main()

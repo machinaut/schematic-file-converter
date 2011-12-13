@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Sun 11 Dec 2011 09:38:15 PM PST
+EESchema Schematic File Version 2  date Mon 12 Dec 2011 05:12:14 PM PST
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -36,7 +36,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title ""
-Date "12 dec 2011"
+Date "13 dec 2011"
 Rev ""
 Comp ""
 Comment1 ""
@@ -45,31 +45,31 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L LAA110 U?
+L LAA110 U3
 U 1 1 4EE59331
-P 1650 2650
-F 0 "U?" H 1650 2850 60  0000 C CNN
-F 1 "LAA110" H 1650 2450 60  0000 C CNN
-	1    1650 2650
-	1    0    0    -1  
+P 1650 3400
+F 0 "U3" H 1650 3600 60  0000 C CNN
+F 1 "LAA110" H 1650 3200 60  0000 C CNN
+	1    1650 3400
+	0    -1   -1   0   
 $EndComp
 $Comp
-L NSL-32 U?
+L NSL-32 U2
 U 1 1 4EE58F9A
-P 1600 2050
-F 0 "U?" H 1680 2230 40  0000 C CNN
-F 1 "NSL-32" H 1600 1877 40  0000 C CNN
-	1    1600 2050
-	1    0    0    -1  
+P 1750 2400
+F 0 "U2" H 1830 2580 40  0000 C CNN
+F 1 "NSL-32" H 1750 2227 40  0000 C CNN
+	1    1750 2400
+	-1   0    0    1   
 $EndComp
 $Comp
-L 74LS00 U?
+L 74LS00 U1
 U 1 1 4EE57ED5
 P 1700 1250
-F 0 "U?" H 1700 1300 60  0000 C CNN
+F 0 "U1" H 1700 1300 60  0000 C CNN
 F 1 "74LS00" H 1700 1150 60  0000 C CNN
 	1    1700 1250
-	1    0    0    -1  
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	5150 4050 6900 4050
@@ -113,19 +113,19 @@ Wire Wire Line
 Text Label 6350 4050 0    60   ~ 0
 PWR
 $Comp
-L LP3966 U?
+L LP3966 U4
 U 1 1 4E8E0625
 P 1900 6750
-F 0 "U?" H 2000 7200 60  0000 L CNN
+F 0 "U4" H 2000 7200 60  0000 L CNN
 F 1 "LP3966" H 2000 6250 60  0000 L CNN
 	1    1900 6750
 	1    0    0    -1  
 $EndComp
 $Comp
-L ATMEGA8-P IC?
+L ATMEGA8-P IC1
 U 1 1 4E8DFDD4
 P 4150 4850
-F 0 "IC?" H 3450 6100 50  0000 L BNN
+F 0 "IC1" H 3450 6100 50  0000 L BNN
 F 1 "ATMEGA8-P" H 4400 3450 50  0000 L BNN
 F 2 "DIL28" H 4650 3375 50  0001 C CNN
 	1    4150 4850

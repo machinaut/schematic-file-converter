@@ -1,5 +1,76 @@
 {
-    "attributes": [], 
+    "component_instances": [
+        {
+            "attributes": {}, 
+            "instance_id": "U3", 
+            "library_id": "LAA110", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 1650, 
+                    "y": 3400
+                }
+            ], 
+            "symbol_index": 0
+        }, 
+        {
+            "attributes": {}, 
+            "instance_id": "U2", 
+            "library_id": "NSL-32", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 1750, 
+                    "y": 2400
+                }
+            ], 
+            "symbol_index": 0
+        }, 
+        {
+            "attributes": {}, 
+            "instance_id": "U1", 
+            "library_id": "74LS00", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 1700, 
+                    "y": 1250
+                }
+            ], 
+            "symbol_index": 0
+        }, 
+        {
+            "attributes": {}, 
+            "instance_id": "U4", 
+            "library_id": "LP3966", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 1900, 
+                    "y": 6750
+                }
+            ], 
+            "symbol_index": 0
+        }, 
+        {
+            "attributes": {}, 
+            "instance_id": "IC1", 
+            "library_id": "ATMEGA8-P", 
+            "symbol_attributes": [
+                {
+                    "annotations": [], 
+                    "rotation": 0, 
+                    "x": 4150, 
+                    "y": 4850
+                }
+            ], 
+            "symbol_index": 0
+        }
+    ], 
     "components": {
         "74LS00": {
             "attributes": {
@@ -1702,7 +1773,6 @@
             ]
         }
     }, 
-    "component_instances": [], 
     "design_attributes": {
         "annotations": [], 
         "attributes": {}, 
