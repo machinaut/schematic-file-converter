@@ -12,18 +12,22 @@ class ComponentInstance:
 
 
     def add_attribute(self, key, value):
+        """ Add attribute to a component """
         self.attributes[key] = value
 
 
-    def add_symbol_attribute(self,symbol_attribute):
+    def add_symbol_attribute(self, symbol_attribute):
+        """ Add attribute to a components symbol """
         self.symbol_attributes.append(symbol_attribute)
 
 
     def get_instance_id(self):
+        """ Return the instance id """
         return self.instance_id
 
 
     def json(self):
+        """ Return a component as JSON """
         return {
             "instance_id" : self.instance_id,
             "library_id" : self.library_id,
@@ -38,7 +42,7 @@ class SymbolAttribute:
     for every body in the symbol that ComponentInstance is an instance of
     """
 
-    def __init__(self,x,y,rotation):
+    def __init__(self, x, y, rotation):
         self.x = x
         self.y = y
         self.rotation = rotation
@@ -46,10 +50,12 @@ class SymbolAttribute:
 
 
     def add_annotation(self, annotation):
+        """ Add annotations to the body """
         self.annotations.append(annotation)
 
 
     def json(self):
+        """ Return the body as JSON """
         return {
             "x" : self.x,
             "y": self.y,

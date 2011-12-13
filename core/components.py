@@ -8,7 +8,8 @@ class Components:
         self.components = dict()
 
 
-    def add_component(self,library_id, component):
+    def add_component(self, library_id, component):
+        """ Add a component to the library """
         self.components[library_id] = component
 
 
@@ -30,21 +31,24 @@ class Component:
     library_id.
     """
 
-    def __init__(self,name):
+    def __init__(self, name):
         self.name = name
         self.attributes = dict()
         self.symbols = list()
 
 
     def add_attribute(self, key, value):
+        """ Add an attribute to a component """
         self.attributes[key] = value
 
 
     def add_symbol(self, symbol):
+        """ Add a symbol to a component """
         self.symbols.append(symbol)
 
 
     def json(self):
+        """ Return a component as JSON """
         return {
             "symbols": [s.json() for s in self.symbols],
             "attributes": self.attributes,
@@ -62,10 +66,12 @@ class Symbol:
 
 
     def add_body(self, body):
+        """ Add a body to a symbol """
         self.bodies.append(body)
 
 
     def json(self):
+        """ Return a symbol as JSON """
         return {"bodies":[b.json() for b in self.bodies]}
 
 
@@ -78,21 +84,25 @@ class Body:
 
 
     def bounds(self):
+        """ Return the in and max points of the bounding box around a body """
         limits = [s.bounds() for s in self.shapes + self.pins]
         xs = sum([list(b[0::2]) for b in limits], [])
         ys = sum([list(b[1::2]) for b in limits], [])
-        return (min(xs), min(ys), max(xs), max(ys))
+        return [Point(min(xs), min(ys)), Point(max(xs), max(ys))]
 
 
     def add_pin(self, pin):
+        """ Add a pin to a symbol """
         self.pins.append(pin)
 
 
     def add_shape(self, shape):
+        """ Add a shape to a symbol """
         self.shapes.append(shape)
 
 
     def json(self):
+        """ Return a symbol as JSON """
         return {
             "shapes":[s.json() for s in self.shapes],
             "pins"  :[p.json() for p in self.pins]
@@ -112,15 +122,17 @@ class Pin:
 
 
     def bounds(self):
+        """ Return the min and max points of a pin """
         xs = [self.p1.x, self.p2.x]
         ys = [self.p2.y, self.p2.y]
         if self.label is not None:
             xs += self.label.bounds()[0::2]
             ys += self.label.bounds()[1::2]
-        return (min(xs), min(ys), max(xs), max(ys))
+        return [Point(min(xs), min(ys)), Point(max(xs), max(ys))]
 
 
     def json(self):
+        """ Return a pin as JSON """
         d = {
             "pin_number":self.pin_number,
             "p1":self.p1.json(),

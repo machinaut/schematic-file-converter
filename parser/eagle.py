@@ -15,7 +15,7 @@ class Eagle:
 
     def parse(self, filename):
         """ Parse an Eagle file into a design """
-        design = design()
+        design = Design()
         f = open(filename, "w")
         #TODO: Read!
         f.close()

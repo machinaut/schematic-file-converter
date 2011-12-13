@@ -9,14 +9,17 @@ class Shape:
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         raise("Not implemented")
     
     
     def min_point(self):
+        """ Return the min point of the shape """
         raise("Not implemented")
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         raise("Not implemented")
 
 
@@ -32,10 +35,12 @@ class Rectangle(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         x = self.x
         if self.width < 0:
             x += self.width
@@ -46,6 +51,7 @@ class Rectangle(Shape):
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         x = self.x + self.width
         if self.width < 0:
             x -= self.width
@@ -56,7 +62,7 @@ class Rectangle(Shape):
 
 
     @classmethod
-    def fromCorners(cls,x,y,x2,y2):
+    def fromCorners(cls, x, y, x2, y2):
         """ (x,y) is the top left corner, (x2,y2) is the bottom right """
         width = x2-x
         height = y2-y
@@ -64,6 +70,7 @@ class Rectangle(Shape):
 
 
     def json(self):
+        """ Return the rectangle as JSON """
         return {
             "height":self.height,
             "type":self.type,
@@ -76,7 +83,7 @@ class Rectangle(Shape):
 class RoundedRectangle(Shape):
     """ A rectangle with rounded corners, defined by x,y of top left corner and width, height and corner radius"""
 
-    def __init__(self,x,y,width,height,radius):
+    def __init__(self, x, y, width, height, radius):
         """ x and y are from the top left corner of the rectangle """
         self.type = "rounded_rectangle"
         self.x = x
@@ -87,10 +94,12 @@ class RoundedRectangle(Shape):
 
 
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         x = self.x
         if self.width < 0:
             x += self.width
@@ -101,6 +110,7 @@ class RoundedRectangle(Shape):
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         x = self.x + self.width
         if self.width < 0:
             x -= self.width
@@ -111,7 +121,7 @@ class RoundedRectangle(Shape):
 
 
     @classmethod
-    def fromCorners(cls,x,y,x2,y2,radius):
+    def fromCorners(cls, x, y, x2, y2, radius):
         """ x and y are the top left corner of the rectangle, x2 and y2 are the
         bottom right corner of the rectangle """
         x = x
@@ -123,7 +133,7 @@ class RoundedRectangle(Shape):
 
 
     def json(self):
-        """ return a dict for json outputting """
+        """ Return the rounded rectangle as JSON """
         return {
             "height":self.height,
             "type":self.type,
@@ -137,7 +147,7 @@ class RoundedRectangle(Shape):
 class Arc(Shape):
     """ arc defined by center point x,y and two angles between which an arc is drawn """
 
-    def __init__(self,x,y,start_angle,end_angle,radius):
+    def __init__(self, x, y, start_angle, end_angle, radius):
         self.type = "arc"
         self.x = x
         self.y = y
@@ -147,12 +157,14 @@ class Arc(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         # FIXME This is too big right now
         raise("Not implemented")
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         # FIXME This is too big right now
         raise("Not implemented")
         x = self.x - self.radius
@@ -161,6 +173,7 @@ class Arc(Shape):
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         # FIXME This is too big right now
         raise("Not implemented")
         x = self.x + self.radius
@@ -169,7 +182,7 @@ class Arc(Shape):
 
 
     def json(self):
-        """ return a dict for json outputting """
+        """ Return the arc as JSON """
         return {
             "start_angle":self.start_angle,
             "end_angle":self.end_angle,
@@ -183,7 +196,7 @@ class Arc(Shape):
 class Circle(Shape):
     """ circle defined by center point x,y and radius """
 
-    def __init__(self,x,y,radius):
+    def __init__(self, x, y, radius):
         self.type = "circle"
         self.x = x
         self.y = y
@@ -191,23 +204,26 @@ class Circle(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         x = self.x - self.radius
         y = self.y - self.radius
         return Point(x, y)
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         x = self.x + self.radius
         y = self.y + self.radius
         return Point(x, y)
 
 
     def json(self):
-        """ return a dict for json outputting """
+        """ Return the circle as JSON """
         return {
             "radius":self.radius,
             "type":self.type,
@@ -221,7 +237,7 @@ class Label(Shape):
     Alignment can be 'left','right', or 'center'.
     """
 
-    def __init__(self,x,y,text,align,rotation):
+    def __init__(self, x, y, text, align, rotation):
         self.type = "label"
         self.x = x
         self.y = y
@@ -241,22 +257,26 @@ class Label(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         # FIXME Absolutely no clue how to make this dependably correct
         raise("Not implemented")
         return Point(self.x - 10, self.y - 10)
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         # FIXME Absolutely no clue how to make this dependably correct
         raise("Not implemented")
         return Point(self.x + 10, self.y + 10)
 
 
     def json(self):
+        """ Return the label as JSON """
         return {
             "type":self.type,
             "align":self.align,
@@ -277,10 +297,12 @@ class Line(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         x = self.p1.x
         if self.p2.x < x:
             x = self.p2.x
@@ -291,6 +313,7 @@ class Line(Shape):
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         x = self.p1.x
         if self.p2.x > x:
             x = self.p2.x
@@ -301,7 +324,7 @@ class Line(Shape):
 
 
     def json(self):
-        """ return a dict for json outputting """
+        """ Return the line as JSON """
         return {
             "type":self.type,
             "p1":self.p1.json(),
@@ -318,10 +341,12 @@ class Polygon(Shape):
 
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         if len(self.points) < 1: return None
         x = self.points[0].x
         y = self.points[0].y
@@ -334,6 +359,7 @@ class Polygon(Shape):
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         if len(self.points) < 1: return None
         x = self.points[0].x
         y = self.points[0].y
@@ -346,10 +372,12 @@ class Polygon(Shape):
 
 
     def addPoint(self, x, y=None):
+        """ Add a point to the polygon """
         self.points.append(Point(x, y))
 
 
     def json(self):
+        """ Return the polygon as JSON """
         return {
             "type":self.type,
             "points":[p.json() for p in self.points],
@@ -368,23 +396,27 @@ class BezierCurve(Shape):
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
+        """ Return the min point of the shape """
         # FIXME This needs to be implemented
         raise("Not implemented")
         return Point(0,0)
     
     
     def max_point(self):
+        """ Return the max point of the shape """
         # FIXME This needs to be implemented
         raise("Not implemented")
         return Point(0,0)
 
 
-    def build(self,control1x,control1y,control2x,control2y,p1x,
-            p1y,p2x,p2y):
+    def build(self, control1x, control1y, control2x, control2y, p1x,
+            p1y, p2x, p2y):
+        """ Build the bezier curve """
         self.type = "bezier"
         self.control1 = {"x":control1x,"y":control1y}
         self.control2 = {"x":control2x,"y":control2y}
@@ -393,7 +425,7 @@ class BezierCurve(Shape):
 
 
     def json(self):
-        """ return a dict for json outputting """
+        """ Return the bezier curve as JSON """
         return {
             "type":self.type,
             "control1":self.control1.json(),
@@ -420,10 +452,12 @@ class Point:
     
     
     def bounds(self):
+        """ Return the min and max points of the bounding box """
         raise("Not implemented")
 
 
     def json(self):
+        """ Return the point as JSON """
         return {
             "x":self.x,
             "y":self.y

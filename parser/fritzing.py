@@ -15,7 +15,7 @@ class Fritzing:
 
     def parse(self, filename):
         """ Parse a Fritzing file into a design """
-        design = design()
+        design = Design()
         f = open(filename, "w")
         #TODO: Read!
         f.close()
