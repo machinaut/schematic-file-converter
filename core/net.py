@@ -72,11 +72,14 @@ class NetPoint:
         self.connected_points = list()
         self.connected_components = list()
 
+
     def add_connected_point(self,point_id):
         self.connected_points.append(point_id)
 
+
     def add_connected_component(self,connected_component):
         self.connected_components.append(connected_component)
+
 
     def json(self):
         return {
@@ -95,6 +98,7 @@ class ConnectedComponent:
     def __init__(self, instance_id, pin_number):
         self.instance_id = instance_id
         self.pin_number = pin_number
+
 
     def json(self):
         return {
