@@ -10,6 +10,13 @@ class Net:
         self.attributes = dict()
         self.annotations = list()
 
+    def bounds(self):
+        xs = [p.x for p in self.points.values()]
+        ys = [p.y for p in self.points.values()]
+        bounds = [a.bounds() for a in self.annotations]
+        xs += sum([list(b[0::2]) for b in bounds], [])
+        ys += sum([list(b[1::2]) for b in bounds], [])
+        return (min(xs), min(ys), max(xs), max(ys))
 
     def add_annotation(self, annotation):
         self.annotations.append(annotation)
