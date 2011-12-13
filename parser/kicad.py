@@ -9,6 +9,7 @@
 
 from core.design import Design
 from core.components import Component, Symbol, Body, Pin
+from core.component_instance import ComponentInstance, SymbolAttribute
 from core.net import Net, NetPoint
 from core import shape
 
@@ -53,7 +54,7 @@ class KiCAD:
                 junctions.add((x,y))
             elif element == "$Comp": # Component Instance
                 # name & reference
-                prefix,name,reference = f.readline().split()
+                prefix, name, reference = f.readline().split()
                 assert prefix == 'L'
 
                 # timestamp
@@ -61,7 +62,7 @@ class KiCAD:
                 assert prefix == 'U'
 
                 # position
-                prefix, compx,compy = f.readline().split()
+                prefix, compx, compy = f.readline().split()
                 assert prefix == 'P'
                 compx, compy = int(compx), int(compy)
 
@@ -70,6 +71,12 @@ class KiCAD:
 
                 while f.readline().strip() not in ("$EndComp", ''):
                     pass
+
+                # TODO: calculate rotation
+                inst = ComponentInstance(reference, name, 0)
+                inst.add_symbol_attribute(SymbolAttribute(compx, compy, 0))
+
+                circuit.add_component_instance(inst)
 
             line = f.readline()
 
