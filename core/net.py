@@ -46,10 +46,10 @@ class Net:
     def connect(self,seg):
         """ connect segment to this net """
         a,b = seg
-        if a not in self.points:
+        if a.point_id not in self.points:
             self.add_point(a)
         self.conn_point(a,b)
-        if b not in self.points:
+        if b.point_id not in self.points:
             self.add_point(b)
         self.conn_point(b,a)
 
