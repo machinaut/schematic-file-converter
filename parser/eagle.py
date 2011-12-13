@@ -7,7 +7,7 @@ from core.design import Design
 
 
 class Eagle:
-""" The Eagle Format Parser """
+    """ The Eagle Format Parser """
 
     def __init__(self):
         pass

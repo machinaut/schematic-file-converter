@@ -7,7 +7,7 @@ from core.design import Design
 
 
 class GEDA:
-""" The GEDA Format Parser """
+    """ The GEDA Format Parser """
 
     def __init__(self):
         pass

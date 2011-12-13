@@ -47,14 +47,16 @@ def write(d, f, format='openjson'):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("-i","--input", dest="inputfile",help="read INPUT file in",
-            metavar="INPUT")
-    parser.add_argument("-f","--from", dest="inputtype",help="read input file as TYPE",
-            metavar="TYPE", default="openjson")
-    parser.add_argument("-o","--output", dest="outputfile",help="write OUTPUT file out",
-            metavar="OUTPUT")
-    parser.add_argument("-t","--to", dest="outputtype",help="write output file as TYPE",
-            metavar="TYPE", default="openjson")
+    parser.add_argument("-i","--input", dest="inputfile",
+            help="read INPUT file in", metavar="INPUT")
+    parser.add_argument("-f","--from", dest="inputtype",
+            help="read input file as TYPE", metavar="TYPE",
+            default="openjson")
+    parser.add_argument("-o","--output", dest="outputfile",
+            help="write OUTPUT file out", metavar="OUTPUT")
+    parser.add_argument("-t","--to", dest="outputtype",
+            help="write output file as TYPE", metavar="TYPE",
+            default="openjson")
 
     args = parser.parse_args()
     inputtype = args.inputtype
@@ -62,8 +64,8 @@ if __name__ == "__main__":
     inputfile = args.inputfile
     outputfile = args.outputfile
     if None == inputfile:
-      parser.print_help()
-      exit(1)
+        parser.print_help()
+        exit(1)
 
     # parse and export the data
     design = parse(inputfile, inputtype)

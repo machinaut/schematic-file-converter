@@ -7,7 +7,7 @@ from core.design import Design
 
 
 class Altium:
-""" The Altium Format Parser """
+    """ The Altium Format Parser """
 
     def __init__(self):
         pass

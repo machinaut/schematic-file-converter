@@ -9,21 +9,21 @@ class Shape:
     
     
     def bounds(self):
-        throw("Not implemented")
+        raise("Not implemented")
     
     
     def min_point(self):
-        throw("Not implemented")
+        raise("Not implemented")
     
     
     def max_point(self):
-        throw("Not implemented")
+        raise("Not implemented")
 
 
 class Rectangle(Shape):
     """ A rectangle, defined by x,y of top left corner and width, height"""
 
-    def __init__(self,x,y,width,height):
+    def __init__(self, x, y, width, height):
         self.type = "rectangle"
         self.x = x
         self.y = y
@@ -76,16 +76,16 @@ class Rectangle(Shape):
 class RoundedRectangle(Shape):
     """ A rectangle with rounded corners, defined by x,y of top left corner and width, height and corner radius"""
 
-  def __init__(self,x,y,width,height,radius):
-    """ x and y are from the top left corner of the rectangle """
-    self.type = "rounded_rectangle"
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
-    self.radius = radius
-    
-    
+    def __init__(self,x,y,width,height,radius):
+        """ x and y are from the top left corner of the rectangle """
+        self.type = "rounded_rectangle"
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.radius = radius
+
+
     def bounds(self):
         return [self.min_point(), self.max_point()]
 
@@ -148,13 +148,13 @@ class Arc(Shape):
     
     def bounds(self):
         # FIXME This is too big right now
-        throw("Not implemented")
+        raise("Not implemented")
         return [self.min_point(), self.max_point()]
 
 
     def min_point(self):
         # FIXME This is too big right now
-        throw("Not implemented")
+        raise("Not implemented")
         x = self.x - self.radius
         y = self.y - self.radius
         return Point(x, y)
@@ -162,7 +162,7 @@ class Arc(Shape):
     
     def max_point(self):
         # FIXME This is too big right now
-        throw("Not implemented")
+        raise("Not implemented")
         x = self.x + self.radius
         y = self.y + self.radius
         return Point(x, y)
@@ -246,13 +246,13 @@ class Label(Shape):
 
     def min_point(self):
         # FIXME Absolutely no clue how to make this dependably correct
-        throw("Not implemented")
+        raise("Not implemented")
         return Point(self.x - 10, self.y - 10)
     
     
     def max_point(self):
         # FIXME Absolutely no clue how to make this dependably correct
-        throw("Not implemented")
+        raise("Not implemented")
         return Point(self.x + 10, self.y + 10)
 
 
@@ -270,7 +270,7 @@ class Label(Shape):
 class Line(Shape):
     """ line segment from point1 to point2 """
 
-    def __init__(self,p1,p2):
+    def __init__(self, p1, p2):
         self.type = "line"
         self.p1 = Point(p1)
         self.p2 = Point(p2)
@@ -359,7 +359,7 @@ class Polygon(Shape):
 class BezierCurve(Shape):
     """ A parametric curved line """
 
-    def __init__(self,control1,control2,p1,p2):
+    def __init__(self, control1, control2, p1, p2):
         self.type = "bezier"
         self.control1 = Point(control1)
         self.control2 = Point(control2)
@@ -373,13 +373,13 @@ class BezierCurve(Shape):
 
     def min_point(self):
         # FIXME This needs to be implemented
-        throw("Not implemented")
+        raise("Not implemented")
         return Point(0,0)
     
     
     def max_point(self):
         # FIXME This needs to be implemented
-        throw("Not implemented")
+        raise("Not implemented")
         return Point(0,0)
 
 
@@ -420,7 +420,7 @@ class Point:
     
     
     def bounds(self):
-        throw("Not implemented")
+        raise("Not implemented")
 
 
     def json(self):
@@ -428,4 +428,3 @@ class Point:
             "x":self.x,
             "y":self.y
             }
-

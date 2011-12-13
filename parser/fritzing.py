@@ -7,7 +7,7 @@ from core.design import Design
 
 
 class Fritzing:
-""" The Fritzing Format Parser """
+    """ The Fritzing Format Parser """
 
     def __init__(self):
         pass
