@@ -10,9 +10,6 @@ class Annotation:
         self.rotation = rotation
         self.visible = visible
 
-    def bounds(self):
-        return (self.x - 10, self.y - 10, self.x + 10, self.y + 10)
-
     def json(self):
         return {
             "value" : self.value,

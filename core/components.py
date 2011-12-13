@@ -76,11 +76,6 @@ class Body:
         self.shapes = list()
         self.pins = list()
 
-    def bounds(self):
-        limits = [s.bounds() for s in self.shapes + self.pins]
-        xs = sum([list(b[0::2]) for b in limits], [])
-        ys = sum([list(b[1::2]) for b in limits], [])
-        return (min(xs), min(ys), max(xs), max(ys))
 
     def add_pin(self, pin):
         self.pins.append(pin)
@@ -108,14 +103,6 @@ class Pin:
         self.p2 = Point(p2) # connect end
         self.pin_number = pin_number
 
-    def bounds(self):
-        xs = [self.p1.x, self.p2.x]
-        ys = [self.p2.y, self.p2.y]
-        if self.label is not None:
-            xs += self.label.bounds()[0::2]
-            ys += self.label.bounds()[1::2]
-        return (min(xs), min(ys), max(xs), max(ys))
-        
 
     def json(self):
         d = {
