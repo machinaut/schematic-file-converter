@@ -292,7 +292,7 @@ class Device:
                 self.technology[t.get("name")]=Technology(t)
 
 class Bus:
-def __init__(self,bus):
+    def __init__(self,bus):
         self.segment    = list()
         self.name       = bus.get("name") #TODO: warn if not present
         for s in bus.findall('segment'):
@@ -372,7 +372,7 @@ class Wire:
         self.cap            = wire.get("cap")
 
 class Dimension:
-    def __init__(self.dimension):
+    def __init__(self, dimension):
         self.x1             = dimension.get("x1")
         self.y1             = dimension.get("y1")
         self.x2             = dimension.get("x2")
@@ -383,7 +383,7 @@ class Dimension:
         self.dtype          = dimension.get("dtype")
 
 class Text:
-    def __init__(self.text):
+    def __init__(self, text):
         self.pcdata         = description.findall('#PCDATA') #TODO:check me!
         self.x              = text.get("x")
         self.y              = text.get("y")
@@ -420,10 +420,10 @@ class Frame:
         self.columns        = frame.get("columns")
         self.rows           = frame.get("rows")
         self.layer          = frame.get("layer")
-        self.border-left    = frame.get("border-left")
-        self.border-top     = frame.get("border-top")
-        self.border-right   = frame.get("border-right")
-        self.border-bottom  = frame.get("border-bottom")
+        self.border_left    = frame.get("border-left")
+        self.border_top     = frame.get("border-top")
+        self.border_right   = frame.get("border-right")
+        self.border_bottom  = frame.get("border-bottom")
 
 class Hole:
     def __init__(self, hole):
