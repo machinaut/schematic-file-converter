@@ -11,17 +11,21 @@ class DesignAttributes:
         self.metadata = Metadata()
 
     def add_annotation(self, annotation):
+        """ Add an annotation """
         self.annotations.append(annotation)
 
 
     def add_attribute(self, key, value):
+        """ Add an attribute """
         self.attributes[key] = value
 
 
     def set_metadata(self, metadata):
+        """ Set the metadata """
         self.metadata = metadata
 
     def json(self):
+        """ Return the design attributes as JSON """
         return {
             "annotations" : [a.json() for a in self.annotations],
             "metadata" : self.metadata.json(),
@@ -43,39 +47,48 @@ class Metadata:
         self.attached_urls = list()
 
 
-    def set_name(self,name):
+    def set_name(self, name):
+        """ Set the name """
         self.name = name
 
 
-    def set_license(self,license):
+    def set_license(self, license):
+        """ Set the licence """
         self.license = license
 
 
-    def set_owner(self,owner):
+    def set_owner(self, owner):
+        """ Set the owner """
         self.owner = owner
 
 
-    def set_updated_timestamp(self,updated_timestamp):
+    def set_updated_timestamp(self, updated_timestamp):
+        """ Set the timestamp """
         self.updated_timestamp = int(updated_timestamp)
 
 
-    def set_design_id(self,design_id):
+    def set_design_id(self, design_id):
+        """ Set the design id """
         self.design_id = design_id
 
 
-    def set_description(self,description):
+    def set_description(self, description):
+        """ Set the description """
         self.description = description
 
 
-    def set_slug(self,slug):
+    def set_slug(self, slug):
+        """ Set the slug """
         self.slug = slug
 
 
-    def add_attached_url(self,attached_url):
+    def add_attached_url(self, attached_url):
+        """ Attach a url """
         self.attached_urls.append(attached_url)
 
 
     def json(self):
+        """ Return the metadata as JSON """
         return {
             "name":self.name,
             "license":self.license,
@@ -86,5 +99,3 @@ class Metadata:
             "slug": self.slug,
             "attached_urls":[]
             }
-
-

@@ -2,3 +2,5 @@
 *.pyc
 test.json
 *.*~
+*.bak
+.sconsign.dblite

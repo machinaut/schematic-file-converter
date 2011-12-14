@@ -129,8 +129,8 @@ class JSON:
         p2 = self.parse_point(pin.get('p2'))
         if None != pin.get('pin_label'):
             pin_label = self.parse_label(pin.get('pin_label'))
-            return Pin(pin_number,p1,p1,pin_label)
-        return Pin(pin_number,p1,p1)
+            return Pin(pin_number,p1,p2,pin_label)
+        return Pin(pin_number,p1,p2)
 
 
     def parse_point(self,point):
@@ -164,8 +164,8 @@ class JSON:
         elif 'arc' == typ:
             x = int(shape.get('x'))
             y = int(shape.get('y'))
-            start_angle = int(shape.get('start_angle'))
-            end_angle = int(shape.get('end_angle'))
+            start_angle = float(shape.get('start_angle'))
+            end_angle = float(shape.get('end_angle'))
             radius = int(shape.get('radius'))
             return Arc(x,y,start_angle,end_angle,radius)
         elif 'circle' == typ:
@@ -242,7 +242,7 @@ class JSON:
             # Get the Points
             for net_point in net.get('points'):
                 np = self.parse_net_point(net_point)
-                n.add_net_point(np)
+                n.add_point(np)
             self.design.add_net(n)
 
 
