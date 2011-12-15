@@ -14,10 +14,7 @@ class Design:
         self.component_instances = list()
         self.design_attributes = DesignAttributes()
         self.version = dict()
-<<<<<<< HEAD
         self.set_version("0.1.0","Upverter converter")
-=======
-        self.set_version("0.0.1", "Upverter converter")
 
 
     def bounds(self):
@@ -34,7 +31,6 @@ class Design:
             xs = sum([list(b[0::2]) for b in bounds], [])
             ys = sum([list(b[1::2]) for b in bounds], [])
         return [Point(min(xs), min(ys)), Point(max(xs), max(ys))]
->>>>>>> 5abb89ac932f010195dea31c734cf01a4d7fff5f
 
 
     def set_version(self, file_version, exporter):
