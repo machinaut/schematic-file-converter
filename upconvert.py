@@ -53,11 +53,6 @@ def write(dsgn, out_file, out_format='openjson'):
     return w.write(dsgn, out_file)
 
 
-def print_help():
-    """ Display program and parameter help """
-    print "TODO: write help"
-
-
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("-i", "--input", dest="inputfile",
@@ -77,7 +72,7 @@ if __name__ == "__main__":
     inputfile = args.inputfile
     outputfile = args.outputfile
     if None == inputfile:
-        print_help()
+        args.print_help()
         exit(1)
 
     # parse and export the data
